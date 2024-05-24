@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 // ---------Importing our Route documents--------------
 const notesRoutes = require('./routes/notesRoutes.js');
-const todosRoutes = require('./routes/todosRoutes.js');
+const meaningsRoutes = require('./routes/meaningsRoutes.js');
 const usersRoutes = require('./routes/usersRoutes.js');
 
 
@@ -54,7 +54,7 @@ app.get("/", (req,res)=>{
 
 // ------------------------- USE OUR ROUTES -------------------------
 app.use("/notes", notesRoutes);
-app.use("/todos", todosRoutes);
+app.use("/meanings", meaningsRoutes);
 app.use("/users", usersRoutes);
 
 
