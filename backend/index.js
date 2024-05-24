@@ -19,6 +19,7 @@ const PORT = process.env.PORT || 3000;
 const notesRoutes = require('./routes/notesRoutes.js');
 const meaningsRoutes = require('./routes/meaningsRoutes.js');
 const usersRoutes = require('./routes/usersRoutes.js');
+const diaryEntryRoutes = require('./routes/diaryEntriesRoutes');
 
 
 // --------------Middlewares--------------
@@ -56,6 +57,7 @@ app.get("/", (req,res)=>{
 app.use("/notes", notesRoutes);
 app.use("/meanings", meaningsRoutes);
 app.use("/users", usersRoutes);
+app.use("/diaryEntries", diaryEntryRoutes);
 
 
 
