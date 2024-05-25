@@ -41,13 +41,23 @@ const ChineseZodiac = () => {
     //Get location of the image:
     const gifPath = `/${chineseZodiac.name.toLowerCase()}.gif`; // Ensure sign name is lowercase to match the file name
 
+    // Mapping over all the userZodiac properties explicity (we are wanting to change a lot of names, etc):
+    const zodiacDetails = {
+        "Animal": chineseZodiac.name,
+        "Element": chineseZodiac.element,
+        "Traits": chineseZodiac.traits.join(', '),
+        "Compatibility": chineseZodiac.compatibility.join(', ')
+    };
+
     return (
+        //Returning a map of the zodiacDetails so that we can more easily style/modify:
         <div className='horoscopeContainer'>
-            <p>Animal: {chineseZodiac.name}</p>
-            <p>Element: {chineseZodiac.element}</p>
-            <p>Traits: {chineseZodiac.traits.join(', ')}</p>
-            <p>Compatibility: {chineseZodiac.compatibility.join(', ')}</p>
+        
+            {Object.entries(zodiacDetails).map(([key, value]) => (
+                <p key={key} className="zodiac-detail"><span className="zodiac-key">{key}:</span> {value}</p>
+            ))}
             <img className="zodiacgif" src={gifPath} alt={`${chineseZodiac.name} sign`} />
+
         </div>
     );
 };

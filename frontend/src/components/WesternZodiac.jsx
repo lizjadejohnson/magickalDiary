@@ -56,17 +56,27 @@ const WesternZodiac = () => {
         return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
     };
 
+    // Mapping over all the userZodiac properties explicity (we are wanting to change a lot of names, etc):
+    const zodiacDetails = {
+        "Sign": userZodiac.name,
+        "Date Range": `${formatDate(userZodiac.startDate)} - ${formatDate(userZodiac.endDate)}`,
+        "Element": userZodiac.element,
+        "Modality": userZodiac.quality,
+        "Ruling Planet": userZodiac.rulingPlanet,
+        "Traits": userZodiac.traits.join(', '),
+        "Symbol": userZodiac.symbol,
+        "Compatibility": userZodiac.compatibility.join(', ')
+    };
+
     return (
+        //Returning a map of the zodiacDetails so that we can more easily style/modify:
         <div className='horoscopeContainer'>
-            <p>Sign: {userZodiac.name}</p>
-            <p>Date Range: {formatDate(userZodiac.startDate)} - {formatDate(userZodiac.endDate)}</p>
-            <p>Element: {userZodiac.element}</p>
-            <p>Quality: {userZodiac.quality}</p>
-            <p>Ruling Planet: {userZodiac.rulingPlanet}</p>
-            <p>Traits: {userZodiac.traits.join(', ')}</p>
-            <p>Symbol: {userZodiac.symbol}</p>
-            <p>Compatibility: {userZodiac.compatibility.join(', ')}</p>
+        
+            {Object.entries(zodiacDetails).map(([key, value]) => (
+                <p key={key} className="zodiac-detail"><span className="zodiac-key">{key}:</span> {value}</p>
+            ))}
             <img className="zodiacgif" src={gifPath} alt={`${userZodiac.name} sign`} />
+
         </div>
     );
 };
