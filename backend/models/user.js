@@ -2,10 +2,11 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: true },
+  username: { type: String, required: true, unique: true }, //Ensure the username is unique
   password: { type: String, required: true },
-  email: { type: String, required: true, unique: true, lowercase: true, index: true }, //Ensures the email is unique in the database
-  // Add additional fields as needed
+  email: { type: String, required: true, unique: true, lowercase: true, index: true }, //Ensure the email is unique
+  dob: { type: String, required: true }, 
+  timeOfBirth: { type: String, required: false }, // Optional, only if user knows - format as 'HH:mm'
 }, {timestamps: true});
 
 // Hash password before saving:

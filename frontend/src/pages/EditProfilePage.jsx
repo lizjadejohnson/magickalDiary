@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
-import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 
 const EditProfilePage = () => {
@@ -9,15 +8,18 @@ const EditProfilePage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [dob, setDob] = useState('');
+    const [timeOfBirth, setTimeOfBirth] = useState('');
     const [message, setMessage] = useState('');
 
-    const navigate = useNavigate();
 
     useEffect(() => {
         // Pre-fill the form with the current user data
         if (user) {
             setUsername(user.username);
             setEmail(user.email);
+            setDob(user.dob);
+            setTimeOfBirth(user.timeOfBirth);
         }
     }, [user]);
 
@@ -29,7 +31,7 @@ const EditProfilePage = () => {
             return;
         }
         try {
-            await updateUser({ username, email, password });
+            await updateUser({ username, email, password, dob, timeOfBirth });
             setMessage('Profile updated successfully!');
             setTimeout(() => setMessage(''), 5000);
         } catch (error) {
@@ -83,6 +85,22 @@ const EditProfilePage = () => {
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
+                </div>
+                <div>
+                    <label>Date of Birth:</label>
+                    <input
+                        type="date"
+                        value={dob}
+                        onChange={(e) => setDob(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Time of Birth (if known):</label>
+                    <input
+                    type="time"
+                    value={timeOfBirth}
+                    onChange={(e) => setTimeOfBirth(e.target.value)}
+                />
                 </div>
                 <button type="submit">Update Profile</button>
             </form>

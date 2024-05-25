@@ -7,6 +7,8 @@ const SignUpPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [dob, setDob] = useState('');
+  const [timeOfBirth, setTimeOfBirth] = useState('');
   const [message, setMessage] = useState('');
 
   const { user, signup } = useContext(UserContext);
@@ -17,7 +19,7 @@ const SignUpPage = () => {
   const handleSignUp = async (event) => {
     event.preventDefault();
     try {
-      await signup(username, email, password);
+      await signup(username, email, password, dob, timeOfBirth);
       setMessage('Signup successful! You can now log in.');
       //Redirects to home after successful login
       navigate('/');
@@ -50,6 +52,14 @@ const SignUpPage = () => {
         <div>
           <label>Password:</label>
           <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+        </div>
+        <div>
+          <label>Date of Birth:</label>
+          <input type="date" onChange={(event) => setDob(event.target.value)} required />
+        </div>
+        <div>
+          <label>Time of Birth (if known):</label>
+          <input type="time" onChange={(event) => setTimeOfBirth(event.target.value)} />
         </div>
         <button type="submit">Sign Up</button>
       </form>

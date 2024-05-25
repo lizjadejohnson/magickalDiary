@@ -72,9 +72,9 @@ const UserProvider = ({ children }) => {
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Function to sign up:
-    const signup = async (username, email, password) => {
+    const signup = async ( username, email, password, dob, timeOfBirth ) => {
       try {
-        const response = await axios.post('http://localhost:3000/users', { username, email, password }, { withCredentials: true });
+        const response = await axios.post('http://localhost:3000/users', {username, email, password, dob, timeOfBirth}, { withCredentials: true });
         const token = response.data.token; // Assuming the token is in the response body
         localStorage.setItem('token', token); // Store token in localStorage
         setUser(response.data.user);
