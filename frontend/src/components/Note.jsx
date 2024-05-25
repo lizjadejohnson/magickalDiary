@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import UpdateForm from './UpdateForm';
+import NoteUpdateForm from './NoteUpdateForm';
 
 const Note = ({notes, note, setNotes}) => {
 
@@ -35,18 +35,21 @@ const Note = ({notes, note, setNotes}) => {
         <>
           <h1>{note.title}</h1>
           <p>{note.body}</p>
-          <button onClick={handleEditClick}>Edit</button>
+          <div className='button-container'>
+            <button onClick={handleEditClick}>Edit</button>
+            <button onClick={() => handleClick(note._id)}>Delete</button>
+          </div>
         </>
       )}
       {showEdit && (
-        <UpdateForm
+        <NoteUpdateForm
           updateForm={updateForm}
           setUpdateForm={setUpdateForm}
           setNotes={setNotes}
           setShowEdit={setShowEdit}
         />
       )}
-      <button onClick={() => handleClick(note._id)}>Delete</button>
+      
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function UpdateForm({ updateForm, setUpdateForm, setNotes, setShowEdit }) {
+export default function NoteUpdateForm({ updateForm, setUpdateForm, setNotes, setShowEdit }) {
 
     function handleChange(event) {
       setUpdateForm({
@@ -62,8 +62,10 @@ export default function UpdateForm({ updateForm, setUpdateForm, setNotes, setSho
             value={updateForm.body}
             onChange={handleChange}
           /><br />
-          <button type='submit'>Update</button>
-          <button onClick={handleClose}>Cancel</button>
+          <div className="button-container">
+            <button type='submit'>Update</button>
+            <button onClick={handleClose}>Cancel</button>
+          </div>
         </form>
       </div>
     );

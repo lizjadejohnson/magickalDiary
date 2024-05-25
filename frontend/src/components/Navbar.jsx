@@ -84,7 +84,7 @@ const Navbar = () => {
                     <a href="#" className="dropdown-toggle">Content</a>
                     <ul className="dropdown-menu">
                         <li><Link to="/notes">Notes</Link></li>
-                        <li><a href="#">Content Link 2</a></li>
+                        <li><Link to="/zodiac">Zodiac</Link></li>
                         <li><a href="#">Content Link 3</a></li>
                     </ul>
                 </li>

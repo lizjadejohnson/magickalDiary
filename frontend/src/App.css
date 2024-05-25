@@ -53,8 +53,10 @@
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
+.button-container {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
 /* ================= NAVBAR =================*/
@@ -266,4 +268,11 @@ textarea {
 .about-body{
   width: 50%;
   margin: 0 auto;
+}
+
+
+/* ===================================ZODIAC======================================================= */
+
+.zodiacgif {
+  width: 25%;
 }

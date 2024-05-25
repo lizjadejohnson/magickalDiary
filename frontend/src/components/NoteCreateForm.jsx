@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const CreateForm = ({ setNotes }) => {
+const NoteCreateForm = ({ setNotes }) => {
     const [createForm, setCreateForm] = useState({ title: '', body: '' });
 
     function handleChange(event) {
@@ -56,4 +56,4 @@ const CreateForm = ({ setNotes }) => {
     );
   }
 
-export default CreateForm
+export default NoteCreateForm

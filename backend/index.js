@@ -20,6 +20,7 @@ const notesRoutes = require('./routes/notesRoutes.js');
 const meaningsRoutes = require('./routes/meaningsRoutes.js');
 const usersRoutes = require('./routes/usersRoutes.js');
 const diaryEntryRoutes = require('./routes/diaryEntriesRoutes');
+const zodiacReadingsRoutes = require('./routes/zodiacReadingsRoutes.js');
 
 
 // --------------Middlewares--------------
@@ -58,6 +59,8 @@ app.use("/notes", notesRoutes);
 app.use("/meanings", meaningsRoutes);
 app.use("/users", usersRoutes);
 app.use("/diaryEntries", diaryEntryRoutes);
+app.use("/zodiac", zodiacReadingsRoutes);
+
 
 
 

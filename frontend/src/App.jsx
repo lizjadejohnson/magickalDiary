@@ -7,6 +7,7 @@ import SignUpPage from './pages/SignUpPage';
 import AboutPage from './pages/AboutPage';
 import EditProfilePage from './pages/EditProfilePage';
 import HeroImage from './components/HeroImage';
+import ZodiacPage from './pages/ZodiacPage';
 
 
 function App() {
@@ -25,8 +26,9 @@ function App() {
           <Navbar />
           <div className='MainContent'>
             <Routes>
-            <Route path="/" element={<HeroImage />} />
+              <Route path="/" element={<HeroImage />} />
               <Route path="/notes" element={<NotesPage />} />
+              <Route path="/zodiac" element={<ZodiacPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/edit-profile" element={<EditProfilePage />} />
