@@ -16,15 +16,16 @@ const EditProfilePage = () => {
     useEffect(() => {
         // Pre-fill the form with the current user data
         if (user) {
-            setUsername(user.username);
-            setEmail(user.email);
-            setDob(user.dob);
-            setTimeOfBirth(user.timeOfBirth);
+            setUsername(user.username || '');
+            setEmail(user.email || '');
+            setDob(user.dob || '');
+            setTimeOfBirth(user.timeOfBirth || '');
         }
     }, [user]);
 
     const handleUpdate = async (event) => {
         event.preventDefault();
+        //Ensure updated password matches before attempting to save:
         if (password !== confirmPassword) {
             setMessage('Passwords do not match.');
             setTimeout(() => setMessage(''), 5000);

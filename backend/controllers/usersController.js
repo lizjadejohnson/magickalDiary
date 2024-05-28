@@ -59,10 +59,7 @@ const fetchMe = async (req, res) => {
 const createUser = async (req, res) => {
 
     //1. Get data from req.body:
-        // const title = req.body.title
-        // const body = req.body.body
-
-    const {username, password, email, dob, timeOfBirth} = req.body //This is the same as writing the 2 lines above!
+    const {username, password, email, dob, timeOfBirth} = req.body
     console.log("Received request body:", req.body);
 
     // Check if all required fields are actually *present*:
@@ -122,6 +119,7 @@ const createUser = async (req, res) => {
         
         // Respond with new copy of user (excluding the password):
         res.status(201).json({ user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth } });
+
     } catch (error) {
         console.error('Signup error:', error);
         res.status(500).json({ message: 'An error occurred during signup', error: error.message });
@@ -150,13 +148,13 @@ const updateUser = async (req, res) => {
     // Build the update object:
     const updateData = {};
 
+    //Add data to the update object:
     if (username) {
         if (username.length < 3 || username.length > 20) {
             return res.status(400).json({ message: 'Username must be 3-20 characters long' });
         }
         updateData.username = username;
     }
-
 
     if (email) updateData.email = email.toLowerCase();
 
@@ -176,12 +174,24 @@ const updateUser = async (req, res) => {
         updateData.timeOfBirth = timeOfBirth;
     }
 
+
     try {
         // Ensure new: true to return the updated document
         const updatedUser = await User.findByIdAndUpdate(userId, updateData, { new: true }).select('-password');
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
+        // Generate a new JWT token after updating user information:
+        const token = jwt.sign({ userId: updatedUser._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        // Set the new token in the cookie:
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        });
+
         res.json({ user: updatedUser });
     } catch (error) {
         console.error('Update error:', error);
@@ -203,7 +213,7 @@ const deleteUser = async (req, res) => {
     if (!deletedUser) {
         return res.status(404).json({ message: 'User not found' });
     }
-
+    res.clearCookie('token');
     //3. Send response:
     res.json({ message: "User deleted" });
 };
@@ -240,16 +250,19 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid email or password' });
         }
 
+        // Generate a new JWT token after login:
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
         console.log("Generated JWT token");
 
+        // Set the new token in the cookie:
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000
         });
-        res.json({ message: 'Login successful', user: { id: user._id, username: user.username } });
+        //Return entire user data except the password:
+        res.json({ message: 'Login successful', user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth } });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
