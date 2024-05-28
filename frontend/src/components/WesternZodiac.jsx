@@ -12,7 +12,7 @@ const WesternZodiac = () => {
 
     async function getZodiacInfo() {
         try {
-            console.log("Fetching Western Zodiac sign");
+            
             const response = await fetch('http://localhost:3000/zodiac/getWesternZodiacByDOB', {
                 credentials: 'include'
             });
@@ -20,7 +20,7 @@ const WesternZodiac = () => {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             const data = await response.json();
-            console.log("Fetched data:", data);
+            
             setUserZodiac(data);
         } catch (error) {
             console.error("Failed to fetch reading:", error);
