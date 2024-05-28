@@ -18,7 +18,7 @@ const ZodiacPage = () => {
 
       return (
         <div>
-            <h1 className='zodiacTitle'>Zodiac Readings</h1>
+            <h1 className='title'>Zodiac Readings</h1>
             <div className='button-container'>
                 <button onClick={() => setActiveReading('Western')}>Western Zodiac</button>
                 <button onClick={() => setActiveReading('Eastern')}>Chinese Zodiac</button>

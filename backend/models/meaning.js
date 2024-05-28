@@ -5,9 +5,29 @@ const meaningSchema = new mongoose.Schema({
 
     type: String, //Specifies the category ("Zodiac", "Iching", "Tarot" etc.)
     name: String, //Name of the sign/hexagram/tarot card etc.
-    description: String, //Detailed meaning/description
+    description: String, //General meaning/description
     image: String, //path to an image file if applicable.
-    attributes: { }  //Additional attributes relevant to the type (e.g., planet alignments for zodiac, lines for iching).
+    
+    //Additional attributes relevant to the type (e.g., planet alignments for zodiac, lines for iching).
+    hexagramAttributes: {
+        lines: [String], // The lines that make up the basic hexagram structure
+    	number: Number,
+    	nicknames: [String],
+    	above: String,
+    	below: String,
+    	judgment: String,
+    	hexagramImage: String,
+    	commentary: String,
+        changingLines: {
+            changingLine1: String, // Meanings for each changing line in the hexagram
+            changingLine2: String,
+            changingLine3: String,
+            changingLine4: String,
+            changingLine5: String,
+            changingLine6: String,
+        }
+
+    }  // Additional attributes relevant to the type
 });
 
 

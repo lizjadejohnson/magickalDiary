@@ -2,6 +2,8 @@ const WesternZodiacSign = require('../models/westernZodiacSign')
 const ChineseZodiacSign = require('../models/chineseZodiacSign')
 
 
+
+
 const getWesternZodiacByDOB = async (req, res) => {
     try {
         console.log("Fetching Western Zodiac sign for user:", req.user._id);
@@ -16,6 +18,7 @@ const getWesternZodiacByDOB = async (req, res) => {
         }
 
         res.json(zodiacSign);
+
     } catch (error) {
         console.error("Error fetching Western Zodiac sign:", error);
         res.status(500).json({ message: "Server error", error: error.message });

@@ -85,7 +85,7 @@ const Navbar = () => {
                     <ul className="dropdown-menu">
                         <li><Link to="/notes">Notes</Link></li>
                         <li><Link to="/zodiac">Zodiac</Link></li>
-                        <li><a href="#">Content Link 3</a></li>
+                        <li><Link to="/iching">I Ching</Link></li>
                     </ul>
                 </li>
                 <li><Link to="/about">About</Link></li>

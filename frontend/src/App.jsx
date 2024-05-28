@@ -8,6 +8,7 @@ import AboutPage from './pages/AboutPage';
 import EditProfilePage from './pages/EditProfilePage';
 import HeroImage from './components/HeroImage';
 import ZodiacPage from './pages/ZodiacPage';
+import IChingPage from './pages/IChingPage';
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
               <Route path="/" element={<HeroImage />} />
               <Route path="/notes" element={<NotesPage />} />
               <Route path="/zodiac" element={<ZodiacPage />} />
+              <Route path="/iching" element={<IChingPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/edit-profile" element={<EditProfilePage />} />

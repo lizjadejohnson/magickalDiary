@@ -4,13 +4,17 @@ const DiaryEntry = require('../models/diaryEntry');
 
 ///////////////////////////////////////////////////////////////////////////////////////
 
-// -----Get ALL Diary Entries (GET):
+// -----Get ALL Diary Entries for a user (GET):
 const fetchAllDiaryEntries = async (req, res) => {
+    const userId = req.user._id;
+
     try {
         console.log("Fetching all diary entries for user:", req.user._id);
-        const userId = req.user._id;
+
         const diaryEntries = await DiaryEntry.find({ user: userId });
+
         res.json({ diaryEntries: diaryEntries });
+        
     } catch (error) {
         console.error("Error fetching diary entries:", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -53,7 +57,12 @@ const createDiaryEntry = async (req, res) => {
             attributes,
             user: userId
         });
+
+        // Add the diary entry to the user's diaryEntries array
+        await User.findByIdAndUpdate(userId, { $push: { diaryEntries: diaryEntry._id } });
+
         res.json({ diaryEntry: diaryEntry });
+
     } catch (error) {
         console.error("Error creating diary entry:", error);
         res.status(500).json({ message: 'An error occurred while creating the diary entry.', error: error.message });

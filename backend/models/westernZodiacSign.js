@@ -44,6 +44,7 @@ westernZodiacSignSchema.statics.determineZodiacSign = async function(dob) {
     });
 
     console.log("Zodiac sign found:", zodiacSign);
+
     return zodiacSign;
 };
 

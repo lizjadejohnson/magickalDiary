@@ -11,5 +11,13 @@ router.get("/", meaningsController.fetchAllMeanings)
 // -----Get specific Todos by ID (GET):
 router.get("/:id", meaningsController.fetchMeaning)
 
+// Get Meaning by hexagram lines (POST)
+router.post("/by-lines", meaningsController.fetchMeaningByLines);
+
+
+// -----Create a new Meaning (POST):
+router.post("/", meaningsController.createMeaning);
+
+
 
 module.exports = router;

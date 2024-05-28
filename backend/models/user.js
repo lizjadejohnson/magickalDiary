@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, index: true }, //Ensure the email is unique
   dob: { type: String, required: true }, 
   timeOfBirth: { type: String, required: false }, // Optional, only if user knows - format as 'HH:mm'
+  diaryEntries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DiaryEntry' }]  //Reference to diary entries
 }, {timestamps: true});
 
 // Hash password before saving:
@@ -23,3 +24,5 @@ userSchema.pre('save', async function(next) {
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
+
+
