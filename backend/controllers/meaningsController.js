@@ -54,25 +54,12 @@ const fetchMeaningByLines = async (req, res) => {
     }
 };
 
-//////////////////////////////////////////////////////////////////////////////
 
-// -----Create a new Meaning (POST):
-const createMeaning = async (req, res) => {
-    try {
-        const newMeaning = new Meaning(req.body);
-        await newMeaning.save();
-        res.status(201).json({ meaning: newMeaning });
-    } catch (error) {
-        console.error('Error creating meaning:', error);
-        res.status(500).json({ message: 'An error occurred while creating the meaning', error: error.message });
-    }
-};
 
 //////////////////////////////////////////////////////////////////////////////
 
 module.exports = {
     fetchAllMeanings,
     fetchMeaning,
-    fetchMeaningByLines,
-    createMeaning
+    fetchMeaningByLines
 }

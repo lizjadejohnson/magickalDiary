@@ -11,6 +11,7 @@ export async function saveAsDiaryEntry(type, details) {
         const data = await response.json();
         console.log('Diary entry saved successfully!');
 
+        return data.diaryEntry; // Ensure the response contains the saved diary entry
     } catch (error) {
         console.error('Error saving diary entry:', error);
         console.log('Failed to save diary entry. Please try again.');

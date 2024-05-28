@@ -15,9 +15,6 @@ router.get("/:id", meaningsController.fetchMeaning)
 router.post("/by-lines", meaningsController.fetchMeaningByLines);
 
 
-// -----Create a new Meaning (POST):
-router.post("/", meaningsController.createMeaning);
-
 
 
 module.exports = router;

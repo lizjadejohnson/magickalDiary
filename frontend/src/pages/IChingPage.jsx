@@ -1,16 +1,15 @@
 import { useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
+import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
-import HexagramReading from '../components/HexagramReading';
 import {saveAsDiaryEntry} from '../../utilities/saveAsDiaryEntry';
 
 const IChingPage = () => {
     const { user } = useContext(UserContext);
-    const [activeDisplayedReading, setActiveDisplayedReading] = useState('');
-    const [iChingData, setIChingData] = useState(null);
     const [userQuestion, setUserQuestion] = useState("");
     const [currentLines, setCurrentLines] = useState([]);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     // If someone is not logged in:
     if (!user) {
@@ -42,25 +41,31 @@ const IChingPage = () => {
         const hexagramLines = lines.map(line => (line === 6 || line === 8) ? 'yin' : 'yang');
         const originalHexagram = await getHexagram(hexagramLines);
 
-        //Determine changin lines:
-        const transformedHexagram = await getHexagram(hexagramLines.map((line, index) => (lines[index] === 6 || lines[index] === 9) ? (line === 'yin' ? 'yang' : 'yin') : line));
+        if (!originalHexagram || !originalHexagram._id) {
+            console.error('Failed to retrieve valid hexagram data');
+            setLoading(false);
+            return; // Exit if hexagram is invalid
+        }
+
         const changingLines = lines.map((line, index) => (line === 6 || line === 9) ? index + 1 : null).filter(index => index !== null);
+
 
         //Create reading data object, these get entered into the details:
         const newReading = {
             question,
             originalLines: lines,
-            originalHexagram,
-            transformedHexagram,
+            meanings: [originalHexagram._id],
             changingLines
         };
 
-        //Sets the state as the actual details of the reading based on newReading
-        setIChingData(newReading);
-        await saveAsDiaryEntry('I Ching', newReading);
-
-        setActiveDisplayedReading('Current Hexagram');
+        // Save the new reading as a diary entry and navigate to the reading page
+        const savedEntry = await saveAsDiaryEntry('I Ching', newReading);
         setLoading(false);
+        if (savedEntry) {
+        navigate(`/reading/${savedEntry._id}`);
+        } else {
+            console.error('Failed to save the reading.');
+        }
     };
 
     //Heads or tails for 3 coins determines whether the line is yin/yang & changing/unchanging --
@@ -90,6 +95,10 @@ const IChingPage = () => {
                 body: JSON.stringify({ lines })
             });
             const data = await response.json();
+            if (!data.meaning) {
+                throw new Error('Meaning not found');
+            }
+            console.log("Hexagram fetched:", data.meaning);
             return data.meaning;
         } catch (error) {
             console.error('Error fetching hexagram:', error);
@@ -108,7 +117,6 @@ const IChingPage = () => {
                 <button type="submit">Submit</button>
             </form>
             {loading && <Spinner message={"Casting coins..."} />}
-            {iChingData && <HexagramReading data={iChingData} />}
         </div>
     );
 }

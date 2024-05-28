@@ -14,11 +14,17 @@ const diaryEntrySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    
 
     // Object containing details specific to the entry type, like for example cvhanging lines from the iching etc
     details: {
-        type: Object,
-        required: true
+        question: String,
+        originalLines: [Number], // The lines they got in their hexagram
+        meanings: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Meaning'
+        }],
+        changingLines: [Number]
     },
 
     comments: [ // Array of comments made in the diary entry

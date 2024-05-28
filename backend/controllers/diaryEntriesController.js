@@ -29,7 +29,8 @@ const fetchDiaryEntry = async (req, res) => {
     const userId = req.user._id;
 
     try {
-        const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId });
+        const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+            .populate('details.meanings');
         if (!diaryEntry) {
             return res.status(404).json({ message: 'Diary entry not found.' });
         }
@@ -52,7 +53,7 @@ const createDiaryEntry = async (req, res) => {
         const diaryEntry = new DiaryEntry({
             user: userId,
             type,
-            details,
+            details
         });
         await diaryEntry.save();
 
