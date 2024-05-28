@@ -3,8 +3,8 @@ const meaningSchema = new mongoose.Schema({
 //This is the typical naming convention. Because we're in our meaning file its meaningSchema. If it were a 
 //file called todo we might call it todoSchema, etc.
 
-    type: String, //Specifies the category ("Zodiac", "Iching", "Tarot" etc.)
-    name: String, //Name of the sign/hexagram/tarot card etc.
+    type: { type: String, required: true }, //Specifies the category ("Zodiac", "Iching", "Tarot" etc.)
+    name: { type: String, required: true }, //Name of the sign/hexagram/tarot card etc.
     description: String, //General meaning/description
     image: String, //path to an image file if applicable.
     

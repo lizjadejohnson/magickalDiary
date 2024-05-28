@@ -1,4 +1,5 @@
 const DiaryEntry = require('../models/diaryEntry');
+const User = require('../models/user');
 
 // Note that the methods are referenced in our main index.js file!
 
@@ -10,11 +11,10 @@ const fetchAllDiaryEntries = async (req, res) => {
 
     try {
         console.log("Fetching all diary entries for user:", req.user._id);
-
         const diaryEntries = await DiaryEntry.find({ user: userId });
 
-        res.json({ diaryEntries: diaryEntries });
-        
+        res.json({ diaryEntries });
+
     } catch (error) {
         console.error("Error fetching diary entries:", error);
         res.status(500).json({ message: "Server error", error: error.message });
@@ -45,18 +45,16 @@ const fetchDiaryEntry = async (req, res) => {
 // -----Create a Diary Entry (POST):
 const createDiaryEntry = async (req, res) => {
     console.log(`BODY: ${req.body}`);
-    const { type, name, description, image, attributes } = req.body;
+    const { type, details } = req.body;
     const userId = req.user._id;
 
     try {
-        const diaryEntry = await DiaryEntry.create({
+        const diaryEntry = new DiaryEntry({
+            user: userId,
             type,
-            name,
-            description,
-            image,
-            attributes,
-            user: userId
+            details,
         });
+        await diaryEntry.save();
 
         // Add the diary entry to the user's diaryEntries array
         await User.findByIdAndUpdate(userId, { $push: { diaryEntries: diaryEntry._id } });

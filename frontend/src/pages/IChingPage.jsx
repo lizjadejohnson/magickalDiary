@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
 import HexagramReading from '../components/HexagramReading';
+import {saveAsDiaryEntry} from '../../utilities/saveAsDiaryEntry';
 
 const IChingPage = () => {
     const { user } = useContext(UserContext);
@@ -18,7 +19,7 @@ const IChingPage = () => {
         );
     };
 
-    const handleUserQuestion = async (event) => {
+    const newIChingReading = async (event) => {
         event.preventDefault();
         setCurrentLines([]);
         setLoading(true);
@@ -28,7 +29,7 @@ const IChingPage = () => {
         // Simulate the casting of coins to determine each line of the hexagram:
         const lines = [];
 
-        //For 6 lines... generate a line, push it to the array, set the state, hasve delays so it doesn't all happen instantly:
+        //For each of the 6 lines... generate a line, push it to the array, set the state, hasve delays so it doesn't all happen instantly:
         for (let i = 0; i < 6; i++) {
             //Generate line is based on doing authentic coin tosses to calculate whether the line is yin or yang and changing or unchanging:
             const line = generateLine();
@@ -41,17 +42,22 @@ const IChingPage = () => {
         const hexagramLines = lines.map(line => (line === 6 || line === 8) ? 'yin' : 'yang');
         const originalHexagram = await getHexagram(hexagramLines);
 
+        //Determine changin lines:
         const transformedHexagram = await getHexagram(hexagramLines.map((line, index) => (lines[index] === 6 || lines[index] === 9) ? (line === 'yin' ? 'yang' : 'yin') : line));
         const changingLines = lines.map((line, index) => (line === 6 || line === 9) ? index + 1 : null).filter(index => index !== null);
 
-        setIChingData({
-            details: {
-                originalLines: lines,
-                originalHexagram,
-                transformedHexagram,
-                changingLines
-            }
-        });
+        //Create reading data object, these get entered into the details:
+        const newReading = {
+            question,
+            originalLines: lines,
+            originalHexagram,
+            transformedHexagram,
+            changingLines
+        };
+
+        //Sets the state as the actual details of the reading based on newReading
+        setIChingData(newReading);
+        await saveAsDiaryEntry('I Ching', newReading);
 
         setActiveDisplayedReading('Current Hexagram');
         setLoading(false);
@@ -91,44 +97,18 @@ const IChingPage = () => {
         }
     };
 
+
     return (
-        <div>
+        <div className='iChingPage'>
             <h1 className='title'>I Ching Reading</h1>
-            <div className='button-container'>
-                <form onSubmit={handleUserQuestion}>
-                    <div>
-                        <label>What is your question?</label>
-                        <p>💡 Tip: Try not to ask simple 'yes' or 'no' questions. Instead, ask a more open ended question.</p>
-                        <input type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
-                    </div>
-                    <button type="submit">Submit</button>
-                </form>
-            </div>
-
+            <form onSubmit={newIChingReading}>
+                <label>What is your question?</label>
+                <p>💡 Tip: Try not to ask simple 'yes' or 'no' questions. Instead, ask a more open ended question.</p>
+                <input type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
+                <button type="submit">Submit</button>
+            </form>
             {loading && <Spinner message={"Casting coins..."} />}
-
-            {/* 6 broken/yin and changing
-            7 solid/yang and unchanging
-            8 broken/yin and unchanging
-            9 solid/yang and changing */}
-
-            <div className='hexagramLines'>
-                {[...currentLines].reverse().map((line, index) => (
-                    <div key={index} className='line'>
-                        {line === 6 ? '⚋⚋' : line === 7 ? '——' : line === 8 ? '⚋⚋' : '——'}
-                        {(line === 6 || line === 9) && <span className='dot'>•</span>}
-                    </div>
-                ))}
-            </div>
-
-            <div className='horoscopeResult'>
-                {activeDisplayedReading === 'Current Hexagram' && iChingData?.details?.originalHexagram && (
-                    <HexagramReading hexagram={iChingData.details.originalHexagram.name} details={iChingData.details.originalHexagram.hexagramAttributes} changingLines={iChingData.details.changingLines} />
-                )}
-                {activeDisplayedReading === 'Changing Into' && iChingData?.details?.transformedHexagram && (
-                    <HexagramReading hexagram={iChingData.details.transformedHexagram.name} details={iChingData.details.transformedHexagram.hexagramAttributes} changingLines={iChingData.details.changingLines} />
-                )}
-            </div>
+            {iChingData && <HexagramReading data={iChingData} />}
         </div>
     );
 }

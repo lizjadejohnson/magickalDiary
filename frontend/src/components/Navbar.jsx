@@ -86,6 +86,7 @@ const Navbar = () => {
                         <li><Link to="/notes">Notes</Link></li>
                         <li><Link to="/zodiac">Zodiac</Link></li>
                         <li><Link to="/iching">I Ching</Link></li>
+                        <li><Link to="/diary-entries">Diary Entries</Link></li>
                     </ul>
                 </li>
                 <li><Link to="/about">About</Link></li>

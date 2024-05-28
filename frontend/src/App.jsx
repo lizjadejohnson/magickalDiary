@@ -9,6 +9,7 @@ import EditProfilePage from './pages/EditProfilePage';
 import HeroImage from './components/HeroImage';
 import ZodiacPage from './pages/ZodiacPage';
 import IChingPage from './pages/IChingPage';
+import DiaryEntriesPage from './pages/DiaryEntriesPage';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/about" element={<AboutPage />} />
               <Route path="/edit-profile" element={<EditProfilePage />} />
+              <Route path="/diary-entries" element={<DiaryEntriesPage />} />
             </Routes>
           </div>
       </div>
