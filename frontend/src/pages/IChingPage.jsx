@@ -18,11 +18,16 @@ const IChingPage = () => {
         );
     };
 
+
     const newIChingReading = async (event) => {
         event.preventDefault();
+
+        //Set state as loading while 'casting'
         setLoading(true);
+
+        //Reset to empty at start:
         setCurrentLines([]);
-        await new Promise(resolve => setTimeout(resolve, 100));
+
         const question = userQuestion;
 
 
@@ -33,13 +38,20 @@ const IChingPage = () => {
         for (let i = 0; i < 6; i++) {
             //Generate line is based on doing authentic coin tosses to calculate whether the line is yin or yang and changing or unchanging:
             const line = generateLine();
+
+            //We push the raw sums to "lines" (e.g. 7 6 8 8 6 9):
             lines.push(line);
             setCurrentLines([...lines]);
             await new Promise(resolve => setTimeout(resolve, 700)); // Add a delay to simulate the process
         }
 
-        //If 6 or 8 its yin, if 7 or 9 its yang. Needed to determine base hexagram type:
+        //We determine the base hexagram type:
+            //If 6 or 8 its yin, if 7 or 9 its yang.
+            //More on this later, but for determining base type it doesn't matter whether its changing or not.
+            //So just yin or yang are needed to determine base hexagram type:
         const hexagramLines = lines.map(line => (line === 6 || line === 8) ? 'yin' : 'yang');
+
+            //Pass in the string of "yin yin  yang yang yin" or whatever in hexagramLines to getHexagram. This finds the match in the meanings database.
         const originalHexagram = await getHexagram(hexagramLines);
 
         if (!originalHexagram || !originalHexagram._id) {
@@ -48,10 +60,12 @@ const IChingPage = () => {
             return; // Exit if hexagram is invalid, been having trouble because theres so many and i havent added them all yet lmao
         }
 
+        //We save which lines were changing lines:
         const changingLines = lines.map((line, index) => (line === 6 || line === 9) ? index + 1 : null).filter(index => index !== null);
 
 
-        //Create reading data object, these get entered into the details:
+        //Create reading data object, these get entered into the details for our diaryEntry:
+        //We only need to save data unique to this reading (our question, the lines, and the changing lines. We refrence a meaning)
         const newReading = {
             question,
             originalLines: lines,
@@ -59,18 +73,24 @@ const IChingPage = () => {
             changingLines
         };
 
-        // Save the new reading as a diary entry and navigate to the reading page
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Save the new reading as a diary entry, set loading back to false, and navigate to the reading page for the entry just created!!
         const savedEntry = await saveAsDiaryEntry('I Ching', newReading);
+
         setLoading(false);
+
         if (savedEntry) {
         navigate(`/reading/${savedEntry._id}`);
+
         } else {
-            console.error('Failed to save the reading.');
+            console.error('Reading was not saved!');
         }
     };
 
+    //i ching line calculations:
     //Heads or tails for 3 coins determines whether the line is yin/yang & changing/unchanging --
-    // Each coin toss generates a value: heads (value of 3) or tails (value of 2). Sum the values of the three coin tosses (ranges from 6 to 9).
+    // Each coin toss generates a value: heads (a value of 3) or tails (a value of 2).
+    //You then sum the values of the three coin tosses (sums range from 6 to 9).
         // 6 (Old Yin): Changing broken line (⚋ becomes a solid line in the transformed hexagram)
         // 7 (Young Yang): Solid line (—)
         // 8 (Young Yin): Broken line (⚋)
@@ -85,7 +105,7 @@ const IChingPage = () => {
     };
 
     //Check which hexagram is the result based on the sum of each line that got pushed to the array.
-    //For example: 6, 6, 7, 6, 8, 9. Or whatever.
+    //For example:"yin yin yang yang yin" or whatever.
     const getHexagram = async (lines) => {
         try {
             const response = await fetch('http://localhost:3000/meanings/by-lines', {
@@ -95,18 +115,23 @@ const IChingPage = () => {
                 },
                 body: JSON.stringify({ lines })
             });
+
             const data = await response.json();
+
             if (!data.meaning) {
                 throw new Error('Meaning not found');
             }
+
             console.log("Hexagram fetched:", data.meaning);
             return data.meaning;
+
         } catch (error) {
             console.error('Error fetching hexagram:', error);
             return null;
         }
     };
 
+    //This code is for displaying the hexagram visually:
     const renderLine = (line) => {
         if (line === 6) return <div className="line yin changing"><div className="segment"></div><div className="segment"></div></div>;
         if (line === 7) return <div className="line yang"></div>;
@@ -124,6 +149,7 @@ const IChingPage = () => {
                 <input type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
                 <button type="submit">Submit</button>
             </form>
+            {/* To display the hexagram visually while casting and make the lines get populated from bottom to top: */}
             <div className='line-container'>
                 {[...currentLines].reverse().map((line, index) => (
                     <div key={index}>

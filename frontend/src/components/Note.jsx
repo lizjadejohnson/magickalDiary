@@ -37,7 +37,7 @@ const Note = ({notes, note, setNotes}) => {
           <p>{note.body}</p>
           <div className='button-container'>
             <button onClick={handleEditClick}>Edit</button>
-            <button onClick={() => handleClick(note._id)}>Delete</button>
+            <button onClick={() => handleClick(note._id)} className='delete-button'>Delete</button>
           </div>
         </>
       )}

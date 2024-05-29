@@ -8,14 +8,14 @@ const authenticate = require('../config/jwtAuth.js');
 
 
 
-// Western Zodiac Reading (GET)
+// Western Zodiac Reading (GET):
 router.get("/getWesternZodiacByDOB", authenticate, zodiacReadingsController.getWesternZodiacByDOB);
 
 
-// Chinese Zodiac Reading (GET)
+// Chinese Zodiac Reading (GET):
 router.get("/getChineseZodiacByDOB", authenticate, zodiacReadingsController.getChineseZodiacByDOB);
 
-// Define a protected route
+// Define a protected route:
 router.get("/protected/data", authenticate, (req, res) => {
     res.json({ message: 'This is protected data', user: req.userId });
 });

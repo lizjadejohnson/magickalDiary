@@ -3,7 +3,7 @@ import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
 
 const EditProfilePage = () => {
-    const { user, updateUser } = useContext(UserContext);
+    const { user, updateUser, deleteUser } = useContext(UserContext);
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -39,6 +39,22 @@ const EditProfilePage = () => {
             setMessage(error.message || 'Profile update failed. Please try again.');
             setTimeout(() => setMessage(''), 5000);
 
+        }
+    };
+
+    const handleDelete = async (event) => {
+        event.preventDefault();
+        const confirmed = window.confirm("Are you sure you want to delete this profile? This can't be undone!");
+
+        if (confirmed) {
+            try {
+                await deleteUser();
+                setMessage('Profile deleted!');
+                setTimeout(() => setMessage(''), 5000);
+            } catch (error) {
+                setMessage(error.message || 'Unable to delete profile.');
+                setTimeout(() => setMessage(''), 5000);
+            }
         }
     };
 
@@ -103,7 +119,11 @@ const EditProfilePage = () => {
                     onChange={(e) => setTimeOfBirth(e.target.value)}
                 />
                 </div>
-                <button type="submit">Update Profile</button>
+                <br />
+                <div className='button-container'>
+                    <button type="submit">Update Profile</button>
+                    <button onClick={handleDelete} className='delete-button'>Delete</button>
+                </div>
             </form>
             {message && <p style={{ color: 'red' }}>{message}</p>}
         </div>

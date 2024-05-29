@@ -11,8 +11,6 @@ router.get("/", authenticate, diaryEntriesController.fetchAllDiaryEntries)
 // -----Get specific Diary Entry by ID (GET):-----
 router.get("/:id", authenticate, diaryEntriesController.fetchDiaryEntry)
 
-
-
 // -----Create a Diary Entry (POST):-----
 router.post("/", authenticate, diaryEntriesController.createDiaryEntry)
 

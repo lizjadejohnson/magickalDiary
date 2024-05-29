@@ -39,7 +39,7 @@ const fetchMeaning = async (req, res) => {
 
 
 // Get Meaning by hexagram lines (GET)
-//Used in reading creation:
+//Used in i ching reading creation:
 const fetchMeaningByLines = async (req, res) => {
     try {
         const { lines } = req.body; // Assuming lines are sent in the body as an array

@@ -20,29 +20,17 @@ const diaryEntrySchema = new mongoose.Schema({
     details: {
         question: String,
         originalLines: [Number], // The lines they got in their hexagram
-        meanings: [{
+        meanings: [{ //Referencing the meaning database
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Meaning'
         }],
-        changingLines: [Number]
+        changingLines: [Number] // The changing lines they got in their hexagram
     },
-
-    comments: [ // Array of comments made in the diary entry
-        {
-            commentId: {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true
-            },
-            text: {
-                type: String,
-                required: true
-            },
-            date: {
-                type: Date,
-                default: Date.now
-            } // Timestamp of when the comment was made
-        }
-    ],
+    //Ability for user to add commentary to the reading:
+    commentary: {
+        type: String,
+        default: ""
+    },
 
     // Allow users to add custom tags. Offer tag filtering....
     tags: {

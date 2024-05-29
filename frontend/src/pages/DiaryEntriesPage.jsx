@@ -54,9 +54,10 @@ const DiaryEntriesPage = () => {
                     {diaryEntries.map(entry => (
                         <div key={entry._id} className='a-past-diary-entry'>
                             <Link to={`/reading/${entry._id}`}>
-                                <p>Type: {entry.type}</p>
-                                <p>Timestamp: {new Date(entry.createdAt).toLocaleString()}</p>
-                                <p>Tags: {entry.tags.join(', ')}</p>
+                                <p><span className='bold'>Type: </span>{entry.type}</p>
+                                <p><span className='bold'>Title/Question/Meditation: </span>{entry.details.question}</p>
+                                <p><span className='bold'>Timestamp: </span>{new Date(entry.createdAt).toLocaleString()}</p>
+                                <p><span className='bold'>Tags: </span>{entry.tags.join(', ')}</p>
                             </Link>
                         </div>
                     ))}

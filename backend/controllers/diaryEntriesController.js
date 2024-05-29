@@ -1,6 +1,8 @@
 const DiaryEntry = require('../models/diaryEntry');
 const User = require('../models/user');
 
+const mongoose = require("mongoose");
+
 // Note that the methods are referenced in our main index.js file!
 
 ///////////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +32,8 @@ const fetchDiaryEntry = async (req, res) => {
 
     try {
         const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+        //Important: Here we are telling Mongoos to populate the details.meanings field
+        //(which contains object IDs) with the actual documents from the meanings collection that these IDs refer to!
             .populate('details.meanings');
         if (!diaryEntry) {
             return res.status(404).json({ message: 'Diary entry not found.' });
@@ -46,14 +50,16 @@ const fetchDiaryEntry = async (req, res) => {
 // -----Create a Diary Entry (POST):
 const createDiaryEntry = async (req, res) => {
     console.log(`BODY: ${req.body}`);
-    const { type, details } = req.body;
+    const { type, details, tags } = req.body;
     const userId = req.user._id;
 
     try {
+
         const diaryEntry = new DiaryEntry({
             user: userId,
             type,
-            details
+            details,
+            tags
         });
         await diaryEntry.save();
 
@@ -73,21 +79,34 @@ const createDiaryEntry = async (req, res) => {
 // -----Update a specific Diary Entry (PUT):
 const updateDiaryEntry = async (req, res) => {
     const diaryEntryId = req.params.id;
-    const { type, name, description, image, attributes } = req.body;
+    const { question, commentary, tags } = req.body;
     const userId = req.user._id;
 
     try {
-        const updatedDiaryEntry = await DiaryEntry.findOneAndUpdate(
-            { _id: diaryEntryId, user: userId },
-            { type, name, description, image, attributes },
-            { new: true, runValidators: true }
-        );
+        const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId });
 
-        if (!updatedDiaryEntry) {
-            return res.status(404).json({ message: 'Diary entry not found or you do not have permission to update this diary entry.' });
+        if (!diaryEntry) {
+            return res.status(404).json({ message: 'Entry not found / you do not have permission to update this entry.' });
         }
 
-        res.json({ diaryEntry: updatedDiaryEntry });
+        // Update the question if changed:
+        if (question) {
+            diaryEntry.details.question = question;
+        }
+
+        //Add tags if present:
+        if (tags) {
+            diaryEntry.tags = tags.split(',').map(tag => tag.trim());
+        }
+
+        // Add commentary if present:
+        if (commentary) {
+            diaryEntry.commentary = commentary;
+        }
+
+        await diaryEntry.save();
+        res.json({ diaryEntry: diaryEntry });
+
     } catch (error) {
         console.error("Error updating diary entry:", error);
         res.status(500).json({ message: 'An error occurred while updating the diary entry.', error: error.message });
@@ -104,12 +123,12 @@ const deleteDiaryEntry = async (req, res) => {
     try {
         const deletedDiaryEntry = await DiaryEntry.findOneAndDelete({ _id: diaryEntryId, user: userId });
         if (!deletedDiaryEntry) {
-            return res.status(404).json({ message: 'Diary entry not found or you do not have permission to delete this diary entry.' });
+            return res.status(404).json({ message: 'Diary entry not found or you do not have permission to delete this entry.' });
         }
         res.json({ message: "Diary entry deleted" });
     } catch (error) {
         console.error("Error deleting diary entry:", error);
-        res.status(500).json({ message: 'An error occurred while deleting the diary entry.', error: error.message });
+        res.status(500).json({ message: 'An error occurred while attempting to delete the entry.', error: error.message });
     }
 };
 

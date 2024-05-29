@@ -5,9 +5,9 @@ const HeroImage = () => {
   return (
     <div className="hero-image">
         <div className="hero-text">
-            <h1>Notes App</h1>
-            <p>Welcome to the Notes App</p>
-            <button><Link to="/notes">Go to Notes</Link></button>
+            <h1>Magickal Diary</h1>
+            <p>Welcome to your magickal diary</p>
+            <Link to="/diary-entries"><button id="hero-button">Go to Your Entries</button></Link>
         </div>
     </div>
   )

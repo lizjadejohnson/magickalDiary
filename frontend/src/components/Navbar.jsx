@@ -45,7 +45,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <span className='navbar-title'>Notes App</span>
+            <span className='navbar-title'>MAGICKAL DIARY</span>
             <ul>
                 <li><Link to="/">Home</Link></li>
                 {user ? (
