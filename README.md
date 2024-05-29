@@ -9,6 +9,8 @@ Aside from the user/notes structure, most future development will be a continuat
 For example, once tarot readings are implemented, the card meanings will also be stored in the meaningts database whereas tarot readings will be stored in the diaryEntries database etc.
 Long-term plans include the creation of a fully operational table of correspondences ( a la 777) and will have database references in place so that users will be able to see all related correspondences (for example, the corresponding tarot card to their astrology sign, and so on).
 <br />
+
+
 **INSTRUCTIONS**
 <br />
 Ensure that you remember to npm install all dependencies on the front and backend.
