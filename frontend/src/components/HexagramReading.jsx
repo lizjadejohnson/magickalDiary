@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from "react";
 
 //This dictates how a reading is displayed when it has the type of "I Ching"
 //This is determined by the ReadingPage.jsx Page.
@@ -17,6 +17,17 @@ const HexagramReading = ({ data }) => {
     //In other cases, we could refer to more than 1 meaning reference.
     const originalHexagram = details.meanings[0];
 
+    //Grabs the data for the hexagram theirs is changing into as well:
+    const changingHexagram = details.changingMeaning;
+
+    // Sets the view being displayed:
+    const [view, setView] = useState('current'); // State is either 'current' or 'changing'. Its current by default
+
+    //Toggles the view to its opposite on button click:
+    const handleToggleView = () => {
+        setView(view === 'current' ? 'changing' : 'current');
+    };
+
     //This is for displaying the hexagram visually:
     const renderLine = (line) => {
         if (line === 6) return <div className="line yin changing"><div className="segment"></div><div className="segment"></div></div>;
@@ -26,39 +37,60 @@ const HexagramReading = ({ data }) => {
         return null;
     };
 
-    return (
-        <div className='horoscopeContainer'>
+    const renderHexagramView = (hexagram, lines) => (
+        <>
             <h2>Meditation/Question:</h2>
             <h3>{details.question}</h3>
             <p>Entry Created: {new Date(createdAt).toLocaleString()}</p>
-
-            {/* Visual depiction of the hexagram after casting: We need to reverse the order of the lines so that the first line appears on the bottom: */}
+            
             <div className='line-container'>
-                {[...details.originalLines].reverse().map((line, index) => (
+                {[...lines].reverse().map((line, index) => (
                     <div key={index}>
                         {renderLine(line)}
                     </div>
                 ))}
             </div>
 
-            <h2>Hexagram: {originalHexagram.name}</h2>
-            <h2>{originalHexagram.description}</h2>
-            <p><span className='bold'>Hexagram Number:</span> {originalHexagram.hexagramAttributes.number}</p>
-            <p><span className='bold'>Above:</span> {originalHexagram.hexagramAttributes.above}</p>
-            <p><span className='bold'>Below:</span> {originalHexagram.hexagramAttributes.below}</p>
-            <p><span className='bold'>Judgment:</span> {originalHexagram.hexagramAttributes.judgment}</p>
-            <p><span className='bold'>Hexagram Image:</span> {originalHexagram.hexagramAttributes.hexagramImage}</p>
-            <p><span className='bold'>Commentary:</span> {originalHexagram.hexagramAttributes.commentary}</p>
-            <br />
-            <h2>Changing Lines:</h2>
-            {details.changingLines.length > 0 ? (
-                details.changingLines.map(line => (
-                    <p key={line}><span className='bold'>Line {line}:</span> {originalHexagram.hexagramAttributes.changingLines[`changingLine${line}`]}</p>
-                ))
-            ) : (
-                <p>No changing lines received.</p>
+            <h2>Hexagram: {hexagram.name}</h2>
+            <p>{hexagram.description}</p>
+            <p><span className='bold'>Hexagram Number:</span> {hexagram.hexagramAttributes.number}</p>
+            <p><span className='bold'>Nicknames:</span> {hexagram.hexagramAttributes.nicknames.join(', ')}</p>
+            <p><span className='bold'>Above:</span> {hexagram.hexagramAttributes.above}</p>
+            <p><span className='bold'>Below:</span> {hexagram.hexagramAttributes.below}</p>
+            <p><span className='bold'>Judgment:</span> {hexagram.hexagramAttributes.judgment}</p>
+            <p><span className='bold'>Hexagram Image:</span> {hexagram.hexagramAttributes.hexagramImage}</p>
+            <p><span className='bold'>Commentary:</span> {hexagram.hexagramAttributes.commentary}</p>
+            {view === 'current' && details.changingLines.length > 0 && (
+                <>
+                    <br />
+                    <h2>Changing Lines Received:</h2>
+                    {details.changingLines.map(line => (
+                        <p key={line}><span className='bold'>Line {line}:</span> {hexagram.hexagramAttributes.changingLines[`changingLine${line}`]}</p>
+                    ))}
+                    <br/>
+                    <p>The changing lines received on your current hexagram ({hexagram.name}) indicates that it is transforming into the hexagram {details.changingMeaning.name}:</p>
+                    <br />
+                </>
             )}
-            <br />
+        </>
+    );
+        // Lines for changing hexagram display into the changing into sign:
+    const changedLines = details.originalLines.map(line => {
+        if (line === 6) return 7; // Changing Yin to Yang
+        if (line === 9) return 8; // Changing Yang to Yin
+        return line; // Unchanged lines
+    });
+
+    return (
+        <div className='horoscopeContainer'>
+            {view === 'current'
+                ? renderHexagramView(originalHexagram, details.originalLines)
+                : renderHexagramView(changingHexagram, changedLines)}
+                {details.changingLines.length > 0 && (
+                    <button onClick={handleToggleView}>
+                        {view === 'current' ? 'Read Changing-Into Hexagram' : 'Read Original Hexagram'}
+                    </button>
+                )}
         </div>
     );
 }

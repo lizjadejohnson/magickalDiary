@@ -63,6 +63,16 @@ const IChingPage = () => {
         //We save which lines were changing lines:
         const changingLines = lines.map((line, index) => (line === 6 || line === 9) ? index + 1 : null).filter(index => index !== null);
 
+        //Transform the changing lines into their *changed* lines, so we can get the changing into hex:
+        const changedLines = lines.map(line => {
+            if (line === 6) return 7;
+            if (line === 9) return 8;
+            return line;
+        });
+
+        //Similar to the original, we'll need to store these as string so we can find which hexagram its changing into
+        const changingHexagramLines = changedLines.map(line => (line === 6 || line === 8) ? 'yin' : 'yang');
+        const changingHexagram = await getHexagram(changingHexagramLines);
 
         //Create reading data object, these get entered into the details for our diaryEntry:
         //We only need to save data unique to this reading (our question, the lines, and the changing lines. We refrence a meaning)
@@ -70,7 +80,8 @@ const IChingPage = () => {
             question,
             originalLines: lines,
             meanings: [originalHexagram._id],
-            changingLines
+            changingLines,
+            changingMeaning: changingHexagram ? changingHexagram._id : null //Store the changing hexagram if there is one!
         };
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -146,7 +157,8 @@ const IChingPage = () => {
             <form onSubmit={newIChingReading}>
                 <label>What is your question?</label>
                 <p>💡 Tip: Try not to ask simple 'yes' or 'no' questions. Instead, ask a more open ended question.</p>
-                <input type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
+                <input id="iching-question-field" type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
+                <br />
                 <button type="submit">Submit</button>
             </form>
             {/* To display the hexagram visually while casting and make the lines get populated from bottom to top: */}

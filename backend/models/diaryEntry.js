@@ -24,7 +24,11 @@ const diaryEntrySchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Meaning'
         }],
-        changingLines: [Number] // The changing lines they got in their hexagram
+        changingLines: [Number],
+        changingMeaning: { //The changing meaning references the meaning object of the hex theirs in changing into
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Meaning'
+        }
     },
     //Ability for user to add commentary to the reading:
     commentary: {

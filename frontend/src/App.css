@@ -295,7 +295,8 @@ textarea {
 .createform input,
 .createform textarea,
 .formAdmin input,
-.formAdmin textarea {
+.formAdmin textarea,
+#iching-question-field {
   width: 60%;
   margin-bottom: 5px;
   background-color: rgb(255, 250, 245);

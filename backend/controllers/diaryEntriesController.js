@@ -34,7 +34,9 @@ const fetchDiaryEntry = async (req, res) => {
         const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
         //Important: Here we are telling Mongoos to populate the details.meanings field
         //(which contains object IDs) with the actual documents from the meanings collection that these IDs refer to!
-            .populate('details.meanings');
+            .populate('details.meanings')
+            .populate('details.changingMeaning');
+
         if (!diaryEntry) {
             return res.status(404).json({ message: 'Diary entry not found.' });
         }
