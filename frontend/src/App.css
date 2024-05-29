@@ -190,7 +190,7 @@ textarea {
   text-align: center;
   align-items: center;
   justify-content: center;
-  margin-top: 20%;
+  margin-top: 5%;
 
 }
 
@@ -282,6 +282,10 @@ textarea {
   font-weight: bold;
 }
 
+.horoscopeContainer {
+  width: 50%;
+  margin: 0 auto;
+}
 
 /* ===================================DIARY ENTRIES======================================================= */
 
@@ -297,4 +301,58 @@ textarea {
   background-color: antiquewhite;
   color:  peru;
   cursor: pointer;
+}
+
+
+/* ===================================I CHING======================================================= */
+
+.line-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.line {
+  width: 100px;
+  height: 10px;
+  margin: 5px 0;
+  position: relative;
+}
+
+.line.yin {
+  display: flex;
+  justify-content: space-between;
+  background: none;
+}
+
+.line.yin .segment {
+  width: 45px;
+  height: 10px;
+  background: black;
+}
+
+.line.yang {
+  background: black;
+}
+
+.line.changing::after {
+  content: '';
+  position: absolute;
+  right: -20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13px;
+  height: 13px;
+  background: black;
+  border-radius: 50%;
+}
+
+.iChingPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  margin: 0 auto;
 }

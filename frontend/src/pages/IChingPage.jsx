@@ -20,8 +20,9 @@ const IChingPage = () => {
 
     const newIChingReading = async (event) => {
         event.preventDefault();
-        setCurrentLines([]);
         setLoading(true);
+        setCurrentLines([]);
+        await new Promise(resolve => setTimeout(resolve, 100));
         const question = userQuestion;
 
 
@@ -34,7 +35,7 @@ const IChingPage = () => {
             const line = generateLine();
             lines.push(line);
             setCurrentLines([...lines]);
-            await new Promise(resolve => setTimeout(resolve, 10)); // Add a delay to simulate the process
+            await new Promise(resolve => setTimeout(resolve, 700)); // Add a delay to simulate the process
         }
 
         //If 6 or 8 its yin, if 7 or 9 its yang. Needed to determine base hexagram type:
@@ -44,7 +45,7 @@ const IChingPage = () => {
         if (!originalHexagram || !originalHexagram._id) {
             console.error('Failed to retrieve valid hexagram data');
             setLoading(false);
-            return; // Exit if hexagram is invalid
+            return; // Exit if hexagram is invalid, been having trouble because theres so many and i havent added them all yet lmao
         }
 
         const changingLines = lines.map((line, index) => (line === 6 || line === 9) ? index + 1 : null).filter(index => index !== null);
@@ -106,6 +107,13 @@ const IChingPage = () => {
         }
     };
 
+    const renderLine = (line) => {
+        if (line === 6) return <div className="line yin changing"><div className="segment"></div><div className="segment"></div></div>;
+        if (line === 7) return <div className="line yang"></div>;
+        if (line === 8) return <div className="line yin"><div className="segment"></div><div className="segment"></div></div>;
+        if (line === 9) return <div className="line yang changing"></div>;
+        return null;
+    };
 
     return (
         <div className='iChingPage'>
@@ -116,7 +124,15 @@ const IChingPage = () => {
                 <input type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
                 <button type="submit">Submit</button>
             </form>
+            <div className='line-container'>
+                {[...currentLines].reverse().map((line, index) => (
+                    <div key={index}>
+                        {renderLine(line)}
+                    </div>
+                ))}
+            </div>
             {loading && <Spinner message={"Casting coins..."} />}
+            
         </div>
     );
 }
