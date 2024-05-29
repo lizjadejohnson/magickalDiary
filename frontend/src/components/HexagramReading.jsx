@@ -10,7 +10,7 @@ const HexagramReading = ({ data }) => {
     //The details contain the specific about the unique reading like the lines they got, which lines were changing etc.
     //It also contains a reference to the meanings database so we can pull the meaning from there using this info.
 
-    const { details, commentary, tags, createdAt } = data;
+    const { details, createdAt } = data;
 
     //The meanings array is an array to future proof cases where there is more than 1 meaning.
     //For our purposes here, we need the first and only meaning reference [0] which is the original hexagram received.
@@ -31,8 +31,7 @@ const HexagramReading = ({ data }) => {
             <h2>Meditation/Question:</h2>
             <h3>{details.question}</h3>
             <p>Entry Created: {new Date(createdAt).toLocaleString()}</p>
-            <br />
-            
+
             {/* Visual depiction of the hexagram after casting: We need to reverse the order of the lines so that the first line appears on the bottom: */}
             <div className='line-container'>
                 {[...details.originalLines].reverse().map((line, index) => (
@@ -44,17 +43,17 @@ const HexagramReading = ({ data }) => {
 
             <h2>Hexagram: {originalHexagram.name}</h2>
             <h2>{originalHexagram.description}</h2>
-            <p>Hexagram Number: {originalHexagram.hexagramAttributes.number}</p>
-            <p>Above: {originalHexagram.hexagramAttributes.above}</p>
-            <p>Below: {originalHexagram.hexagramAttributes.below}</p>
-            <p>Judgment: {originalHexagram.hexagramAttributes.judgment}</p>
-            <p>Hexagram Image: {originalHexagram.hexagramAttributes.hexagramImage}</p>
-            <p>Commentary: {originalHexagram.hexagramAttributes.commentary}</p>
+            <p><span className='bold'>Hexagram Number:</span> {originalHexagram.hexagramAttributes.number}</p>
+            <p><span className='bold'>Above:</span> {originalHexagram.hexagramAttributes.above}</p>
+            <p><span className='bold'>Below:</span> {originalHexagram.hexagramAttributes.below}</p>
+            <p><span className='bold'>Judgment:</span> {originalHexagram.hexagramAttributes.judgment}</p>
+            <p><span className='bold'>Hexagram Image:</span> {originalHexagram.hexagramAttributes.hexagramImage}</p>
+            <p><span className='bold'>Commentary:</span> {originalHexagram.hexagramAttributes.commentary}</p>
             <br />
             <h2>Changing Lines:</h2>
             {details.changingLines.length > 0 ? (
                 details.changingLines.map(line => (
-                    <p key={line}>Line {line}: {originalHexagram.hexagramAttributes.changingLines[`changingLine${line}`]}</p>
+                    <p key={line}><span className='bold'>Line {line}:</span> {originalHexagram.hexagramAttributes.changingLines[`changingLine${line}`]}</p>
                 ))
             ) : (
                 <p>No changing lines received.</p>

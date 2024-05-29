@@ -292,6 +292,15 @@ textarea {
   cursor: pointer;
 }
 
+.createform input,
+.createform textarea,
+.formAdmin input,
+.formAdmin textarea {
+  width: 60%;
+  margin-bottom: 5px;
+  background-color: rgb(255, 250, 245);
+}
+
 
 /* ===================================SIGN UP PAGE======================================================= */
 
@@ -370,7 +379,7 @@ textarea {
 }
 
 .entry-edit-section{
-  background-color: #c7c7c7;
+  background: antiquewhite;
   width: 100%;
   margin-top: 3%;
   padding-top: 2%;
@@ -386,23 +395,12 @@ textarea {
 
 }
 
-#edit-user-question{
+.diaryEntry-edit-form input,
+.diaryEntry-edit-form textarea{
   width: 100%;
   border: 1px solid #a3a3a3;
   border-radius: 5px;
-}
-
-#diary-entry-commentary{
-  width: 100%;
-  border: 1px solid #a3a3a3;
-  border-radius: 5px;
-
-}
-
-#edit-custom-tags{
-  width: 100%;
-  border: 1px solid #a3a3a3;
-  border-radius: 5px;
+  background-color: rgb(255, 250, 245);
 }
 
 

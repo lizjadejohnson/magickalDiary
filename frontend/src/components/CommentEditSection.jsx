@@ -112,7 +112,6 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                                 placeholder='Question/Meditation/Title'
                                 value={updateForm.question}
                                 onChange={handleChange}
-                                id='edit-user-question'
                             />
                         </div>
                         <br />
@@ -124,7 +123,6 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                                 placeholder='User Commentary'
                                 value={updateForm.commentary}
                                 onChange={handleChange}
-                                id='diary-entry-commentary'
                             />
                         </div>
                         <br />
@@ -136,7 +134,6 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                                 placeholder='Add custom tags'
                                 value={updateForm.tags}
                                 onChange={handleChange}
-                                id='edit-custom-tags'
                             />
                         </div>
                         <br />

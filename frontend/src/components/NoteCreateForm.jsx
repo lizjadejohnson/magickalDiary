@@ -37,6 +37,7 @@ const NoteCreateForm = ({ setNotes }) => {
         <h1>Create Note</h1>
         <form onSubmit={handleSubmit}>
           <input
+            id='create-note-title'
             type='text'
             name='title'
             placeholder='Note Title'
@@ -44,6 +45,7 @@ const NoteCreateForm = ({ setNotes }) => {
             onChange={handleChange}
           /><br />
           <textarea
+            id='create-note-body'
             name='body'
             cols='50' rows='5'
             placeholder='Note Body'
