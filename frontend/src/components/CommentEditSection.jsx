@@ -1,8 +1,5 @@
 import React from 'react';
-import Spinner from './Spinner';
 import { useNavigate } from 'react-router-dom';
-
-
 
 
 const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, updateEntry, setEntryData }) => {
@@ -105,7 +102,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                     <h1>Edit Entry</h1>
                     <form onSubmit={handleSubmit} className='diaryEntry-edit-form'>
                         <div>
-                            <p class="text-tip">Edit Question/Meditation/Title:</p>
+                            <p className="text-tip">Edit Question/Meditation/Title:</p>
                             <input
                                 type='text'
                                 name='question'
@@ -116,7 +113,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                         </div>
                         <br />
                         <div>
-                            <p class="text-tip">User commentary:</p>
+                            <p className="text-tip">User commentary:</p>
                             <textarea
                                 name='commentary'
                                 cols='20' rows='20'
@@ -127,7 +124,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
                         </div>
                         <br />
                         <div>
-                            <p class="text-tip">Tags are comma separated:</p>
+                            <p className="text-tip">Tags are comma separated:</p>
                             <input
                                 type='text'
                                 name='tags'

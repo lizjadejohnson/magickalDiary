@@ -12,7 +12,6 @@ import IChingPage from './pages/IChingPage';
 import DiaryEntriesPage from './pages/DiaryEntriesPage';
 import ReadingPage from './pages/ReadingPage';
 
-
 function App() {
 
   //------------------------------------------[State]-----------------------------------------------------
