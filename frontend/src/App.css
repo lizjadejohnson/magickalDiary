@@ -102,9 +102,9 @@
 
 .navbar-title {
   color: antiquewhite;
-  font-size: 24px;
+  font-family: "Major Mono Display", monospace;
+  font-size: 1.75em;
   text-transform: uppercase;
-  font-weight: bold;
 }
 
 .navbar ul {
@@ -229,6 +229,13 @@ textarea {
   color: white;
 }
 
+.hero-text h1 {
+  color: antiquewhite;
+  font-family: "Major Mono Display", monospace;
+  font-size: 4em;
+  text-transform: uppercase;
+}
+
 #hero-button{
   background-color: rgba(205, 134, 63, 0.836);
   color: antiquewhite;
@@ -335,7 +342,30 @@ textarea {
 .about-body{
   width: 50%;
   margin: 0 auto;
+  text-align: left;
+  margin-bottom: 3%;
 }
+
+.about-body h2{
+  text-align: center;
+}
+
+.about-body p {
+  text-align: justify;
+}
+
+.first-letter{
+  font-family: "Major Mono Display", monospace;
+  font-size: 4em;
+  text-transform: uppercase;
+  float: left;
+  line-height: 0.6;
+  padding-right: .1em;
+  margin-right: 0.1em;
+  margin-top: 0.1em;
+}
+
+
 
 
 /* ===================================ZODIAC======================================================= */

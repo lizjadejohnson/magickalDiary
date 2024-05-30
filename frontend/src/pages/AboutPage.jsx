@@ -5,19 +5,30 @@ const AboutPage = () => {
     <div className='about-container'>
       <h1 className='about-title'>About</h1>
       <div className='about-body'>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque et pretium orci, at volutpat erat. Praesent quis ipsum enim. Praesent in metus metus. Aenean efficitur consequat urna molestie lacinia. Nunc venenatis, tellus at ultricies condimentum, orci velit facilisis ex, vel consequat est nisl sed erat. Nam vel enim venenatis, hendrerit urna sit amet, efficitur ex. Vivamus tellus ante, viverra iaculis leo ornare, fringilla pharetra lorem.</p>
-
-        <p>Cras porttitor eleifend malesuada. Quisque eu enim finibus, elementum libero eget, imperdiet augue. Maecenas sed nunc accumsan, rutrum justo non, lacinia tortor. Suspendisse potenti. Proin ullamcorper bibendum felis eget interdum. Pellentesque interdum iaculis blandit. Aliquam elementum, erat vitae venenatis porta, odio mauris ornare ipsum, sed eleifend leo ipsum id mauris. Etiam quis massa posuere, dignissim ipsum at, volutpat sapien.</p>
-
-        <p>Nam sed gravida libero, vitae tristique massa. Quisque semper luctus mauris, vel vestibulum lectus auctor nec. Quisque non porta sem, id gravida turpis. Fusce at eleifend justo. In auctor, est a sollicitudin pellentesque, erat dolor volutpat nisl, at convallis felis eros ac sem. Duis ut lectus libero. Praesent ut ligula egestas est vulputate maximus. Phasellus suscipit dictum dolor, volutpat dapibus leo vestibulum ac. Praesent sed tortor ac ex commodo blandit. Maecenas placerat magna non placerat commodo.</p>
-
-        <p>Integer tellus velit, auctor at tellus in, dictum auctor neque. Morbi lacus ex, volutpat a lacus quis, scelerisque ultricies lectus. Sed lacinia, dolor vel efficitur venenatis, lorem lacus mattis sem, dignissim luctus nulla ligula ut sem. Nullam mattis mauris tortor, vitae aliquam justo interdum ut. In nec massa rhoncus, vulputate elit at, accumsan sapien. Quisque sit amet aliquam quam. Etiam nec mauris tortor. Aliquam dictum lorem in tortor pretium volutpat. Nam sed bibendum felis. Aenean condimentum ipsum sed lectus lobortis facilisis. Proin scelerisque, massa sed convallis pretium, odio lectus ultrices augue, sed maximus magna eros nec libero. Praesent facilisis ac neque quis fermentum. Maecenas in vestibulum mi. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nunc condimentum vehicula est. Nunc imperdiet, metus nec lobortis facilisis, eros nisl fringilla dolor, vitae vestibulum enim turpis vitae ex.</p>
-
-        <p>Ut porttitor pellentesque metus, at dictum massa tempor ac. Ut nunc ex, dignissim id nulla in, ultrices tincidunt diam. Integer gravida risus a lacinia pretium. Integer cursus egestas mi vitae dictum. Morbi sodales iaculis pellentesque. Phasellus dictum sed ex nec hendrerit. Duis nec dui consectetur, laoreet tortor ornare, hendrerit mauris. Fusce maximus sollicitudin nisl nec auctor. Pellentesque vel diam sem. Cras malesuada blandit dolor eget hendrerit. Nunc porttitor, leo non blandit cursus, magna nisi molestie lorem, eu suscipit lacus dui ut risus. Vestibulum vulputate neque eget libero efficitur posuere.</p>
-      
+        
+        <p><span className='first-letter'>M</span>agickal Diary is an innovative digital platform designed for individuals who explore the mysteries of the universe and seek deeper insights into their personal and spiritual development. Our mission is to integrate traditional esoteric practices with contemporary digital tools, allowing users to navigate and document their mystical journey with ease and insight.</p>
+        <br />
+        <h2>What is a Magickal Diary?</h2>
+        <p><span className='first-letter'>A</span> Magickal Diary is a personal record where practitioners of magick and divination track their experiences, observations, and the outcomes of their spiritual exercises. This practice is rooted in the tradition of maintaining a detailed journal to enhance self-awareness and metaphysical understanding.</p>
+        <p><span className='first-letter'>T</span>he diary serves as a reflective mirror for personal growth and a repository of knowledge gained through various divinatory practices.</p>
+        <br />
+        <h2>Our Features</h2>
+        <ul>
+          <li>Tarot Readings: Engage with interactive tarot readings to explore future possibilities and receive spiritual guidance.</li>
+          <li>I Ching Consultations: Utilize the ancient wisdom of the I Ching to gain insights into your current life situations through detailed hexagram interpretations.</li>
+          <li>Western and Chinese Zodiac Profiles: Understand how celestial alignments at birth influence your traits and life path with personalized zodiac profiles.</li>
+          <li>777 Correspondences Database: Access a comprehensive library of esoteric correspondences crucial for students and practitioners of Qabalah, astrology, and ceremonial magick.</li>
+          <li>Organizational Tools: Keep your meditations, dreams, and magickal practices organized and accessible with customizable tags and space for user commentary. This feature allows you to reflect on past readings and track your spiritual progress over time.</li>
+        </ul>
+        <br />
+        <h2>Why Choose Magickal Diary?</h2>
+        <p><span className='first-letter'>M</span>agickal Diary was conceived to seamlessly integrate the mystical with the everyday, providing a functional and insightful tool that helps you connect with the spiritual dimensions of your life. Whether you are deeply embedded in esoteric practices already or just beginning your journey, Magickal Diary is designed to support and enrich your practice.</p>
+        <br />
+        <h2>Our Commitment</h2>
+        <p><span className='first-letter'>W</span>e are dedicated to continuously improving Magickal Diary, ensuring it remains a dynamic and invaluable companion in your exploration of the mystical arts. We hope you enjoy!</p>
       </div>
     </div>
-  )
+  );
 }
 
-export default AboutPage
+export default AboutPage;
