@@ -80,7 +80,7 @@ const Navbar = () => {
                     </li>
                 )}
                 <li className="dropdown">
-                    <a href="#" className="dropdown-toggle">Content</a>
+                    <a href="#" className="dropdown-toggle">Tools</a>
                     <ul className="dropdown-menu">
                         <li><Link to="/notes">Notes</Link></li>
                         <li><Link to="/zodiac">Zodiac</Link></li>
