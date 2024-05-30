@@ -37,12 +37,21 @@ const HexagramReading = ({ data }) => {
         return null;
     };
 
+    // Lines for the hexagram display to show the changing into sign lines / transformed lines:
+    const changedLines = details.originalLines.map(line => {
+        if (line === 6) return 7; // Changing Yin to Yang
+        if (line === 9) return 8; // Changing Yang to Yin
+        return line;
+    });
+
     const renderHexagramView = (hexagram, lines) => (
         <>
             <h2>Meditation/Question:</h2>
             <h3>{details.question}</h3>
             <p>Entry Created: {new Date(createdAt).toLocaleString()}</p>
             
+            {/* Visual display of the lines, reverse maps the lines so that they display from bottom to top */}
+             {/* Lines is passed in as a variable so that we see the changing and unchanging hexagram depedning */}
             <div className='line-container'>
                 {[...lines].reverse().map((line, index) => (
                     <div key={index}>
@@ -74,12 +83,7 @@ const HexagramReading = ({ data }) => {
             )}
         </>
     );
-        // Lines for changing hexagram display into the changing into sign:
-    const changedLines = details.originalLines.map(line => {
-        if (line === 6) return 7; // Changing Yin to Yang
-        if (line === 9) return 8; // Changing Yang to Yin
-        return line; // Unchanged lines
-    });
+
 
     return (
         <div className='horoscopeContainer'>

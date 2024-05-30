@@ -60,7 +60,7 @@ const createUser = async (req, res) => {
 
     //1. Get data from req.body:
     const {username, password, email, dob, timeOfBirth} = req.body
-    console.log("Received request body:", req.body);
+    console.log("Received request body");
 
     // Check if all required fields are actually *present*:
     if (!username || !password || !email || !dob) {

@@ -50,12 +50,12 @@ const WesternZodiac = () => {
     // Helper function to format date to "MM-DD"
     const formatDate = (dateStr) => {
         const [month, day] = dateStr.split("-");
-        const date = new Date(0);
-        date.setUTCMonth(month - 1); // month is 0-based in Date
-        date.setUTCDate(day);
-        return date.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        return new Date(Date.UTC(2000, month - 1, day)).toLocaleDateString(undefined, {
+            month: 'short',
+            day: 'numeric',
+            timeZone: 'UTC'
+        }); //Was having timezone issues!!!
     };
-
     // Mapping over all the userZodiac properties explicity (we are wanting to change a lot of names, etc):
     const zodiacDetails = {
         "Sign": userZodiac.name,

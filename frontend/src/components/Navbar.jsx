@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 
-
 const Navbar = () => {
     
     const navigate = useNavigate();
@@ -45,7 +44,7 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <span className='navbar-title'>MAGICKAL DIARY</span>
+            <span className='navbar-title'><Link to="/">MAGICKAL DIARY</Link></span>
             <ul>
                 <li><Link to="/">Home</Link></li>
                 {user ? (
