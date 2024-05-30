@@ -49,7 +49,7 @@ const NewTextDiaryEntryPage = () => {
     return (
         <div className='comment-edit-section'>
             <h1>Create New Entry</h1>
-            <p className="text-tip" style={{textAlign: "center"}}>Perfect for use as a dream journal, jotting down reflections from a meditation session, or whenever suits your need.</p>
+            <p className="text-tip" style={{textAlign: "center"}}>Perfect for use as a dream journal, jotting down reflections from a meditation session, or whatever suits your need.</p>
             <form onSubmit={handleSubmit} className='diaryEntry-edit-form'>
                 <div>
                     <h3>Title/Question/Meditation:</h3>
