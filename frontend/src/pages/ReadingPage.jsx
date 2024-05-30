@@ -4,6 +4,7 @@ import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
 import CommentEditSection from '../components/CommentEditSection';
 import HexagramReading from '../components/HexagramReading';
+import TextDiaryEntryDisplay from '../components/TextDiaryEntryDisplay';
 // import TarotReading from '../components/TarotReading'; 
 // import TextEntry from '../components/TextEntry'; 
 
@@ -84,6 +85,7 @@ const ReadingPage = () => {
             {entryData && (
                 <>
                     {entryData.type === 'I Ching' && <HexagramReading data={entryData} />}
+                    {entryData.type === 'Text' && <TextDiaryEntryDisplay data={entryData} />}
                     {/* {entryData.type === 'Tarot' && <TarotReading data={entryData} />}
                     {entryData.type === 'Text' && <TextEntry data={entryData} />} */}
                 </>

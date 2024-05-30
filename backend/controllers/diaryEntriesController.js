@@ -52,7 +52,7 @@ const fetchDiaryEntry = async (req, res) => {
 // -----Create a Diary Entry (POST):
 const createDiaryEntry = async (req, res) => {
     console.log(`BODY: ${req.body}`);
-    const { type, details, tags } = req.body;
+    const { type, details, commentary, tags } = req.body;
     const userId = req.user._id;
 
     try {
@@ -61,6 +61,7 @@ const createDiaryEntry = async (req, res) => {
             user: userId,
             type,
             details,
+            commentary,
             tags
         });
         await diaryEntry.save();

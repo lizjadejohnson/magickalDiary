@@ -11,6 +11,7 @@ import ZodiacPage from './pages/ZodiacPage';
 import IChingPage from './pages/IChingPage';
 import DiaryEntriesPage from './pages/DiaryEntriesPage';
 import ReadingPage from './pages/ReadingPage';
+import NewTextDiaryEntryPage from './pages/NewTextDiaryEntryPage';
 
 function App() {
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/notes" element={<NotesPage />} />
               <Route path="/zodiac" element={<ZodiacPage />} />
               <Route path="/iching" element={<IChingPage />} />
+              <Route path="/text-entry" element={<NewTextDiaryEntryPage />} />
               <Route path="/reading/:id" element={<ReadingPage />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/about" element={<AboutPage />} />

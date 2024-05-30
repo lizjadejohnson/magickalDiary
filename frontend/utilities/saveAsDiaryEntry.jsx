@@ -1,13 +1,21 @@
-export async function saveAsDiaryEntry(type, details) {
+export async function saveAsDiaryEntry(type, details, commentary = '', additionalTags = []) {
     try {
-        //Save the reading type as a tag as well by default:
-        const tags = [type];
+        //Save the reading type as a tag as well by default, in addition to any tags provided:
+        const tags = Array.from(new Set([type, ...additionalTags]));
+
+        const bodyData = {
+            type,
+            details,
+            commentary,
+            tags
+        };
+
         const response = await fetch('http://localhost:3000/diaryEntries', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ type, details, tags }),
+            body: JSON.stringify( bodyData ),
             credentials: 'include'
         });
         const data = await response.json();

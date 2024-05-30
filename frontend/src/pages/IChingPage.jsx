@@ -86,7 +86,7 @@ const IChingPage = () => {
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////
         // Save the new reading as a diary entry, set loading back to false, and navigate to the reading page for the entry just created!!
-        const savedEntry = await saveAsDiaryEntry('I Ching', newReading);
+        const savedEntry = await saveAsDiaryEntry('I Ching', newReading, '', []);
 
         setLoading(false);
 
