@@ -357,6 +357,7 @@ textarea {
 .first-letter{
   font-family: "Major Mono Display", monospace;
   font-size: 4em;
+  color:  peru;
   text-transform: uppercase;
   float: left;
   line-height: 0.6;
@@ -436,6 +437,13 @@ textarea {
 
 
 /* ===================================I CHING======================================================= */
+
+#iching-question-field{
+  height: 2em;
+  margin-bottom: 3%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
 
 .line-container {
   display: flex;

@@ -156,7 +156,8 @@ const IChingPage = () => {
             <h1 className='title'>I Ching Reading</h1>
             <form onSubmit={newIChingReading}>
                 <label>What is your question?</label>
-                <p>💡 Tip: Try not to ask simple 'yes' or 'no' questions. Instead, ask a more open ended question.</p>
+                <p className='text-tip' style={{ textAlign: 'center' }}>💡 Tip: Try not to ask simple 'yes' or 'no' questions. Instead, ask a more open ended question.</p>
+                <br />
                 <input id="iching-question-field" type="text" value={userQuestion} onChange={(event) => setUserQuestion(event.target.value)} required />
                 <br />
                 <button type="submit">Submit</button>
