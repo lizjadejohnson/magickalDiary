@@ -83,12 +83,12 @@ const ReadingPage = () => {
     return (
         <div className='readingPage'>
             {entryData && (
-                <>
+                <div className='entry-content-section'>
                     {entryData.type === 'I Ching' && <HexagramReading data={entryData} />}
                     {entryData.type === 'Text' && <TextDiaryEntryDisplay data={entryData} />}
                     {/* {entryData.type === 'Tarot' && <TarotReading data={entryData} />}
                     {entryData.type === 'Text' && <TextEntry data={entryData} />} */}
-                </>
+                </div>
             )}
             <div className='entry-edit-section'>
                 {showEdit ? (
