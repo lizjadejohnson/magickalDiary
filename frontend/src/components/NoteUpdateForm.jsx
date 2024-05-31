@@ -1,4 +1,5 @@
 import React from "react";
+import apiUrl from "../config";
 
 export default function NoteUpdateForm({ updateForm, setUpdateForm, setNotes, setShowEdit }) {
 
@@ -12,7 +13,7 @@ export default function NoteUpdateForm({ updateForm, setUpdateForm, setNotes, se
     async function handleSubmit(event) {
       event.preventDefault()
       try {
-        const response = await fetch(`http://localhost:3000/notes/${updateForm._id}`, {
+        const response = await fetch(`${apiUrl}/notes/${updateForm._id}`, {
           method: "PUT",
           headers: {
             'Content-Type': 'application/json'

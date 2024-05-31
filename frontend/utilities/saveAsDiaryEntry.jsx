@@ -1,3 +1,5 @@
+import apiUrl from '../src/config';
+
 export async function saveAsDiaryEntry(type, details, commentary = '', additionalTags = []) {
     try {
         //Save the reading type as a tag as well by default, in addition to any tags provided:
@@ -10,7 +12,7 @@ export async function saveAsDiaryEntry(type, details, commentary = '', additiona
             tags
         };
 
-        const response = await fetch('http://localhost:3000/diaryEntries', {
+        const response = await fetch(`${apiUrl/notes}/diaryEntries`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

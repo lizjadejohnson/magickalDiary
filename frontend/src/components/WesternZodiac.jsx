@@ -1,6 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from './Spinner';
+import apiUrl from '../config';
 
 
 const WesternZodiac = () => {
@@ -13,7 +14,7 @@ const WesternZodiac = () => {
     async function getZodiacInfo() {
         try {
             
-            const response = await fetch('http://localhost:3000/zodiac/getWesternZodiacByDOB', {
+            const response = await fetch(`${apiUrl}/zodiac/getWesternZodiacByDOB`, {
                 credentials: 'include'
             });
             if (!response.ok) {

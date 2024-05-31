@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiUrl from '../config';
 
 
 const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, updateEntry, setEntryData }) => {
@@ -17,7 +18,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
         event.preventDefault();
         console.log('Submitting form data:', updateForm);
         try {
-            const response = await fetch(`http://localhost:3000/diaryEntries/${updateEntry._id}`, {
+            const response = await fetch(`${apiUrl}/diaryEntries/${updateEntry._id}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
@@ -71,7 +72,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
 
         if (confirmed) {
             try {
-                const response = await fetch(`http://localhost:3000/diaryEntries/${updateEntry._id}`, {
+                const response = await fetch(`{apiUrl/notes}/diaryEntries/${updateEntry._id}`, {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json'

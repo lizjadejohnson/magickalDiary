@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { Link } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import apiUrl from '../config';
 
 
 
@@ -18,7 +19,7 @@ const DiaryEntriesPage = () => {
 
     const fetchDiaryEntries = async () => {
         try {
-            const response = await fetch('http://localhost:3000/diaryEntries', {
+            const response = await fetch(`${apiUrl}/diaryEntries`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

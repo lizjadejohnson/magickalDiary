@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
+import apiUrl from '../config';
 import CommentEditSection from '../components/CommentEditSection';
 import HexagramReading from '../components/HexagramReading';
 import TextDiaryEntryDisplay from '../components/TextDiaryEntryDisplay';
@@ -35,7 +36,7 @@ const ReadingPage = () => {
 
     const fetchReading = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/diaryEntries/${id}`, {
+            const response = await fetch(`${apiUrl}/diaryEntries/${id}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'

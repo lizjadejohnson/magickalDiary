@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import apiUrl from '../config';
 import {saveAsDiaryEntry} from '../../utilities/saveAsDiaryEntry';
 
 const IChingPage = () => {
@@ -119,7 +120,7 @@ const IChingPage = () => {
     //For example:"yin yin yang yang yin" or whatever.
     const getHexagram = async (lines) => {
         try {
-            const response = await fetch('http://localhost:3000/meanings/by-lines', {
+            const response = await fetch(`${apiUrl}/meanings/by-lines`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

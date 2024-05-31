@@ -26,8 +26,10 @@ const zodiacReadingsRoutes = require('./routes/zodiacReadingsRoutes.js');
 // --------------Middlewares--------------
 app.use(express.json()) //Express doesn't naturally convert our data to json
 app.use(cookieParser());
+
+  /// This refers to the frontend port, needed for credentials, and our Render
 app.use(cors({
-    origin: 'http://localhost:5000',  /// This refers to the frontend port, needed for credentials
+    origin: ['http://localhost:5000', 'https://magickal-diary.onrender.com'],
     credentials: true
   }));
 
