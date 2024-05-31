@@ -71,17 +71,17 @@ From here, you can follow the rest of the instructions to launch a Render app.
     (*Note: We do not need to add the local host env variable because it doesn't apply to our production site.)
     <br />
 3. Add your Render page to your CORS configuration in your backend's index.js:
-<br />
-        app.use(cors({
-            <br />
-            origin: ['http://localhost:5000', 'https://the-url-to-your-deployed-site.com'],
-            <br />
-            credentials: true
-            <br />
-        }));
-        <br />
+    <br />
+    app.use(cors({
+    <br />
+        origin: ['http://localhost:5000', 'https://the-url-to-your-deployed-site.com'],
+    <br />
+        credentials: true
+    <br />
+    }));
+    <br />
 4. Be sure to add your Render site to your Mongo whitelist - In Mongo:
-<br />
+    <br />
     a. Access Network Access Settings:
     <br />
     b. In the left-hand navigation, click on "Network Access" under the "Security" section.
@@ -89,9 +89,8 @@ From here, you can follow the rest of the instructions to launch a Render app.
     c. Click the "Add IP Address" button.
     <br />
     d. Add each IP address provided by Render. You can access these in your Render project by selecting the "Connect" button in the upper right. It provided me with 3 different outbound IP addresses.
-<br />
-
+    <br />
     Again, in Render you will start with npm start and build with npm run build. Locally, you will start with npm run dev.
-<br />
+    <br />
 
 At this point, you should have a fully functional frontend, backend, local development and production site using Render.
