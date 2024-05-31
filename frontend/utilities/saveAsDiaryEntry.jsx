@@ -12,7 +12,7 @@ export async function saveAsDiaryEntry(type, details, commentary = '', additiona
             tags
         };
 
-        const response = await fetch(`${apiUrl/notes}/diaryEntries`, {
+        const response = await fetch(`${apiUrl}/diaryEntries`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
