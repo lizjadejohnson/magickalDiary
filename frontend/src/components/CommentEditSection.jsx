@@ -72,7 +72,7 @@ const CommentEditSection = ({ showEdit, setShowEdit, updateForm, setUpdateForm, 
 
         if (confirmed) {
             try {
-                const response = await fetch(`{apiUrl/notes}/diaryEntries/${updateEntry._id}`, {
+                const response = await fetch(`${apiUrl}/diaryEntries/${updateEntry._id}`, {
                     method: "DELETE",
                     headers: {
                         'Content-Type': 'application/json'
