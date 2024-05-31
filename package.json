@@ -1,0 +1,10 @@
+{
+  "name": "magickal-diary",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"cd frontend && npm run dev\" \"cd backend && npm run dev\""
+},
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
