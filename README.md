@@ -13,13 +13,12 @@ Long-term plans include the creation of a fully operational table of corresponde
 
 **INSTRUCTIONS**
 <br />
-Ensure that you remember to npm install all dependencies for the root/frontend/backend:
-npm install && npm install --prefix frontend && npm install --prefix backend
-(Or in Powershell it is: npm install; npm install --prefix frontend; npm install --prefix backend)
+Ensure that you remember to install all dependencies for the root/frontend/backend. In the root directory run:
+npm run build
 
 Server info: Backend: 3000 Frontend: 5000 Proxy (setup on the backend package.json): 3000 VISIT http://localhost:5000/
 
-npm run fropnt the root directory will spin up the front and backend servers thanks to concurrently.
+npm start from the root directory will spin up the front and backend servers thanks to concurrently.
 
 .env: Remember to create a new .env file in the backend directory! It should look like:
 
