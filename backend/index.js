@@ -48,11 +48,11 @@ connectToDb()
 //Specific routes are defined in the routes/xxxRoutes.js docs
 
 // ------------------------- USE OUR ROUTES -------------------------
-app.use("/notes", notesRoutes);
-app.use("/meanings", meaningsRoutes);
-app.use("/users", usersRoutes);
-app.use("/diaryEntries", diaryEntryRoutes);
-app.use("/zodiac", zodiacReadingsRoutes);
+app.use("/api/notes", notesRoutes);
+app.use("/api/meanings", meaningsRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/diaryEntries", diaryEntryRoutes);
+app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
 // Serve static files from the React app Dist build:
