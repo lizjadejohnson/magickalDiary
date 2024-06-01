@@ -2,11 +2,12 @@
   "name": "magickal-diary",
   "version": "1.0.0",
   "scripts": {
-    "install": "npm install --prefix backend && npm install --prefix frontend",
-    "start": "concurrently \"npm run start --prefix backend\" \"npm run dev --prefix frontend\"",
+    "start": "concurrently \"npm start --prefix backend\" \"npm start --prefix frontend\"",
     "dev": "concurrently \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
-    "build": "npm run build --prefix frontend",
-    "postinstall": "npm run install"
+    "build": "npm run build:all",
+    "build:all": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:backend": "cd backend && npm install && npm run build"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
