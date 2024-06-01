@@ -125,7 +125,8 @@ const IChingPage = () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ lines })
+                body: JSON.stringify({ lines }),
+                credentials: 'include'
             });
 
             const data = await response.json();

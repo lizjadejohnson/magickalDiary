@@ -1,18 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const meaningsController = require('../controllers/meaningsController')
-
+const authenticate = require('../config/jwtAuth.js');
 
 //-------------------------TODO ROUTES-------------------------
 // -----Get ALL Meanings (GET):
-router.get("/", meaningsController.fetchAllMeanings)
+router.get("/", authenticate, meaningsController.fetchAllMeanings)
 
 
 // -----Get specific Meanings by ID (GET):
-router.get("/:id", meaningsController.fetchMeaning)
+router.get("/:id", authenticate, meaningsController.fetchMeaning)
 
 // Get Meaning by the hexagram lines (POST)
-router.post("/by-lines", meaningsController.fetchMeaningByLines);
+router.post("/by-lines", authenticate, meaningsController.fetchMeaningByLines);
 
 
 
