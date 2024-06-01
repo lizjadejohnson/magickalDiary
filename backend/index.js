@@ -29,7 +29,7 @@ app.use(cookieParser());
 
   /// This refers to the frontend port, needed for credentials, and our Render
 app.use(cors({
-    origin: ['http://localhost:5000', 'https://magickal-diary.onrender.com'],
+    origin: ['http://localhost:5000', 'http://localhost:3000', 'https://magickal-diary.onrender.com','https://magickal-diary-backend.onrender.com'],
     credentials: true
   }));
 
