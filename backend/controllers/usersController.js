@@ -113,7 +113,7 @@ const createUser = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
         
@@ -188,7 +188,7 @@ const updateUser = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000 // 1 day
         });
 
@@ -258,7 +258,7 @@ const loginUser = async (req, res) => {
         res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+            sameSite: 'Strict',
             maxAge: 24 * 60 * 60 * 1000
         });
         //Return entire user data except the password:
