@@ -14,6 +14,7 @@ Long-term plans include the creation of a fully operational table of corresponde
 **INSTRUCTIONS FOR RUNNING LOCALLY**
 <br />
 Ensure that you remember to install all dependencies for the root/frontend/backend. In the root directory run:
+npm install
 npm run build
 
 

@@ -55,6 +55,7 @@ app.use("/api/diaryEntries", diaryEntryRoutes);
 app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
+
 // Serve static files from the React app Dist build:
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
