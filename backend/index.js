@@ -63,6 +63,7 @@ app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
 // Serve the index.html file for any other path
+//We will have this set up in Render to but we're keeping it here as a fallback.
 app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
 });
