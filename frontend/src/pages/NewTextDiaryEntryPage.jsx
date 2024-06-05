@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
+import apiUrl from '../config';
 import {saveAsDiaryEntry} from '../../utilities/saveAsDiaryEntry';
 
 const NewTextDiaryEntryPage = () => {
@@ -37,7 +38,7 @@ const NewTextDiaryEntryPage = () => {
         try {
             const savedEntry = await saveAsDiaryEntry("Text", details, commentary, tags);
             if (savedEntry) {
-                navigate(`/reading/${savedEntry._id}`);
+                navigate(`${apiUrl}/reading/${savedEntry._id}`);
             } else {
                 throw new Error('Failed to navigate to diary entry');
             }

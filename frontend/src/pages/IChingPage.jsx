@@ -92,7 +92,7 @@ const IChingPage = () => {
         setLoading(false);
 
         if (savedEntry) {
-        navigate(`/reading/${savedEntry._id}`);
+        navigate(`${apiUrl}/reading/${savedEntry._id}`);
 
         } else {
             console.error('Reading was not saved!');
