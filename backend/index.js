@@ -22,20 +22,16 @@ const usersRoutes = require('./routes/usersRoutes.js');
 const diaryEntryRoutes = require('./routes/diaryEntriesRoutes');
 const zodiacReadingsRoutes = require('./routes/zodiacReadingsRoutes.js');
 
+/////////////////////////////////////////////////////////////////////////
 
 // --------------Middlewares--------------
 app.use(express.json()) //Express doesn't naturally convert our data to json
 app.use(cookieParser());
 
-/// Add all FRONTEND domains (no backends):
-// app.use(cors({
-//     origin: ['http://localhost:5000','https://magickal-diary.onrender.com'],
-//     credentials: true
-//   }));
 
-////////////////////////////////////////////////////////////////////////////////
+/// CORS setup with logging for debugging:
 
-/// CORS setup with logging for debugging
+//List all frontend domains (no backends):
 const allowedOrigins = ['http://localhost:5000', 'https://magickal-diary.onrender.com'];
 
 app.use(cors({
@@ -62,15 +58,12 @@ app.use((req, res, next) => {
 });
 
 
-////////////////////////////////////////////////////////////////////////////////
-
-connectToDb()
 //This initializes our connectToDb function
-// ---------------------------------------------reQs
-// ---------------------------------------------Routing
+connectToDb()
 
 
 
+////////////////////////////////////////////////////////////////////////////////
 
 //-----Objective: We want to establish CRUD routes for our Notes model-----
 //Always use res.json as opposed to res.send when responding back to the client with json data
@@ -86,14 +79,13 @@ app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
 
-// Serve static files from the React app build
-// app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
-// app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+// Serve static files from the React app build:
+app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
 // Fallback to index.html for SPA
-// app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-// });
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+});
 
 // -------------------------------- [Databse Connection]------------------------------
 app.listen(PORT, () => {
