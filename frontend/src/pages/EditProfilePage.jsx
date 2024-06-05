@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
-import apiUrl from '../config';
 
 const EditProfilePage = () => {
     const { user, updateUser, deleteUser } = useContext(UserContext);
@@ -62,7 +61,7 @@ const EditProfilePage = () => {
     //If someone is not logged in:
     if (!user) {
       return (
-        <Spinner redirectTo={`${apiUrl}/`} delay={3000} message={"No user logged in. Redirecting to homepage..."}/>
+        <Spinner redirectTo={"/"} delay={3000} message={"No user logged in. Redirecting to homepage..."}/>
       );
     };
 

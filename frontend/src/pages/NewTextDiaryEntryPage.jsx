@@ -16,7 +16,7 @@ const NewTextDiaryEntryPage = () => {
     });
 
     if (!user) {
-        return <Spinner redirectTo={`${apiUrl}/`} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />;
+        return <Spinner redirectTo={"/"} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />;
     }
 
     const handleChange = (event) => {
@@ -38,7 +38,7 @@ const NewTextDiaryEntryPage = () => {
         try {
             const savedEntry = await saveAsDiaryEntry("Text", details, commentary, tags);
             if (savedEntry) {
-                navigate(`${apiUrl}/reading/${savedEntry._id}`);
+                navigate(`/reading/${savedEntry._id}`);
             } else {
                 throw new Error('Failed to navigate to diary entry');
             }

@@ -15,7 +15,7 @@ const IChingPage = () => {
     // If someone is not logged in:
     if (!user) {
         return (
-            <Spinner redirectTo={`${apiUrl}/`} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />
+            <Spinner redirectTo={"/"} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />
         );
     };
 
@@ -92,7 +92,7 @@ const IChingPage = () => {
         setLoading(false);
 
         if (savedEntry) {
-        navigate(`${apiUrl}/reading/${savedEntry._id}`);
+        navigate(`/reading/${savedEntry._id}`);
 
         } else {
             console.error('Reading was not saved!');

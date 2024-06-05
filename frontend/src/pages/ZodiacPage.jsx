@@ -3,7 +3,6 @@ import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
 import WesternZodiac from '../components/WesternZodiac';
 import ChineseZodiac from '../components/ChineseZodiac';
-import apiUrl from '../config';
 
 const ZodiacPage = () => {
     const { user } = useContext(UserContext);
@@ -12,7 +11,7 @@ const ZodiacPage = () => {
     //If someone is not logged in:
     if (!user) {
         return (
-          <Spinner redirectTo={`${apiUrl}/`} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."}/>
+          <Spinner redirectTo={"/"} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."}/>
         );
       };
     
