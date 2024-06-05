@@ -12,6 +12,7 @@ import IChingPage from './pages/IChingPage';
 import DiaryEntriesPage from './pages/DiaryEntriesPage';
 import ReadingPage from './pages/ReadingPage';
 import NewTextDiaryEntryPage from './pages/NewTextDiaryEntryPage';
+import apiUrl from './config';
 
 function App() {
 
