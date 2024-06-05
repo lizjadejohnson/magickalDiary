@@ -1,8 +1,0 @@
-{
-  "name": "magickal-diary",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
-    "build": "cd frontend && npm run build"
-  }
-}
