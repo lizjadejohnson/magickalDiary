@@ -37,7 +37,7 @@ const DiaryEntriesPage = () => {
 
     if (!user) {
         return (
-            <Spinner redirectTo={'/'} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />
+            <Spinner redirectTo={`${apiUrl}/`} delay={5000} message={"You must first login or create a new account. Redirecting to homepage..."} />
         );
     }
 

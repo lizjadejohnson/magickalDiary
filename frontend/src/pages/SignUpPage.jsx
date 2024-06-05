@@ -2,6 +2,7 @@ import { useState, useContext } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { useNavigate } from 'react-router-dom'; 
 import Spinner from '../components/Spinner';
+import apiUrl from '../config';
 
 const SignUpPage = () => {
   const [username, setUsername] = useState('');
@@ -33,7 +34,7 @@ const SignUpPage = () => {
     //If someone is already logged in:
     if (user) {
       return (
-        <Spinner redirectTo={'/'} delay={3000} message={"User already logged in. Redirecting to homepage..."}/>
+        <Spinner redirectTo={`${apiUrl}/`} delay={3000} message={"User already logged in. Redirecting to homepage..."}/>
       );
     };
 

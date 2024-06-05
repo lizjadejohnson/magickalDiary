@@ -1,11 +1,12 @@
 import React from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'
+import apiUrl from '../config';
 
 
 //Takes as props where it is redirecting to, how long to stay on the page, and a custom message ability:
 //Uses home, 5 seconds and "Redirecting...." as defaults:
-const Spinner = ({ redirectTo = "/", delay = 5000, message = 'Redirecting...' }) => {
+const Spinner = ({ redirectTo = `${apiUrl}/`, delay = 5000, message = 'Redirecting...' }) => {
     const navigate = useNavigate();
 
     useEffect(() => {
