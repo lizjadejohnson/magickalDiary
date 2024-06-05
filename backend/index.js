@@ -28,11 +28,41 @@ app.use(express.json()) //Express doesn't naturally convert our data to json
 app.use(cookieParser());
 
 /// Add all FRONTEND domains (no backends):
-app.use(cors({
-    origin: ['http://localhost:5000','https://magickal-diary.onrender.com'],
-    credentials: true
-  }));
+// app.use(cors({
+//     origin: ['http://localhost:5000','https://magickal-diary.onrender.com'],
+//     credentials: true
+//   }));
 
+////////////////////////////////////////////////////////////////////////////////
+
+/// CORS setup with logging for debugging
+const allowedOrigins = ['http://localhost:5000', 'https://magickal-diary.onrender.com'];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            console.log('Not allowed by CORS:', origin);
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,
+    optionsSuccessStatus: 200,
+    preflightContinue: true
+}));
+
+app.use((req, res, next) => {
+    console.log("CORS middleware hit:", req.headers.origin);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    next();
+});
+
+
+////////////////////////////////////////////////////////////////////////////////
 
 connectToDb()
 //This initializes our connectToDb function

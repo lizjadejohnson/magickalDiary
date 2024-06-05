@@ -29,7 +29,6 @@ const DiaryEntriesPage = () => {
             const data = await response.json();
             setDiaryEntries(data.diaryEntries);
             setLoading(false);
-            console.log('API URL from config:', apiUrl);
         } catch (error) {
             console.error('Error fetching diary entries:', error);
             setLoading(false);
