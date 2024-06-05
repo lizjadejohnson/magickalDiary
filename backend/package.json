@@ -19,6 +19,7 @@
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
     "magickal-diary": "file:..",
+    "magickaldiary": "file:..",
     "mongoose": "^8.4.0",
     "react-router-dom": "^6.23.1",
     "react-tooltip": "^5.26.4"
