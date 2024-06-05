@@ -79,13 +79,17 @@ app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
 
-// Serve static files from the React app build:
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
+// Serve static files and handle SPA routing only in development (because otherwise we handle this explicitly in Render):
+if (process.env.NODE_ENV === 'development') {
+  
+  // Serve static files from the Vite build directory
+  app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
 
-// Fallback to index.html for SPA
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-});
+  // Fallback to index.html for SPA
+  app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+  });
+}
 
 // -------------------------------- [Databse Connection]------------------------------
 app.listen(PORT, () => {
