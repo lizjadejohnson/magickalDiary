@@ -56,17 +56,14 @@ app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
 
-// Serve static files from the React app Dist build:
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+// Serve static files from the React app build
+// app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+// app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
 
-// Also serve static files from the public directory:
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'public')));
-
-// Serve the index.html file for any other path
-//We will have this set up in Render to but we're keeping it here as a fallback.
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-});
+// Fallback to index.html for SPA
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
+// });
 
 // -------------------------------- [Databse Connection]------------------------------
 app.listen(PORT, () => {
