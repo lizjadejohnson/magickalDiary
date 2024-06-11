@@ -106,7 +106,7 @@ const ReadingPage = () => {
                         <p><span className='bold'>User Commentary:</span> {entryData.commentary ? entryData.commentary : "No commentary has been added to this entry yet."}</p>
                         <p><span className='bold'>Tags:</span> {entryData.tags.length > 0 ? entryData.tags.join(', ') : "No tags yet."}</p>
                         <p><span className='bold'>Last Updated:</span> {new Date(entryData.updatedAt).toLocaleString()}</p>
-                        <button onClick={handleEditClick}>Edit/Comment</button>
+                        <button onClick={handleEditClick}>Edit/Comment/Delete</button>
                     </>
                 )}
             </div>

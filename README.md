@@ -8,3 +8,7 @@ Tarot readings will be implemented in the near future.
 Aside from the user/notes structure, most future development will be a continuation of the sort of thing happening with the I Ching.
 For example, once tarot readings are implemented, the card meanings will also be stored in the meaningts database whereas tarot readings will be stored in the diaryEntries database etc.
 Long-term plans include the creation of a fully operational table of correspondences ( a la 777) and will have database references in place so that users will be able to see all related correspondences (for example, the corresponding tarot card to their astrology sign, and so on).
+
+Note: If accessing via magickal-diary.onrender.com/ please know I am on the free tier and as a result it can sometimes take around 30 seconds or so to spin up. Upon visiting, please be patient while it gets started 🙏
+
+Thank you and enjoy 🔮
