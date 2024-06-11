@@ -31,26 +31,25 @@ app.use(cookieParser());
 
 /// CORS setup with logging for debugging:
 
-//List all frontend domains (no backends):
-const allowedOrigins = ['http://localhost:5000', 'https://magickal-diary.onrender.com'];
 
-app.use(cors({
-    origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            console.log('Not allowed by CORS:', origin);
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,
-    optionsSuccessStatus: 200,
-    preflightContinue: true
-}));
+// Adjusting CORS settings for development and production environments (in development we need both our backend and frontend servers!)
+//This is because when developing live in localhost, we are using a proxy in vite config so we can see updates without having to rebuild the frontend all the time.
+const isProduction = process.env.NODE_ENV === 'production';
+const allowedOrigins = isProduction ? ['https://magickal-diary.onrender.com'] : ['http://localhost:5000', 'http://localhost:3000'];
 
+const corsOptions = {
+    origin: allowedOrigins,
+    credentials: true // Important: This enables cookies to be sent and received
+};
+
+// Use the cors middleware with options
+app.use(cors(corsOptions));
+
+// Additional security headers setup
 app.use((req, res, next) => {
-    console.log("CORS middleware hit:", req.headers.origin);
-    res.header('Access-Control-Allow-Origin', req.headers.origin);
+    // Setting headers that help secure your app
+    const origin = allowedOrigins.includes(req.headers.origin) ? req.headers.origin : allowedOrigins[0];
+    res.header('Access-Control-Allow-Origin', origin); // Reflect the origin or use a default
     res.header('Access-Control-Allow-Credentials', 'true');
     res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT,DELETE');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -79,17 +78,13 @@ app.use("/api/zodiac", zodiacReadingsRoutes);
 
 
 
-// Serve static files and handle SPA routing only in development (because otherwise we handle this explicitly in Render):
-if (process.env.NODE_ENV === 'development') {
-  
-  // Serve static files from the Vite build directory
-  app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-  // Fallback to index.html for SPA
-  app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-  });
-}
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 
 // -------------------------------- [Databse Connection]------------------------------
 app.listen(PORT, () => {

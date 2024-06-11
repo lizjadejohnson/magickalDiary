@@ -1,6 +1,15 @@
-//In development, apiUrl will be http://localhost:3000/api
-//In production, apiUrl will be https://magickal-diary-backend.onrender.com/api (because we'll have that set in Render)
+//In development, apiUrl will be our backend server: http://localhost:3000/api
+//In production, the apiUrl will be our Render URL https://magickal-diary.onrender.com/api
 
-const apiUrl = import.meta.env.VITE_API_URL;
-console.log('API URL:', apiUrl);  // This should output the correct API URL based on the environment
+
+let apiUrl = '';
+
+if (process.env.NODE_ENV === 'development') {
+  apiUrl = 'http://localhost:3000/api';
+} else if (process.env.NODE_ENV === 'production') {
+  apiUrl = 'https://magickal-diary.onrender.com/api';
+}
+
 export default apiUrl;
+
+//This needs to be imported everywhere we are using URLS.
