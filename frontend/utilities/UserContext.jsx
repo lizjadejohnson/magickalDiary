@@ -73,9 +73,9 @@ const UserProvider = ({ children }) => {
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
     //Function to sign up:
-    const signup = async ( username, email, password, dob, timeOfBirth ) => {
+    const signup = async ( username, email, password, dob, timeOfBirth, locationOfBirth ) => {
       try {
-        const response = await axios.post(`${apiUrl}/users`, {username, email, password, dob, timeOfBirth}, { withCredentials: true });
+        const response = await axios.post(`${apiUrl}/users`, {username, email, password, dob, timeOfBirth, locationOfBirth}, { withCredentials: true });
         setUser(response.data.user);
 
       } catch (error) {

@@ -7,6 +7,10 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true, lowercase: true, index: true }, //Ensure the email is unique
   dob: { type: String, required: true }, 
   timeOfBirth: { type: String, required: false }, // Optional, only if user knows - format as 'HH:mm'
+  locationOfBirth: {
+    lat: { type: Number, required: false },
+    lng: { type: Number, required: false },
+  }, // Optional, only if user knows - format as coordinates
   diaryEntries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DiaryEntry' }]  //Reference to diary entries
 }, {timestamps: true});
 

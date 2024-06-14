@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
+import MapComponent from '../components/MapComponent';
 
 const EditProfilePage = () => {
     const { user, updateUser, deleteUser } = useContext(UserContext);
@@ -10,6 +11,7 @@ const EditProfilePage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [dob, setDob] = useState('');
     const [timeOfBirth, setTimeOfBirth] = useState('');
+    const [locationOfBirth, setLocationOfBirth] = useState({ lat: null, lng: null });
     const [message, setMessage] = useState('');
 
 
@@ -20,6 +22,7 @@ const EditProfilePage = () => {
             setEmail(user.email || '');
             setDob(user.dob || '');
             setTimeOfBirth(user.timeOfBirth || '');
+            setLocationOfBirth(user.locationOfBirth || { lat: null, lng: null });
         }
     }, [user]);
 
@@ -32,7 +35,7 @@ const EditProfilePage = () => {
             return;
         }
         try {
-            await updateUser({ username, email, password, dob, timeOfBirth });
+            await updateUser({ username, email, password, dob, timeOfBirth, locationOfBirth });
             setMessage('Profile updated successfully!');
             setTimeout(() => setMessage(''), 5000);
         } catch (error) {
@@ -67,8 +70,11 @@ const EditProfilePage = () => {
 
     return (
         <div className='edit-profile-container'>
+            
             <h2>Edit Profile</h2>
+
             <form onSubmit={handleUpdate}>
+
                 <div>
                     <label>Username:</label>
                     <input
@@ -78,6 +84,7 @@ const EditProfilePage = () => {
                         required
                     />
                 </div>
+
                 <div>
                     <label>Email:</label>
                     <input
@@ -87,6 +94,7 @@ const EditProfilePage = () => {
                         required
                     />
                 </div>
+
                 <div>
                     <label>New Password:</label>
                     <input
@@ -95,6 +103,7 @@ const EditProfilePage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
+
                 <div>
                     <label>Confirm New Password:</label>
                     <input
@@ -103,6 +112,7 @@ const EditProfilePage = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </div>
+
                 <div>
                     <label>Date of Birth:</label>
                     <input
@@ -111,6 +121,7 @@ const EditProfilePage = () => {
                         onChange={(e) => setDob(e.target.value)}
                     />
                 </div>
+
                 <div>
                     <label>Time of Birth (if known):</label>
                     <input
@@ -119,13 +130,23 @@ const EditProfilePage = () => {
                     onChange={(e) => setTimeOfBirth(e.target.value)}
                 />
                 </div>
+
+                <div>
+                    <label>Location of Birth (if known):</label>
+                    <MapComponent initialCoordinates={locationOfBirth} setLocationOfBirth={setLocationOfBirth} />
+                </div>
+
                 <br />
+
                 <div className='button-container'>
                     <button type="submit">Update Profile</button>
                     <button onClick={handleDelete} className='delete-button'>Delete</button>
                 </div>
+
             </form>
+
             {message && <p style={{ color: 'red' }}>{message}</p>}
+
         </div>
     );
 };

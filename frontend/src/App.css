@@ -38,6 +38,10 @@
   padding-left: 7px;
 }
 
+.center-text{
+  text-align: center;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -312,28 +316,56 @@ textarea {
 }
 
 
-/* ===================================SIGN UP PAGE======================================================= */
+/* ===================================SIGN UP/EDIT PROFILE PAGE======================================================= */
 
-.signup-container{
+.signup-container, .edit-profile-container{
   min-width: 30%;
-  max-width: 60%;
+  max-width: 50%;
   margin: 0 auto;
 }
 
 
-.signup-container form{
+.signup-container form, .edit-profile-container form{
   display: block;
-  padding: 1%;
-  padding-top: 5%;
-  border: 1px solid #a3a3a3;
+  padding: 2%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  border: 1px solid peru;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color:  antiquewhite;
   width: 100%;
 }
 
-.signup-container input{
+.signup-container input, .edit-profile-container input{
   min-width: 50%;
 }
+
+.location-search{
+  margin: 0 auto;
+  width: 90%;
+  padding: 10px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+.map-container{
+  width: 80%;
+  height: 300px;
+  margin-bottom: 2%;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+
+  .signup-container, .edit-profile-container{
+    min-width: 80%;
+    max-width: 85%;
+    margin: 0 auto;
+  }
+}
+
 
 /* ===================================ABOUT PAGE======================================================= */
 

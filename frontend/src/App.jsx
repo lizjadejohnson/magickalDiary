@@ -15,6 +15,7 @@ import NewTextDiaryEntryPage from './pages/NewTextDiaryEntryPage';
 
 function App() {
 
+
   //------------------------------------------[State]-----------------------------------------------------
 
 

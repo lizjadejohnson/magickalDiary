@@ -59,7 +59,7 @@ const fetchMe = async (req, res) => {
 const createUser = async (req, res) => {
 
     //1. Get data from req.body:
-    const {username, password, email, dob, timeOfBirth} = req.body
+    const {username, password, email, dob, timeOfBirth, locationOfBirth} = req.body
     console.log("Received request body");
 
     // Check if all required fields are actually *present*:
@@ -99,7 +99,8 @@ const createUser = async (req, res) => {
             email: email.toLowerCase(),
             password: password, // Raw password here, will be hashed in pre-save hook
             dob,
-            timeOfBirth
+            timeOfBirth,
+            locationOfBirth
         });
 
         await user.save();
@@ -118,7 +119,7 @@ const createUser = async (req, res) => {
         });
         
         // Respond with new copy of user (excluding the password):
-        res.status(201).json({ user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth } });
+        res.status(201).json({ user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth, locationOfBirth: user.locationOfBirth } });
 
     } catch (error) {
         console.error('Signup error:', error);
@@ -132,7 +133,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
 
     const userId = req.user._id;  // Get id off the authenticated token
-    const { username, password, email, dob, timeOfBirth } = req.body;
+    const { username, password, email, dob, timeOfBirth, locationOfBirth } = req.body;
 
     // Validate input types upfront:
     if (email && typeof email !== 'string') {
@@ -172,6 +173,10 @@ const updateUser = async (req, res) => {
     }
     if (timeOfBirth) {
         updateData.timeOfBirth = timeOfBirth;
+    }
+
+    if (locationOfBirth) {
+        updateData.locationOfBirth = locationOfBirth;
     }
 
 
@@ -262,7 +267,7 @@ const loginUser = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000
         });
         //Return entire user data except the password:
-        res.json({ message: 'Login successful', user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth } });
+        res.json({ message: 'Login successful', user: { _id: user._id, username: user.username, email: user.email, dob: user.dob, timeOfBirth: user.timeOfBirth, locationOfBirth: user.locationOfBirth } });
     } catch (error) {
         res.status(500).json({ message: 'Internal server error', error: error.message });
     }
