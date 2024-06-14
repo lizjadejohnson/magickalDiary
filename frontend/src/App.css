@@ -289,6 +289,21 @@ textarea {
 }
 
 
+/* ===================================UNDER CONSTRUCTION======================================================= */
+
+.construction-container{
+  background-color: antiquewhite;
+  width: 70%;
+  border-radius: 5px;
+  border: 1px solid peru;
+  margin: 0 auto;
+  margin-bottom: 5%;
+}
+
+.construction-gif {
+  max-width: 80%;
+}
+
 
 /* ===================================NOTES/NOTES FORMS======================================================= */
 
@@ -416,6 +431,27 @@ textarea {
   width: 50%;
   margin: 0 auto;
 }
+
+.sub-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  gap: 15px;
+  margin-bottom: 5%;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+
+  .zodiacgif {
+    width: 90%;
+  }
+
+}
+
 
 /* ===================================DIARY ENTRIES======================================================= */
 
