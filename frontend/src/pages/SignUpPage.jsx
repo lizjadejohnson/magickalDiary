@@ -43,9 +43,11 @@ const SignUpPage = () => {
 
   return (
     <div className='signup-container'>
-
+      
+      <h2>Sign Up</h2>
+      
       <form onSubmit={handleSignUp}>
-        <h2>Sign Up</h2>
+
 
         <div>
           <label>Username:</label>

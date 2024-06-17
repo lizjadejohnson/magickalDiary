@@ -115,7 +115,7 @@ const MapComponent = ({ setLocationOfBirth }) => {
   if (!isLoaded) return <div>Loading Maps...</div>;
 
   return (
-    <div>
+    <div className='location-of-birth-container'>
       <Autocomplete onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)} onPlaceChanged={onPlaceChanged}>
         <input type="text" placeholder="Search for your place of birth" className='location-search' />
       </Autocomplete>

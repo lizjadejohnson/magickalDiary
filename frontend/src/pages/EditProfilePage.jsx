@@ -136,8 +136,6 @@ const EditProfilePage = () => {
                     <MapComponent initialCoordinates={locationOfBirth} setLocationOfBirth={setLocationOfBirth} />
                 </div>
 
-                <br />
-
                 <div className='button-container'>
                     <button type="submit">Update Profile</button>
                     <button onClick={handleDelete} className='delete-button'>Delete</button>

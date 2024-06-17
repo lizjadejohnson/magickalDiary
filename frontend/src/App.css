@@ -301,10 +301,13 @@ textarea {
   margin-top: 5px;
 }
 
+.location-of-birth-container{
+  margin-bottom: 1%;
+}
+
 .map-container{
   width: 80%;
   height: 300px;
-  margin-bottom: 2%;
   border-radius: 5px;
   margin: 0 auto;
 }
