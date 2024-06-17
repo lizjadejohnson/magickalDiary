@@ -23,70 +23,7 @@
   background-color: white;
 }
 
-.bold{
-  font-weight: bolder;
-}
 
-
-.text-tip{
-  margin: 0;
-  padding: 0;
-  text-align: left;
-  font-style: italic;
-  font-size: smaller;
-  color: #494949;
-  padding-left: 7px;
-}
-
-.center-text{
-  text-align: center;
-}
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.button-container {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.delete-button{
-  background-color: rgb(231, 153, 166);
-}
-
-.delete-button:hover{
-  background-color: rgba(255, 93, 122, 0.582);
-}
 
 
 
@@ -232,7 +169,7 @@ textarea {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: antiquewhite;
 }
 
 .hero-text h1 {
@@ -337,6 +274,7 @@ textarea {
   min-width: 30%;
   max-width: 50%;
   margin: 0 auto;
+  color: black;
 }
 
 

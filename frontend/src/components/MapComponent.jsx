@@ -5,7 +5,7 @@ const libraries = ['places'];
 
 const mapId = 'f21752833355c847';  // Your actual Map ID
 
-const MapComponent = ({ initialCoordinates, setLocationOfBirth }) => {
+const MapComponent = ({ setLocationOfBirth }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
     libraries,
@@ -16,6 +16,8 @@ const MapComponent = ({ initialCoordinates, setLocationOfBirth }) => {
   const markerRef = useRef(null);
   const infoWindowRef = useRef(null);
 
+  const initialCoordinates = { lat: 25, lng: -40 };
+
   const onMapLoad = async (map) => {
     mapRef.current = map;
 
@@ -23,7 +25,7 @@ const MapComponent = ({ initialCoordinates, setLocationOfBirth }) => {
 
     if (initialCoordinates && initialCoordinates.lat !== null && initialCoordinates.lng !== null) {
       map.setCenter(initialCoordinates);
-      map.setZoom(15);
+      map.setZoom(2);
 
       const newMarker = new AdvancedMarkerElement({
         map,
