@@ -91,7 +91,7 @@ button:focus-visible {
   background-color: rgba(255, 93, 122, 0.582);
 }
 
-input {
+input, textarea {
   background-color: rgb(255, 250, 245);
   color: black;
 }
