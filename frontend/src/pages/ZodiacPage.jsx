@@ -8,6 +8,7 @@ import RisingSign from '../components/RisingSign';
 import Planets from '../components/Planets';
 import Houses from '../components/Houses';
 import Aspects from '../components/Aspects';
+import Ephemeris from '../components/Ephemeris';
 
 const ZodiacPage = () => {
   const { user } = useContext(UserContext);
@@ -54,6 +55,8 @@ const ZodiacPage = () => {
           <button onClick={() => handleSetWesternSubType('Planets')}>Planets 🌍</button>
           <button onClick={() => handleSetWesternSubType('Houses')}>Houses 🏠</button>
           <button onClick={() => handleSetWesternSubType('Aspects')}>Aspects 🪞</button>
+          <button onClick={() => handleSetWesternSubType('Ephemeris')}>Ephemeris 🌌</button>
+
         </div>
       )}
       <div className='horoscopeResult'>
@@ -64,6 +67,8 @@ const ZodiacPage = () => {
         {activeReading === 'Planets' && <Planets />}
         {activeReading === 'Houses' && <Houses />}
         {activeReading === 'Aspects' && <Aspects />}
+        {activeReading === 'Ephemeris' && <Ephemeris />}
+
       </div>
     </div>
   );

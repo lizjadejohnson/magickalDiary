@@ -1,5 +1,6 @@
 const WesternZodiacSign = require('../models/westernZodiacSign')
 const ChineseZodiacSign = require('../models/chineseZodiacSign')
+const { getPlanetaryPositions } = require('../config/astroCalc');
 
 
 
@@ -45,7 +46,18 @@ const getChineseZodiacByDOB = async (req, res) => {
     }
 };
 
+const getEphemerisData = async (req, res) => {
+    try {
+        const { dob, timeOfBirth, locationOfBirth } = req.user;
+        const planets = await getPlanetaryPositions(dob, timeOfBirth, locationOfBirth);
+        res.json({ planets });
+      } catch (error) {
+        res.status(500).json({ message: "Internal server error", error: error.message });
+      }
+    };
+
 module.exports = {
     getWesternZodiacByDOB,
     getChineseZodiacByDOB,
+    getEphemerisData,
 }
