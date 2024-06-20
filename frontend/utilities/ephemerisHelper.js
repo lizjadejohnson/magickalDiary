@@ -1,4 +1,24 @@
+// client/src/utilities/ephemerisHelper.js
+
 import apiUrl from '../src/config';
+export async function getEphemerisData(setState) {
+  try {
+    const response = await fetch(`${apiUrl}/zodiac/getEphemerisData`, {
+      credentials: 'include' // Include credentials (cookies)
+    });
+    const data = await response.json();
+
+    if (data && data.planets) {
+      setState(data.planets); // Set state with the fetched planetary data
+    } else {
+      setState(null); // Set state to null if no data is returned
+      console.error("Expected 'planets' data but got:", data);
+    }
+  } catch (error) {
+    console.error("Failed to fetch ephemeris data:", error);
+    setState(null); // Set state to null on error to avoid undefined errors in rendering
+  }
+}
 
 export function formatZodiacPosition(degree) {
   const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
@@ -10,22 +30,3 @@ export function formatZodiacPosition(degree) {
   const seconds = Math.floor((((inSignDegree - degrees) * 60) - minutes) * 60);
   return `${sign}, ${degrees}°${minutes}'${seconds}"`;
 }
-
-export async function getEphemerisData(setState) {
-    try {
-      const response = await fetch(`${apiUrl}/zodiac/getEphemerisData`, {
-        credentials: 'include' // Include credentials (cookies)
-      });
-      const data = await response.json();
-  
-      if (data && data.planets) {
-        setState(data.planets); // Set state with the fetched planetary data
-      } else {
-        setState(null); // Set state to null if no data is returned
-        console.error("Expected 'planets' data but got:", data);
-      }
-    } catch (error) {
-      console.error("Failed to fetch ephemeris data:", error);
-      setState(null); // Set state to null on error to avoid undefined errors in rendering
-    }
-  }
