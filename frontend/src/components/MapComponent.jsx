@@ -1,11 +1,14 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect, useContext } from 'react';
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
+import { UserContext } from '../../utilities/UserContext';
+
+
 
 const libraries = ['places'];
-
-const mapId = 'f21752833355c847';  // Your actual Map ID
+const mapId = 'f21752833355c847'; // Your actual Map ID
 
 const MapComponent = ({ setLocationOfBirth }) => {
+  const { user } = useContext(UserContext);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
     libraries,
@@ -16,38 +19,57 @@ const MapComponent = ({ setLocationOfBirth }) => {
   const markerRef = useRef(null);
   const infoWindowRef = useRef(null);
 
-  const initialCoordinates = { lat: 25, lng: -40 };
+  useEffect(() => {
+    if (isLoaded && user && user.locationOfBirth) {
+      initializeMap(user.locationOfBirth);
+    }
+  }, [isLoaded, user]);
 
-  const onMapLoad = async (map) => {
+  const initializeMap = async (initialLocation) => {
+    if (!mapRef.current) return;
+
+    mapRef.current.panTo(initialLocation);
+    mapRef.current.setZoom(15);
+
+    const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
+
+    if (markerRef.current) {
+      markerRef.current.setMap(null);
+    }
+    if (infoWindowRef.current) {
+      infoWindowRef.current.close();
+    }
+
+    const newMarker = new AdvancedMarkerElement({
+      position: initialLocation,
+      map: mapRef.current,
+    });
+
+    markerRef.current = newMarker;
+
+    const newInfoWindow = new google.maps.InfoWindow({
+      content: `<div class="custom-info-window"><strong>Selected Location</strong><br>Lat: ${initialLocation.lat}, Lng: ${initialLocation.lng}</div>`,
+    });
+
+    newInfoWindow.open(mapRef.current, newMarker);
+    infoWindowRef.current = newInfoWindow;
+  };
+
+  const onMapLoad = (map) => {
     mapRef.current = map;
 
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
-
-    if (initialCoordinates && initialCoordinates.lat !== null && initialCoordinates.lng !== null) {
-      map.setCenter(initialCoordinates);
-      map.setZoom(2);
-
-      const newMarker = new AdvancedMarkerElement({
-        map,
-        position: initialCoordinates,
-      });
-
-      markerRef.current = newMarker;
-
-      const newInfoWindow = new google.maps.InfoWindow({
-        content: `<div class="custom-info-window"><strong>Selected Location</strong><br>Lat: ${initialCoordinates.lat}, Lng: ${initialCoordinates.lng}</div>`,
-      });
-
-      newInfoWindow.open(map, newMarker);
-      infoWindowRef.current = newInfoWindow;
+    if (user && user.locationOfBirth) {
+      initializeMap(user.locationOfBirth);
+    } else {
+      // Default to a neutral location, e.g., center of the ocean
+      mapRef.current.setCenter({ lat: 25, lng: -40 });
+      mapRef.current.setZoom(2);
     }
 
     map.addListener('click', (e) => {
       const lat = e.latLng.lat();
       const lng = e.latLng.lng();
       setLocationOfBirth({ lat, lng });
-
-      console.log(`Clicked location: Lat: ${lat}, Lng: ${lng}`);
 
       if (markerRef.current) {
         markerRef.current.setMap(null);
@@ -56,9 +78,9 @@ const MapComponent = ({ setLocationOfBirth }) => {
         infoWindowRef.current.close();
       }
 
-      const newMarker = new AdvancedMarkerElement({
-        map,
+      const newMarker = new google.maps.marker.AdvancedMarkerElement({
         position: { lat, lng },
+        map: mapRef.current,
       });
 
       markerRef.current = newMarker;
@@ -67,7 +89,7 @@ const MapComponent = ({ setLocationOfBirth }) => {
         content: `<div class="custom-info-window"><strong>Selected Location</strong><br>Lat: ${lat}, Lng: ${lng}</div>`,
       });
 
-      newInfoWindow.open(map, newMarker);
+      newInfoWindow.open(mapRef.current, newMarker);
       infoWindowRef.current = newInfoWindow;
     });
   };
@@ -81,12 +103,10 @@ const MapComponent = ({ setLocationOfBirth }) => {
     const lng = location.lng();
     setLocationOfBirth({ lat, lng });
 
-    console.log(`Selected place: Lat: ${lat}, Lng: ${lng}`);
+    if (!mapRef.current) return;
 
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(15);
-
-    const { AdvancedMarkerElement } = await google.maps.importLibrary("marker");
 
     if (markerRef.current) {
       markerRef.current.setMap(null);
@@ -95,9 +115,9 @@ const MapComponent = ({ setLocationOfBirth }) => {
       infoWindowRef.current.close();
     }
 
-    const newMarker = new AdvancedMarkerElement({
-      map: mapRef.current,
+    const newMarker = new google.maps.marker.AdvancedMarkerElement({
       position: { lat, lng },
+      map: mapRef.current,
       title: place.name,
     });
 
@@ -117,13 +137,13 @@ const MapComponent = ({ setLocationOfBirth }) => {
   return (
     <div className='location-of-birth-container'>
       <Autocomplete onLoad={(autocomplete) => (autocompleteRef.current = autocomplete)} onPlaceChanged={onPlaceChanged}>
-        <input type="text" placeholder="Search for your place of birth" className='location-search' />
+        <input type='text' placeholder='Search for your place of birth' className='location-search' />
       </Autocomplete>
       <p className='text-tip center-text'>Feel free to manually select an area on map if precise location is not known.</p>
       <GoogleMap
         mapContainerClassName='map-container'
-        zoom={2}
-        center={initialCoordinates || { lat: 25, lng: -40 }}
+        zoom={user && user.locationOfBirth ? 15 : 2} // Adjust zoom based on whether user.locationOfBirth is available
+        center={user && user.locationOfBirth ? user.locationOfBirth : { lat: 25, lng: -40 }} // Use user.locationOfBirth if available, else default to middle of the ocean
         onLoad={onMapLoad}
         options={{
           mapId: mapId,
