@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   locationOfBirth: {
     lat: { type: Number, required: false },
     lng: { type: Number, required: false },
+    zone: { type: String, required: false}
   }, // Optional, only if user knows - format as coordinates
   diaryEntries: [{ type: mongoose.Schema.Types.ObjectId, ref: 'DiaryEntry' }]  //Reference to diary entries
 }, {timestamps: true});

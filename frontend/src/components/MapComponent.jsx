@@ -1,18 +1,19 @@
-import React, { useRef, useEffect, useContext } from 'react';
+import React, { useRef, useEffect, useContext, useState } from 'react';
 import { GoogleMap, useLoadScript, Autocomplete } from '@react-google-maps/api';
 import { UserContext } from '../../utilities/UserContext';
 
-
-
 const libraries = ['places'];
-const mapId = 'f21752833355c847'; // Your actual Map ID
+const mapId = 'f21752833355c847'; // Replace with your actual Map ID
+const timeZoneApiBaseUrl = 'https://maps.googleapis.com/maps/api/timezone/json';
 
-const MapComponent = ({ setLocationOfBirth }) => {
+const MapComponent = ({ initialCoordinates, setLocationOfBirth }) => {
   const { user } = useContext(UserContext);
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: import.meta.env.VITE_MAPS_API,
     libraries,
   });
+
+  const [timeZone, setTimeZone] = useState('UTC'); // Default to UTC
 
   const mapRef = useRef();
   const autocompleteRef = useRef();
@@ -22,16 +23,15 @@ const MapComponent = ({ setLocationOfBirth }) => {
   useEffect(() => {
     if (isLoaded && user && user.locationOfBirth) {
       initializeMap(user.locationOfBirth);
+      fetchTimeZone(user.locationOfBirth.lat, user.locationOfBirth.lng);
     }
   }, [isLoaded, user]);
 
-  const initializeMap = async (initialLocation) => {
+  const initializeMap = (initialLocation) => {
     if (!mapRef.current) return;
 
     mapRef.current.panTo(initialLocation);
     mapRef.current.setZoom(15);
-
-    const { AdvancedMarkerElement } = await google.maps.importLibrary('marker');
 
     if (markerRef.current) {
       markerRef.current.setMap(null);
@@ -40,14 +40,14 @@ const MapComponent = ({ setLocationOfBirth }) => {
       infoWindowRef.current.close();
     }
 
-    const newMarker = new AdvancedMarkerElement({
+    const newMarker = new window.google.maps.Marker({
       position: initialLocation,
       map: mapRef.current,
     });
 
     markerRef.current = newMarker;
 
-    const newInfoWindow = new google.maps.InfoWindow({
+    const newInfoWindow = new window.google.maps.InfoWindow({
       content: `<div class="custom-info-window"><strong>Selected Location</strong><br>Lat: ${initialLocation.lat}, Lng: ${initialLocation.lng}</div>`,
     });
 
@@ -78,23 +78,25 @@ const MapComponent = ({ setLocationOfBirth }) => {
         infoWindowRef.current.close();
       }
 
-      const newMarker = new google.maps.marker.AdvancedMarkerElement({
+      const newMarker = new window.google.maps.Marker({
         position: { lat, lng },
         map: mapRef.current,
       });
 
       markerRef.current = newMarker;
 
-      const newInfoWindow = new google.maps.InfoWindow({
+      const newInfoWindow = new window.google.maps.InfoWindow({
         content: `<div class="custom-info-window"><strong>Selected Location</strong><br>Lat: ${lat}, Lng: ${lng}</div>`,
       });
 
       newInfoWindow.open(mapRef.current, newMarker);
       infoWindowRef.current = newInfoWindow;
+
+      fetchTimeZone(lat, lng);
     });
   };
 
-  const onPlaceChanged = async () => {
+  const onPlaceChanged = () => {
     const place = autocompleteRef.current.getPlace();
     if (!place.geometry) return;
 
@@ -115,7 +117,7 @@ const MapComponent = ({ setLocationOfBirth }) => {
       infoWindowRef.current.close();
     }
 
-    const newMarker = new google.maps.marker.AdvancedMarkerElement({
+    const newMarker = new window.google.maps.Marker({
       position: { lat, lng },
       map: mapRef.current,
       title: place.name,
@@ -123,12 +125,39 @@ const MapComponent = ({ setLocationOfBirth }) => {
 
     markerRef.current = newMarker;
 
-    const newInfoWindow = new google.maps.InfoWindow({
+    const newInfoWindow = new window.google.maps.InfoWindow({
       content: `<div class="custom-info-window"><strong>${place.name}</strong><br>${place.formatted_address}</div>`,
     });
 
     newInfoWindow.open(mapRef.current, newMarker);
     infoWindowRef.current = newInfoWindow;
+
+    fetchTimeZone(lat, lng);
+  };
+
+  const fetchTimeZone = async (lat, lng) => {
+    try {
+      const timestamp = Math.floor(Date.now() / 1000);
+      const url = `${timeZoneApiBaseUrl}?location=${lat},${lng}&timestamp=${timestamp}&key=${import.meta.env.VITE_MAPS_API}`;
+      
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch timezone data: ${response.status} ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      if (data.status === 'OK') {
+        setTimeZone(data.timeZoneId);
+        setLocationOfBirth((prevLocation) => ({
+          ...prevLocation,
+          zone: data.timeZoneId,
+        }));
+      } else {
+        throw new Error(`Timezone API returned status: ${data.status}`);
+      }
+    } catch (error) {
+      console.error('Error fetching timezone:', error);
+    }
   };
 
   if (loadError) return <div>Error loading maps</div>;
@@ -151,6 +180,7 @@ const MapComponent = ({ setLocationOfBirth }) => {
           streetViewControl: false,
           fullscreenControl: false,
           zoomControl: true,
+          timeZone: timeZone, // Use the fetched timezone
         }}
       />
     </div>

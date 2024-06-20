@@ -1,5 +1,16 @@
 import apiUrl from '../src/config';
 
+export function formatZodiacPosition(degree) {
+  const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+  const signIndex = Math.floor(degree / 30);
+  const sign = zodiacSigns[signIndex];
+  const inSignDegree = degree % 30;
+  const degrees = Math.floor(inSignDegree);
+  const minutes = Math.floor((inSignDegree - degrees) * 60);
+  const seconds = Math.floor((((inSignDegree - degrees) * 60) - minutes) * 60);
+  return `${sign}, ${degrees}°${minutes}'${seconds}"`;
+}
+
 export async function getEphemerisData(setState) {
     try {
       const response = await fetch(`${apiUrl}/zodiac/getEphemerisData`, {

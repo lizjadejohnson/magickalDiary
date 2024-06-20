@@ -11,7 +11,7 @@ const EditProfilePage = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [dob, setDob] = useState('');
     const [timeOfBirth, setTimeOfBirth] = useState('');
-    const [locationOfBirth, setLocationOfBirth] = useState({ lat: null, lng: null });
+    const [locationOfBirth, setLocationOfBirth] = useState({ lat: null, lng: null, zone: null });
     const [message, setMessage] = useState('');
 
 
@@ -22,7 +22,7 @@ const EditProfilePage = () => {
             setEmail(user.email || '');
             setDob(user.dob || '');
             setTimeOfBirth(user.timeOfBirth || '');
-            setLocationOfBirth(user.locationOfBirth || { lat: null, lng: null });
+            setLocationOfBirth(user.locationOfBirth || { lat: null, lng: null, zone: null });
         }
     }, [user]);
 

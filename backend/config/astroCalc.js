@@ -2,12 +2,12 @@ const { DateTime } = require('luxon');
 const Astronomy = require('astronomy-engine');
 
 async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
-  const birthDateTime = DateTime.fromISO(`${dob}T${timeOfBirth}:00Z`).toUTC().toJSDate();
+  const birthDateTime = DateTime.fromISO(`${dob}T${timeOfBirth}:00`, { zone: 'America/Chicago' }).toUTC().toJSDate();
   const observer = new Astronomy.Observer(locationOfBirth.lat, locationOfBirth.lng, 0);
 
   const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
   const planetaryPositions = {};
-
+  
   for (const planet of planets) {
     const result = Astronomy.Equator(planet, birthDateTime, observer, true, true);
     const longitude = (result.ra / 24) * 360; // Convert Right Ascension to degrees
@@ -23,7 +23,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
 
     const futureResult = Astronomy.Equator(planet, futureDateTime, observer, true, true);
     const futureLongitude = (futureResult.ra / 24) * 360;
-  
+    
     let speed;
 
     if (planet === "Moon") {

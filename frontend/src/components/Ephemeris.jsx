@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from './Spinner';
-import { getEphemerisData } from '../../utilities/ephemerisHelper';
+import { getEphemerisData, formatZodiacPosition } from '../../utilities/ephemerisHelper'; // Updated import
+
 
 const Ephemeris = () => {
     const { user } = useContext(UserContext);
@@ -51,7 +52,12 @@ const Ephemeris = () => {
             <div className='ephemeris-results'>
                 <h2>Planetary Positions</h2>
                 {Object.entries(planets).map(([planet, position]) => (
-                    <p key={planet}><strong>{planet}:</strong> {position.longitude.toFixed(2)}°, Speed: {planet === "Moon" ? position.speed.toFixed(4) + "°/day" : position.speed.toFixed(4) + "°/hr"}</p>
+                    <div key={planet} className='planet-position'>
+                        <p><strong>{planet}:</strong> {position.longitude.toFixed(2)}°, Speed: {planet === "Moon" ? position.speed.toFixed(4) + "°/day" : position.speed.toFixed(4) + "°/hr"}</p>
+                        <div className='detailed-position'>
+                            <strong>{planet}:</strong> {formatZodiacPosition(position.longitude)}
+                        </div>
+                    </div>
                 ))}
             </div>
             <div className='astrology-explanation'>
