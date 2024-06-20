@@ -38,14 +38,16 @@ h1 {
 }
 
 button {
+  color: black;
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px solid peru;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
   transition: border-color 0.25s;
+  background-color: rgb(255, 250, 245);
 }
 
 button:hover {
@@ -85,6 +87,8 @@ button:focus-visible {
 
 .delete-button{
   background-color: rgb(231, 153, 166);
+  border-radius: 8px;
+  border: 1px solid #b16363;
 }
 
 .delete-button:hover{
