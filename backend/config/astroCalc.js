@@ -13,6 +13,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
     const longitude = (result.ra / 24) * 360; // Convert Right Ascension to degrees
 
     let futureDateTime;
+    
     if (planet === "Moon") {
       // Use a shorter interval for the Moon due to its fast movement
       futureDateTime = new Date(birthDateTime.getTime() + 1 * 24 * 3600 * 1000); // One day later
@@ -22,6 +23,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
 
     const futureResult = Astronomy.Equator(planet, futureDateTime, observer, true, true);
     const futureLongitude = (futureResult.ra / 24) * 360;
+  
     let speed;
 
     if (planet === "Moon") {

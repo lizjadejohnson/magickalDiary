@@ -9,6 +9,7 @@ const Ephemeris = () => {
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true); // State to manage loading state
 
+
     useEffect(() => {
         if (user) {
             if (!user.timeOfBirth || !user.locationOfBirth) {
@@ -17,7 +18,7 @@ const Ephemeris = () => {
                 setLoading(false);
                 return;
             }
-
+    
             // Fetch ephemeris data if all required user data is available
             getEphemerisData(setPlanets)
                 .then(() => setLoading(false)) // Set loading to false once data is fetched
@@ -27,6 +28,7 @@ const Ephemeris = () => {
                 });
         }
     }, [user]);
+
 
     // Check if there's an error to display
     if (error) {
@@ -87,5 +89,4 @@ const Ephemeris = () => {
         </div>
     );
 };
-
 export default Ephemeris;
