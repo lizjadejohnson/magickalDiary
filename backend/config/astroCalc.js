@@ -12,6 +12,7 @@ function formatZodiacPosition(degree) {
   return `${sign}, ${degrees}°${minutes}'${seconds}"`;
 }
 
+
 async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
   try {
     const birthDateTime = DateTime.fromISO(`${dob}T${timeOfBirth}:00`, { zone: locationOfBirth.zone }).toUTC().toJSDate();

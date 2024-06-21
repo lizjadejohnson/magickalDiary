@@ -1,5 +1,3 @@
-// ephemerisHelper.js
-
 import apiUrl from '../src/config'; // Adjust path as needed
 
 export async function getEphemerisData(setState) {
@@ -31,3 +29,6 @@ export function formatZodiacPosition(degree) {
   const seconds = Math.floor((((inSignDegree - degrees) * 60) - minutes) * 60);
   return `${sign}, ${degrees}°${minutes}'${seconds}"`;
 }
+
+
+//WORKING!!!

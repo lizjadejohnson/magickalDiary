@@ -58,8 +58,10 @@ const getEphemerisData = async (req, res) => {
     }
   };
 
+
+
 module.exports = {
     getWesternZodiacByDOB,
     getChineseZodiacByDOB,
-    getEphemerisData,
+    getEphemerisData
 }

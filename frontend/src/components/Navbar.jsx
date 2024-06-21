@@ -8,14 +8,14 @@ const Navbar = () => {
     
     const navigate = useNavigate();
 
-    //Pulls in the contexts from our UserContext:
-    const { login, logout, user } = useContext(UserContext);
-    
+
     //STATES FOR LOGGING IN:
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-
+    //Pulls in the contexts from our UserContext:
+    const { login, logout, user } = useContext(UserContext);
+    
 
     //LOGIN LOGIC FOR OUR LOGIN FORM:
     const handleLogin = async (event) => {
