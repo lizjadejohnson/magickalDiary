@@ -1,6 +1,7 @@
-// client/src/utilities/ephemerisHelper.js
+// ephemerisHelper.js
 
-import apiUrl from '../src/config';
+import apiUrl from '../src/config'; // Adjust path as needed
+
 export async function getEphemerisData(setState) {
   try {
     const response = await fetch(`${apiUrl}/zodiac/getEphemerisData`, {

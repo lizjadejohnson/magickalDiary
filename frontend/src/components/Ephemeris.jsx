@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from './Spinner';
-import { getEphemerisData, formatZodiacPosition } from '../../utilities/ephemerisHelper';
+import { getEphemerisData } from '../../utilities/ephemerisHelper'; // Adjust path as needed
 
 const Ephemeris = () => {
   const { user } = useContext(UserContext);
@@ -17,12 +17,17 @@ const Ephemeris = () => {
         return;
       }
 
-      getEphemerisData(setPlanets)
-        .then(() => setLoading(false))
-        .catch(err => {
-          setError(err.message);
+      const fetchData = async () => {
+        try {
+          const data = await getEphemerisData(setPlanets); // Pass setPlanets function here
           setLoading(false);
-        });
+        } catch (error) {
+          setError("Failed to fetch ephemeris data.");
+          setLoading(false);
+        }
+      };
+
+      fetchData();
     }
   }, [user]);
 
@@ -44,9 +49,9 @@ const Ephemeris = () => {
         <h2>Planetary Positions</h2>
         {Object.entries(planets).map(([planet, position]) => (
           <div key={planet} className='planet-position'>
-            <p><strong>{planet}:</strong> {position.longitude.toFixed(2)}°, Speed: {planet === "Moon" ? position.speed.toFixed(4) + "°/day" : position.speed.toFixed(4) + "°/hr"}</p>
+            <p><strong>{planet}:</strong> {position.longitude.toFixed(2)}°, Speed: {position.speed}</p>
             <div className='detailed-position'>
-              <strong>{planet}:</strong> {formatZodiacPosition(position.longitude)}
+              <strong>{planet}:</strong> {position.formattedPosition}
             </div>
           </div>
         ))}
