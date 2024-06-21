@@ -381,7 +381,40 @@ textarea {
   flex-wrap: wrap;
   margin-top: 10px;
   gap: 15px;
-  margin-bottom: 5%;
+  margin-bottom: 2%;
+}
+
+.ephemeris-results {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.astrology-explanation{
+  margin: 0 auto;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  width: 80%;
+}
+
+.astrology-explanation ul {
+  list-style: none;
+}
+
+.zodiaccard-container {
+  border: 1px solid peru;
+  border-radius: 5px;
+  background-color:  antiquewhite;
+  margin: 0 auto;
+  margin-bottom: 1em;
+}
+
+.zodiaccard-body  {
+  margin-top: .5em;
+} 
+.zodiaccard-header{
+  background-color: peru;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 /* Mobile styles */
@@ -389,6 +422,11 @@ textarea {
 
   .zodiacgif {
     width: 90%;
+  }
+
+  .ephemeris-results {
+    width: 80%;
+    margin: 0 auto;
   }
 
 }

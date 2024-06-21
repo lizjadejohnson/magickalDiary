@@ -3,7 +3,7 @@ const Astronomy = require('astronomy-engine');
 
 // Function to format zodiac position based on degree
 function formatZodiacPosition(degree) {
-    const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+    const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
     const signIndex = Math.floor(degree / 30);
     const sign = zodiacSigns[signIndex];
     const inSignDegree = degree % 30;
@@ -24,33 +24,33 @@ function calculateLST(birthDateTime, longitude) {
 
 // Function to calculate the Ascendant based on LST and observer's latitude
 function calculateAscendant(lstDegrees, latitude) {
-  const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-  
-  // Calculate Ascendant longitude
-  let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
-  if (ascendantLongitude >= 360) {
-      ascendantLongitude -= 360;
-  }
+  const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
+    
+    // Calculate Ascendant longitude
+    let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
+    if (ascendantLongitude >= 360) {
+        ascendantLongitude -= 360;
+    }
 
-  // Calculate Ascendant sign and degree within the sign
-  const ascendantSignIndex = Math.floor(ascendantLongitude / 30);
-  const ascendantSign = zodiacSigns[ascendantSignIndex];
-  const inSignDegree = ascendantLongitude % 30;
-  const degrees = Math.floor(inSignDegree);
-  const minutes = Math.floor((inSignDegree - degrees) * 60);
-  const seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
+    // Calculate Ascendant sign and degree within the sign
+    const ascendantSignIndex = Math.floor(ascendantLongitude / 30);
+    const ascendantSign = zodiacSigns[ascendantSignIndex];
+    const inSignDegree = ascendantLongitude % 30;
+    const degrees = Math.floor(inSignDegree);
+    const minutes = Math.floor((inSignDegree - degrees) * 60);
+    const seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
 
-  // Ensure rounding is accurate
-  if (seconds === 60) {
-      seconds = 0;
-      minutes += 1;
-  }
-  if (minutes === 60) {
-      minutes = 0;
-      degrees += 1;
-  }
+    // Ensure rounding is accurate
+    if (seconds === 60) {
+        seconds = 0;
+        minutes += 1;
+    }
+    if (minutes === 60) {
+        minutes = 0;
+        degrees += 1;
+    }
 
-  return `${ascendantSign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}"`;
+    return `${ascendantSign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}"`;
 }
 
 // Async function to fetch planetary positions
