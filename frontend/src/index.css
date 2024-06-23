@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Lora", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -35,6 +35,10 @@ body {
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h1, h2, h3, h4 {
+  font-family: "Philosopher", serif;
 }
 
 button {
@@ -97,5 +101,7 @@ button:focus-visible {
 
 input, textarea {
   background-color: rgb(255, 250, 245);
+  border: 1px solid peru;
   color: black;
+  margin: 1px;
 }
