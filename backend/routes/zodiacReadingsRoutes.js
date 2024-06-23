@@ -18,6 +18,10 @@ router.get("/getChineseZodiacByDOB", authenticate, zodiacReadingsController.getC
 // Get Ephemeris Data Route (GET):
 router.get("/getEphemerisData", authenticate, zodiacReadingsController.getEphemerisData);
 
+// Add this route to routes/zodiac.js
+router.get("/getPlanetaryMeaning", authenticate, zodiacReadingsController.getPlanetaryMeaning);
+
+
 // Define a protected route:
 router.get("/protected/data", authenticate, (req, res) => {
     res.json({ message: 'This is protected data', user: req.userId });

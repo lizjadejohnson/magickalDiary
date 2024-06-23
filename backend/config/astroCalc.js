@@ -8,8 +8,8 @@ function formatZodiacPosition(degree) {
     const sign = zodiacSigns[signIndex];
     const inSignDegree = degree % 30;
     const degrees = Math.floor(inSignDegree);
-    const minutes = Math.floor((inSignDegree - degrees) * 60);
-    const seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
+    let minutes = Math.floor((inSignDegree - degrees) * 60);
+    let seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
 
     // Ensure rounding is accurate
     if (seconds === 60) {

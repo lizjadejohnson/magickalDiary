@@ -1,5 +1,6 @@
 const WesternZodiacSign = require('../models/westernZodiacSign')
 const ChineseZodiacSign = require('../models/chineseZodiacSign')
+const PlanetarySign = require('../models/planetarySign')
 const { getPlanetaryPositions } = require('../config/astroCalc');
 
 
@@ -58,10 +59,30 @@ const getEphemerisData = async (req, res) => {
     }
   };
 
+  const getPlanetaryMeaning = async (req, res) => {
+    const { planet, sign } = req.query;
+    try {
+      const planetarySign = await PlanetarySign.findOne({
+        planet: { $regex: new RegExp(planet, 'i') },
+        sign: { $regex: new RegExp(sign, 'i') }
+      });
+  
+      if (!planetarySign) {
+        console.log(`No planetary sign found for planet: ${planet}, sign: ${sign}`); // Log if not found
+        return res.status(404).json({ message: 'Planetary sign not found' });
+      }
+  
+      res.json({ meaning: planetarySign.meaning });
+    } catch (error) {
+      console.error(`Error fetching planetary meaning: ${error.message}`);
+      res.status(500).json({ message: 'Server error', error: error.message });
+    }
+  };
 
 
 module.exports = {
     getWesternZodiacByDOB,
     getChineseZodiacByDOB,
-    getEphemerisData
+    getEphemerisData,
+    getPlanetaryMeaning
 }

@@ -29,7 +29,7 @@ const ZodiacPage = () => {
 
       const fetchData = async () => {
         try {
-          await getEphemerisData(setPlanets); // Fetch ephemeris data
+          await getEphemerisData(setPlanets, user); // Fetch ephemeris data
           setLoading(false);
         } catch (error) {
           setError("Failed to fetch ephemeris data.");
