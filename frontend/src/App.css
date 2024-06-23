@@ -368,9 +368,11 @@ textarea {
   font-weight: bold;
 }
 
-.horoscopeContainer {
+
+.horoscopeResult {
   width: 50%;
   margin: 0 auto;
+  margin-bottom: 2%;
 }
 
 .sub-menu {
@@ -381,19 +383,12 @@ textarea {
   flex-wrap: wrap;
   margin-top: 10px;
   gap: 15px;
-  margin-bottom: 2%;
-}
-
-.ephemeris-results {
-  width: 50%;
-  margin: 0 auto;
+  margin-bottom: 3%;
 }
 
 .astrology-explanation{
   margin: 0 auto;
-  margin-top: 2%;
-  margin-bottom: 2%;
-  width: 80%;
+  margin-top: 3%;
 }
 
 .astrology-explanation ul {
@@ -410,11 +405,19 @@ textarea {
 
 .zodiaccard-body  {
   margin-top: .5em;
+  padding-left: 2%;
+  padding-right: 2%;
 } 
 .zodiaccard-header{
   background-color: peru;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.zodiaccard-section-highlight{
+  background-color: rgba(205, 134, 63, 0.251);
+  border: 1px solid peru;
+  border-radius: 5px;
 }
 
 /* Mobile styles */
@@ -424,7 +427,7 @@ textarea {
     width: 90%;
   }
 
-  .ephemeris-results {
+  .horoscopeResult {
     width: 80%;
     margin: 0 auto;
   }

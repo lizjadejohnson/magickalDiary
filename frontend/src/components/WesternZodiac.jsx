@@ -3,8 +3,7 @@ import { UserContext } from '../../utilities/UserContext';
 import Spinner from './Spinner';
 import apiUrl from '../config';
 
-
-const WesternZodiac = () => {
+const WesternZodiac = ({ planets }) => {
     const { user } = useContext(UserContext);
 
     const [userZodiac, setUserZodiac] = useState(null);
@@ -68,17 +67,26 @@ const WesternZodiac = () => {
         "Symbol": userZodiac.symbol,
         "Compatibility": userZodiac.compatibility.join(', ')
     };
-
+    const sunData = planets['Sun'];
     return (
-        //Returning a map of the zodiacDetails so that we can more easily style/modify:
-        <div className='horoscopeContainer'>
-        
-            {Object.entries(zodiacDetails).map(([key, value]) => (
-                <p key={key} className="zodiac-detail"><span className="zodiac-key">{key}:</span> {value}</p>
-            ))}
-            <img className="zodiacgif" src={gifPath} alt={`${userZodiac.name} sign`} />
-
-        </div>
+        <>
+            <div className='zodiaccard-container'>
+                <h2 className='zodiaccard-header'>Sun Sign ☉</h2>
+                <div className='zodiaccard-body'>
+                    <p>Core identity, ego, and the self.</p>
+                    <p>The Sun is the central point of the chart and signifies your main character traits and personal drive. It represents your conscious mind and the essence of who you are.</p>
+                </div>
+            </div>
+            <div className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>{sunData ? sunData.formattedPosition : 'No Sun data available.'}</h3>
+                <div className='zodiaccard-body'>
+                    {Object.entries(zodiacDetails).map(([key, value]) => (
+                        <p key={key} className="zodiac-detail"><span className="zodiac-key">{key}:</span> {value}</p>
+                    ))}
+                    <img className="zodiacgif" src={gifPath} alt={`${userZodiac.name} sign`} />
+                </div>
+            </div>
+        </>
     );
 };
 

@@ -10,35 +10,6 @@ function formatZodiacPosition(degree) {
     const degrees = Math.floor(inSignDegree);
     const minutes = Math.floor((inSignDegree - degrees) * 60);
     const seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
-    return `${sign} ${degrees}° ${minutes}' ${seconds}"`;
-}
-
-// Function to calculate Local Sidereal Time (LST)
-function calculateLST(birthDateTime, longitude) {
-    const gast = Astronomy.SiderealTime(birthDateTime);  // Gets the Greenwich Apparent Sidereal Time
-    const longitudeInHours = longitude / 15;  // Converts longitude to hours
-    let lstHours = (gast + longitudeInHours) % 24;  // Adjusts GAST to local longitude
-    const lstDegrees = lstHours * 15;  // Converts hours to degrees
-    return lstDegrees;  // Returns LST in degrees
-}
-
-// Function to calculate the Ascendant based on LST and observer's latitude
-function calculateAscendant(lstDegrees, latitude) {
-  const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
-    
-    // Calculate Ascendant longitude
-    let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
-    if (ascendantLongitude >= 360) {
-        ascendantLongitude -= 360;
-    }
-
-    // Calculate Ascendant sign and degree within the sign
-    const ascendantSignIndex = Math.floor(ascendantLongitude / 30);
-    const ascendantSign = zodiacSigns[ascendantSignIndex];
-    const inSignDegree = ascendantLongitude % 30;
-    const degrees = Math.floor(inSignDegree);
-    const minutes = Math.floor((inSignDegree - degrees) * 60);
-    const seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60); // Round seconds to the nearest whole number
 
     // Ensure rounding is accurate
     if (seconds === 60) {
@@ -50,7 +21,38 @@ function calculateAscendant(lstDegrees, latitude) {
         degrees += 1;
     }
 
-    return `${ascendantSign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}"`;
+    // Adjust for cusp
+    const nextSignIndex = (signIndex + 1) % 12;
+    const nextSign = zodiacSigns[nextSignIndex];
+    const cusp = degrees >= 29;
+
+    return `${sign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}" ${cusp ? `(${nextSign} cusp)` : ''}`;
+}
+
+// Function to calculate Local Sidereal Time (LST)
+function calculateLST(birthDateTime, longitude) {
+    const gast = Astronomy.SiderealTime(birthDateTime);  // Gets the Greenwich Apparent Sidereal Time
+    const longitudeInHours = longitude / 15;  // Converts longitude to hours
+    let lstHours = (gast + longitudeInHours) % 24;  // Adjusts GAST to local longitude
+    if (lstHours < 0) {
+        lstHours += 24; // Ensure LST is non-negative
+    }
+    const lstDegrees = lstHours * 15;  // Converts hours to degrees
+    return lstDegrees;  // Returns LST in degrees
+}
+
+// Function to calculate the Ascendant based on LST and observer's latitude
+function calculateAscendant(lstDegrees, latitude) {
+    // Calculate Ascendant longitude
+    let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
+    if (ascendantLongitude >= 360) {
+        ascendantLongitude -= 360;
+    }
+
+    // Calculate Ascendant sign and degree within the sign
+    const formattedAscendant = formatZodiacPosition(ascendantLongitude);
+
+    return formattedAscendant;
 }
 
 // Async function to fetch planetary positions

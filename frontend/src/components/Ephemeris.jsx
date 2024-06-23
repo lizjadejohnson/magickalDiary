@@ -1,58 +1,28 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { UserContext } from '../../utilities/UserContext';
+import React from 'react';
 import Spinner from './Spinner';
-import { getEphemerisData } from '../../utilities/ephemerisHelper'; // Adjust path as needed
 
-const Ephemeris = () => {
-    const { user } = useContext(UserContext);
-    const [planets, setPlanets] = useState(null);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
+const Ephemeris = ({ planets }) => {
 
-    useEffect(() => {
-        if (user) {
-            if (!user.timeOfBirth || !user.locationOfBirth) {
-                setError("To access Ephemeris data, you must have accurate time and location of birth saved.");
-                setLoading(false);
-                return;
-            }
-
-            const fetchData = async () => {
-                try {
-                    const data = await getEphemerisData(setPlanets); // Pass setPlanets function here
-                    setLoading(false);
-                } catch (error) {
-                    setError("Failed to fetch ephemeris data.");
-                    setLoading(false);
-                }
-            };
-
-            fetchData();
-        }
-    }, [user]);
-
-    if (error) {
-        return <Spinner redirectTo='/edit-profile' delay={3000} message={error} />;
-    }
-
-    if (loading) {
-        return <Spinner redirectTo='#' delay={3000} message={"Loading..."} />;
-    }
-
-    if (!planets) {
-        return <div>Error: Failed to load ephemeris data.</div>;
-    }
-
+  if (!planets) {
     return (
-      <div className='ephemeris-container'>
-          <div className='ephemeris-results'>
-              <h2>Your Astrological Birth Chart:</h2>
-              {Object.entries(planets ?? {}).map(([planet, position]) => (
-                  <div key={planet} className='zodiaccard-container'>
-                      <h3 className='zodiaccard-header'>{planet}</h3>
-                      <div className='zodiaccard-body'>
-                          <div><span className='bold'>Sign:</span> {position?.formattedPosition ?? 'N/A'}</div>
-                          {planet !== 'Ascendant' && (<div><span className='bold'>Longitude:</span> {position?.longitude?.toFixed(2)}°</div>)}
+      <Spinner
+        redirectTo={"/edit-profile"}
+        delay={5000}
+        message={"To access Ephemeris data, you must have accurate time and location of birth saved. Redirecting to edit profile page..."}
+      />
+    );
+  }
+
+  return (
+    <div className='ephemeris-container'>
+      <div className='ephemeris-results'>
+        <h2>Your Astrological Birth Chart:</h2>
+        {Object.entries(planets ?? {}).map(([planet, position]) => (
+          <div key={planet} className='zodiaccard-container'>
+            <h3 className='zodiaccard-header'>{planet}</h3>
+            <div className='zodiaccard-body'>
+              <div><span className='bold'>Sign:</span> {position?.formattedPosition ?? 'N/A'}</div>
+              {planet !== 'Ascendant' && (<div><span className='bold'>Longitude:</span> {position?.longitude?.toFixed(2)}°</div>)}
                       </div>
                   </div>
               ))}
@@ -63,7 +33,7 @@ const Ephemeris = () => {
                 <h3 className='zodiaccard-header'>Basic Calculations:</h3>
                 <div className='zodiaccard-body'>
                   <p>To provide a complete astrological birth chart, your date, time, and location of birth are essential. Each zodiac sign spans 30° of the celestial circle:</p>
-                  <ul>
+                  <ul className='zodiaccard-section-highlight'>
                     <li>Aries: 0° - 29.99°</li>
                     <li>Taurus: 30° - 59.99°</li>
                     <li>Gemini: 60° - 89.99°</li>
@@ -125,5 +95,3 @@ const Ephemeris = () => {
 };
 
 export default Ephemeris;
-
-//WORKING!!!!!!

@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import Spinner from '../components/Spinner';
 import WesternZodiac from '../components/WesternZodiac';
@@ -9,13 +9,38 @@ import Planets from '../components/Planets';
 import Houses from '../components/Houses';
 import Aspects from '../components/Aspects';
 import Ephemeris from '../components/Ephemeris';
+import { getEphemerisData } from '../../utilities/ephemerisHelper'; // Import the helper function
 
 const ZodiacPage = () => {
   const { user } = useContext(UserContext);
   const [activeReading, setActiveReading] = useState('');
   const [buttonSubMenu, setButtonSubMenu] = useState(false);
+  const [planets, setPlanets] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  //If someone is not logged in:
+  useEffect(() => {
+    if (user) {
+      if (!user.timeOfBirth || !user.locationOfBirth) {
+        setError("To access Ephemeris data, you must have accurate time and location of birth saved.");
+        setLoading(false);
+        return;
+      }
+
+      const fetchData = async () => {
+        try {
+          await getEphemerisData(setPlanets); // Fetch ephemeris data
+          setLoading(false);
+        } catch (error) {
+          setError("Failed to fetch ephemeris data.");
+          setLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [user]);
+
   if (!user) {
     return (
       <Spinner
@@ -24,7 +49,13 @@ const ZodiacPage = () => {
         message={"You must first login or create a new account. Redirecting to homepage..."}
       />
     );
-  };
+  }
+
+
+
+  if (loading) {
+    return <Spinner redirectTo="#" delay={3000} message={"Loading..."} />;
+  }
 
   const handleWesternZodiacClick = () => {
     setButtonSubMenu(true);
@@ -56,19 +87,17 @@ const ZodiacPage = () => {
           <button onClick={() => handleSetWesternSubType('Houses')}>Houses 🏠</button>
           <button onClick={() => handleSetWesternSubType('Aspects')}>Aspects 🪞</button>
           <button onClick={() => handleSetWesternSubType('Ephemeris')}>Ephemeris 🌌</button>
-
         </div>
       )}
       <div className='horoscopeResult'>
         {activeReading === 'Eastern' && <ChineseZodiac />}
-        {activeReading === 'Sun Sign' && <WesternZodiac />}
-        {activeReading === 'Moon Sign' && <MoonSign />}
-        {activeReading === 'Rising Sign' && <RisingSign />}
-        {activeReading === 'Planets' && <Planets />}
-        {activeReading === 'Houses' && <Houses />}
-        {activeReading === 'Aspects' && <Aspects />}
-        {activeReading === 'Ephemeris' && <Ephemeris />}
-
+        {activeReading === 'Sun Sign' && <WesternZodiac planets={planets} />}
+        {activeReading === 'Moon Sign' && <MoonSign planets={planets} />}
+        {activeReading === 'Rising Sign' && <RisingSign planets={planets} />}
+        {activeReading === 'Planets' && <Planets planets={planets} />}
+        {activeReading === 'Houses' && <Houses planets={planets} />}
+        {activeReading === 'Aspects' && <Aspects planets={planets} />}
+        {activeReading === 'Ephemeris' && <Ephemeris planets={planets} />}
       </div>
     </div>
   );
