@@ -105,3 +105,27 @@ input, textarea {
   color: black;
   margin: 1px;
 }
+
+/* ---Custom scrollbar for webkit browsers (Chrome, Safari, Edge)--- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: antiquewhite;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: peru;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: darkorange;
+}
+
+* {
+  scrollbar-width: thin; /* Set the scrollbar width to thin */
+  scrollbar-color: peru antiquewhite; /* Set the color of the scrollbar thumb and track */
+}

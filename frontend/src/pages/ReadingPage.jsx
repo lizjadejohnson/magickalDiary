@@ -81,6 +81,13 @@ const ReadingPage = () => {
     //After pulling the data from diaryEntries, one thing we'll have on all of them is reading.type.
     //If there is entry data, the type will be like "I Ching" or "Tarot" and it will determine which type of reading component to render
     
+
+    const renderMeaning = (meaning) => {
+        return meaning.split('\n').map((paragraph, index) => (
+          <p key={index}>{paragraph}</p>
+        ));
+      };
+
     return (
         <div className='readingPage'>
             {entryData && (
@@ -103,7 +110,7 @@ const ReadingPage = () => {
                     />
                 ) : (
                     <>
-                        <p><span className='bold'>User Commentary:</span> {entryData.commentary ? entryData.commentary : "No commentary has been added to this entry yet."}</p>
+                        <p><span className='bold'>User Commentary:</span> {renderMeaning(entryData.commentary) ? renderMeaning(entryData.commentary) : "No commentary has been added to this entry yet."}</p>
                         <p><span className='bold'>Tags:</span> {entryData.tags.length > 0 ? entryData.tags.join(', ') : "No tags yet."}</p>
                         <p><span className='bold'>Last Updated:</span> {new Date(entryData.updatedAt).toLocaleString()}</p>
                         <button onClick={handleEditClick}>Edit/Comment/Delete</button>

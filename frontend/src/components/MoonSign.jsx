@@ -77,6 +77,13 @@ const MoonSign = ({ planets }) => {
   const moonData = planets['Moon'];
   console.log('Moon data:', moonData);
 
+
+  const renderMeaning = (meaning) => {
+    return meaning.split('\n').map((paragraph, index) => (
+      <p key={index}>{paragraph}</p>
+    ));
+  };
+
   return (
     <>
       <div className='zodiaccard-container'>
@@ -89,11 +96,11 @@ const MoonSign = ({ planets }) => {
       <div className='zodiaccard-container'>
         <h3 className='zodiaccard-header'>{moonData ? moonData.formattedPosition : 'No Moon data available.'}</h3>
         <div className='zodiaccard-body'>
-          <p>{moonMeaning ? moonMeaning : 'No meaning available for this Moon sign.'}</p>
+          {moonMeaning ? renderMeaning(moonMeaning) : <p>No meaning available for this Moon sign.</p>}
           {cuspMeaning && (
             <div className='zodiaccard-section-highlight'>
               <h3>Cusp sign: {planets['Moon'].formattedPosition.split(' ')[5].replace('(', '').replace(')', '')} {planets['Moon'].formattedPosition.split(' ')[6].replace('(', '').replace(')', '')}</h3>
-              <p>{cuspMeaning}</p>
+              {renderMeaning(cuspMeaning)}
             </div>
           )}
           <br />
