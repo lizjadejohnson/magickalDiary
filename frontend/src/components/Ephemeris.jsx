@@ -17,18 +17,52 @@ const Ephemeris = ({ planets }) => {
     <div className='ephemeris-container'>
       <div className='ephemeris-results'>
         <h2>Your Astrological Birth Chart:</h2>
-        {Object.entries(planets ?? {}).map(([planet, position]) => (
-          <div key={planet} className='zodiaccard-container'>
-            <h3 className='zodiaccard-header'>{planet}</h3>
-            <div className='zodiaccard-body'>
-              <div><span className='bold'>Sign:</span> {position?.formattedPosition ?? 'N/A'}</div>
-              {planet !== 'Ascendant' && (<div><span className='bold'>Longitude:</span> {position?.longitude?.toFixed(2)}°</div>)}
-                      </div>
-                  </div>
-              ))}
+        <div className='basic-planetary-info'>
+          {Object.entries(planets ?? {}).map(([planet, position]) => (
+            planet !== "Houses" && planet !== "Aspects" && (
+              <div key={planet} className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>{planet}</h3>
+                <div className='zodiaccard-body'>
+                  <div><span className='bold'>Sign:</span> {position?.formattedPosition ?? 'N/A'}</div>
+                  {planet !== 'Ascendant' && planet !== 'Midheaven' &&(<div><span className='bold'>Longitude:</span> {position?.longitude?.toFixed(2)}°</div>)}
+                </div>
+              </div>
+            )
+          ))}
+        </div>
+        <br />
+        {planets.Houses && planets.Houses.length > 0 && (
+          <div className='houses'>
+            <h2>House Cusps:</h2>
+            {planets.Houses.map(({ house, position }) => (
+              <div key={house} className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>House {house}</h3>
+                <div className='zodiaccard-body'>
+                  <div><span className='bold'>Position:</span> {position}</div>
+                </div>
+              </div>
+            ))}
           </div>
-          <div className='astrology-explanation'>
-              <h2>What Does It Mean?</h2>
+        )}
+        <br />
+        {planets.Aspects && planets.Aspects.length > 0 && (
+          <div className='aspects'>
+            <h2>Aspects:</h2>
+            {planets.Aspects.map(({ planet1, planet2, aspect, angle }, index) => (
+              <div key={index} className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>{`${planet1} - ${planet2}`}</h3>
+                <div className='zodiaccard-body'>
+                  <div><span className='bold'>Aspect:</span> {aspect}</div>
+                  <div><span className='bold'>Angle:</span> {angle}°</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <br />
+      <div className='astrology-explanation'>
+        <h2>What Does It Mean?</h2>
               <div className='zodiaccard-container'>
                 <h3 className='zodiaccard-header'>Basic Calculations:</h3>
                 <div className='zodiaccard-body'>
