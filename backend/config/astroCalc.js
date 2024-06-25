@@ -37,23 +37,32 @@ function calculateLST(astroTime, longitude) {
 }
 
 
-// Function to calculate the Ascendant based on LST
+// Function to calculate the Ascendant based on LST and observer's latitude
 function calculateAscendant(lstDegrees, latitude) {
-    const radiansLatitude = latitude * (Math.PI / 180);
-    const tanLatitude = Math.tan(radiansLatitude);
-    const eclipticObliquity = 23.4397;  // Obliquity of the ecliptic in degrees
-    const radiansObliquity = eclipticObliquity * (Math.PI / 180);
-    const sinObliquity = Math.sin(radiansObliquity);
-
-    const ascendantDegrees = (lstDegrees - Math.atan2(tanLatitude, Math.cos(radiansObliquity)) * (180 / Math.PI) + 360) % 360;
-    const ascendantPosition = formatZodiacPosition(ascendantDegrees);
-    console.log(`Latitude: ${latitude}, Radians Latitude: ${radiansLatitude}, LST degrees: ${lstDegrees}, Ascendant degrees: ${ascendantDegrees}`);
-    return ascendantPosition;
+    // Calculate Ascendant longitude
+    let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
+    if (ascendantLongitude >= 360) {
+        ascendantLongitude -= 360;
+    }
+    // Calculate Ascendant sign and degree within the sign
+    const formattedAscendant = formatZodiacPosition(ascendantLongitude);
+    return formattedAscendant;
 }
 
 // Function to calculate the Midheaven / MC based on LST
 function calculateMidheaven(lstDegrees) {
-    const midheavenDegrees = lstDegrees % 360; // Midheaven is the same as LST
+    const obliquity = 23.4397; // Obliquity of the ecliptic in degrees
+    const radiansObliquity = obliquity * (Math.PI / 180);
+    const lstRadians = lstDegrees * (Math.PI / 180);
+
+    // Midheaven formula adjusted
+    const midheavenRadians = Math.atan(Math.tan(lstRadians) / Math.cos(radiansObliquity));
+    let midheavenDegrees = midheavenRadians * (180 / Math.PI);
+    if (lstDegrees >= 180) {
+        midheavenDegrees += 180;
+    }
+    midheavenDegrees = (midheavenDegrees + 360) % 360;
+
     return formatZodiacPosition(midheavenDegrees);
 }
 
@@ -119,6 +128,9 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
 
         const astroTime = new Astronomy.AstroTime(birthDateTimeUTC);
         const lstDegrees = calculateLST(astroTime, observer.lng);
+
+
+        // Calculate Ascendant and Midheaven based on LST and Sun's longitude
         const ascendantPosition = calculateAscendant(lstDegrees, observer.lat);
         const midHeavenPosition = calculateMidheaven(lstDegrees);
 
@@ -175,7 +187,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
         planetaryPositions["Aspects"] = calculateAspects(planetaryPositions);
 
         return planetaryPositions;
-        
+
     } catch (error) {
         console.error("Error fetching planetary positions:", error);
         throw error;
