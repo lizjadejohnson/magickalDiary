@@ -9,7 +9,7 @@ import Planets from '../components/Planets';
 import Houses from '../components/Houses';
 import Aspects from '../components/Aspects';
 import Ephemeris from '../components/Ephemeris';
-import { getEphemerisData } from '../../utilities/ephemerisHelper'; // Import the helper function
+import { getEphemerisData } from '../../utilities/ephemerisHelper.jsx'; // Import the helper function
 
 const ZodiacPage = () => {
   const { user } = useContext(UserContext);

@@ -3,12 +3,7 @@ import { UserContext } from '../../utilities/UserContext';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
 import apiUrl from '../config';
-
-const renderMeaning = (meaning) => {
-    return meaning.split('\n').map((paragraph, index) => (
-      <p key={index}>{paragraph}</p>
-    ));
-  };
+import {PlanetaryMeaning} from '../../utilities/ephemerisHelper.jsx';
 
 const WesternZodiac = ({ planets }) => {
   const { user } = useContext(UserContext);
@@ -85,12 +80,12 @@ const WesternZodiac = ({ planets }) => {
       </div>
 
       {planets ? (
-        <MoonSign planets={planets} />
+        <SunSign planets={planets} />
       ) : (
         <div className='zodiaccard-container'>
-          <h3 className='zodiaccard-header'>Moon Sign ☽︎</h3>
+          <h3 className='zodiaccard-header'>Sun Sign ☉</h3>
           <div className='zodiaccard-body'>
-            <p>To access Moon sign and other detailed ephemeris data, <Link to="/edit-profile">please provide</Link> accurate time and location of birth.</p>
+            <p>To access detailed Sun sign and other ephemeris data, <Link to="/edit-profile">please provide</Link> accurate time and location of birth.</p>
           </div>
         </div>
       )}
@@ -104,81 +99,11 @@ const WesternZodiac = ({ planets }) => {
   );
 };
 
-const MoonSign = ({ planets }) => {
-  const { user } = useContext(UserContext);
-  const [moonMeaning, setMoonMeaning] = useState(null);
-  const [cuspMeaning, setCuspMeaning] = useState(null);
-  const [error, setError] = useState(null);
+const SunSign = ({ planets }) => (
+  <div>
+    <PlanetaryMeaning planet="Sun" planets={planets} />
+  </div>
+);
 
-  const zodiacSigns = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
-
-  useEffect(() => {
-    async function fetchMoonMeaning() {
-      if (planets && planets['Moon']) {
-        const formattedPosition = planets['Moon'].formattedPosition;
-        const moonSignData = formattedPosition.split(' ');
-        const moonSign = moonSignData[0];
-        const isCusp = formattedPosition.includes('cusp');
-
-        let cuspSign = null;
-        if (isCusp) {
-          const nextSignSymbol = moonSignData[5].replace('(', '');
-          const nextSignIndex = zodiacSigns.findIndex(sign => sign.includes(nextSignSymbol));
-          cuspSign = nextSignIndex >= 0 ? zodiacSigns[nextSignIndex] : null;
-        }
-
-        try {
-          const response = await fetch(`${apiUrl}/zodiac/getPlanetaryMeaning?planet=Moon&sign=${encodeURIComponent(moonSign)}`, {
-            credentials: 'include',
-          });
-
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-
-          const data = await response.json();
-          setMoonMeaning(data.meaning);
-
-          if (isCusp && cuspSign) {
-            const cuspResponse = await fetch(`${apiUrl}/zodiac/getPlanetaryMeaning?planet=Moon&sign=${encodeURIComponent(cuspSign)}`, {
-              credentials: 'include',
-            });
-
-            if (!cuspResponse.ok) {
-              throw new Error(`HTTP error! Status: ${cuspResponse.status}`);
-            }
-
-            const cuspData = await cuspResponse.json();
-            setCuspMeaning(cuspData.meaning);
-          }
-        } catch (error) {
-          console.error("Failed to fetch moon meaning:", error);
-          setError(error.message);
-        }
-      }
-    }
-
-    fetchMoonMeaning();
-  }, [planets]);
-
-
-  const moonData = planets['Moon'];
-
-  return (
-    <div className='zodiaccard-container'>
-      <h3 className='zodiaccard-header'>{moonData ? moonData.formattedPosition : 'No Moon data available.'}</h3>
-      <div className='zodiaccard-body'>
-        <p>{moonMeaning ? renderMeaning(moonMeaning) : 'No meaning available for this Moon sign.'}</p>
-        {cuspMeaning && (
-          <div className='zodiaccard-section-highlight'>
-            <h3>Cusp sign: {planets['Moon'].formattedPosition.split(' ')[5].replace('(', '').replace(')', '')} {planets['Moon'].formattedPosition.split(' ')[6].replace('(', '').replace(')', '')}</h3>
-            <p>{renderMeaning(cuspMeaning)}</p>
-          </div>
-        )}
-        <br />
-      </div>
-    </div>
-  );
-};
 
 export default WesternZodiac;
