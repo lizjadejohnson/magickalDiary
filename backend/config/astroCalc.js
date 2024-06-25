@@ -2,60 +2,54 @@ const { DateTime } = require('luxon');
 const Astronomy = require('astronomy-engine');
 
 // Function to format zodiac position based on degree
+// Function to format zodiac position based on degree
 function formatZodiacPosition(degree) {
     const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
     const signIndex = Math.floor(degree / 30);
     const sign = zodiacSigns[signIndex];
     const inSignDegree = degree % 30;
     const degrees = Math.floor(inSignDegree);
-    let minutes = Math.floor((inSignDegree - degrees) * 60);
-    let seconds = Math.round((((inSignDegree - degrees) * 60) - minutes) * 60);
+    const minutesDecimal = (inSignDegree - degrees) * 60;
+    const minutes = Math.floor(minutesDecimal);
+    const seconds = Math.round((minutesDecimal - minutes) * 60);
 
-    if (seconds === 60) {
-        seconds = 0;
-        minutes += 1;
-    }
-    if (minutes === 60) {
-        minutes = 0;
-        degrees += 1;
-    }
-
-    const nextSignIndex = (signIndex + 1) % 12;
-    const nextSign = zodiacSigns[nextSignIndex];
-    const cusp = degrees >= 29;
-
-    return `${sign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}" ${cusp ? `(${nextSign} cusp)` : ''}`;
+    // Adjust formatting to match desired output
+    return `${sign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}"`;
 }
+
+
+
 
 // Function to calculate Local Sidereal Time (LST)
 function calculateLST(astroTime, longitude) {
     const gast = Astronomy.SiderealTime(astroTime); // Greenwich Apparent Sidereal Time
     const longitudeInHours = longitude / 15; // Convert longitude to hours
-    const lstHours = (gast + longitudeInHours) % 24; // Adjust GAST to local longitude
+    let lstHours = (gast + longitudeInHours) % 24; // Adjust GAST to local longitude
     if (lstHours < 0) lstHours += 24; // Ensure LST is non-negative
     return lstHours * 15; // Convert hours to degrees for LST
 }
 
+// Function to calculate the obliquity of the ecliptic for a given date
+function calculateObliquity(year) {
+    return 23.439292 - 0.000013 * (year - 2000);
+}
 
 // Function to calculate the Ascendant based on LST and observer's latitude
 function calculateAscendant(lstDegrees, latitude) {
-    // Calculate Ascendant longitude
-    let ascendantLongitude = lstDegrees + 90; // Adjust for Ascendant offset
-    if (ascendantLongitude >= 360) {
-        ascendantLongitude -= 360;
-    }
-    // Calculate Ascendant sign and degree within the sign
-    const formattedAscendant = formatZodiacPosition(ascendantLongitude);
-    return formattedAscendant;
+    const radiansLatitude = latitude * (Math.PI / 180);
+    const radiansLST = lstDegrees * (Math.PI / 180);
+    const ascendantLongitude = Math.atan2(Math.cos(radiansLST), -Math.sin(radiansLST) * Math.cos(radiansLatitude)) * (180 / Math.PI);
+    const normalizedAscendantLongitude = (ascendantLongitude + 360) % 360;
+    return formatZodiacPosition(normalizedAscendantLongitude);
 }
 
+
 // Function to calculate the Midheaven / MC based on LST
-function calculateMidheaven(lstDegrees) {
-    const obliquity = 23.4397; // Obliquity of the ecliptic in degrees
+function calculateMidheaven(lstDegrees, year) {
+    const obliquity = calculateObliquity(year);
     const radiansObliquity = obliquity * (Math.PI / 180);
     const lstRadians = lstDegrees * (Math.PI / 180);
 
-    // Midheaven formula adjusted
     const midheavenRadians = Math.atan(Math.tan(lstRadians) / Math.cos(radiansObliquity));
     let midheavenDegrees = midheavenRadians * (180 / Math.PI);
     if (lstDegrees >= 180) {
@@ -129,11 +123,11 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
         const astroTime = new Astronomy.AstroTime(birthDateTimeUTC);
         const lstDegrees = calculateLST(astroTime, observer.lng);
 
+        const year = birthDateTime.year;
 
-        // Calculate Ascendant and Midheaven based on LST and Sun's longitude
+        // Calculate Ascendant and Midheaven based on LST and observer's latitude
         const ascendantPosition = calculateAscendant(lstDegrees, observer.lat);
-        const midHeavenPosition = calculateMidheaven(lstDegrees);
-
+        const midHeavenPosition = calculateMidheaven(lstDegrees, year);
 
         const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
         const planetaryPositions = {};
@@ -167,7 +161,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
 
             const formattedPosition = formatZodiacPosition(longitude);
             planetaryPositions[planet] = {
-                longitude: longitude % 360,
+                longitude: longitude % 360, // Ensure longitude is within 0° to 360° range
                 speed: planet === "Moon" ? `${speed.toFixed(4)}°/day` : `${(speed * 24).toFixed(4)}°/hr`,
                 formattedPosition: formattedPosition
             };
@@ -175,15 +169,19 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
             console.log(`${planet}: ${formattedPosition}, Speed: ${planetaryPositions[planet].speed}`);
         }
 
+        // Calculate and format Ascendant and Midheaven positions
         planetaryPositions["Ascendant"] = {
-            formattedPosition: ascendantPosition
+            formattedPosition: calculateAscendant(lstDegrees, observer.lat)
         };
 
         planetaryPositions["Midheaven"] = {
-            formattedPosition: midHeavenPosition
+            formattedPosition: calculateMidheaven(lstDegrees, year)
         };
 
+        // Calculate and format house cusps
         planetaryPositions["Houses"] = calculateHouseCusps(lstDegrees);
+
+        // Calculate and format aspects between planets
         planetaryPositions["Aspects"] = calculateAspects(planetaryPositions);
 
         return planetaryPositions;
@@ -193,6 +191,7 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
         throw error;
     }
 }
+
 
 module.exports = {
     getPlanetaryPositions
