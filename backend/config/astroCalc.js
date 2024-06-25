@@ -2,7 +2,6 @@ const { DateTime } = require('luxon');
 const Astronomy = require('astronomy-engine');
 
 // Function to format zodiac position based on degree
-// Function to format zodiac position based on degree
 function formatZodiacPosition(degree) {
     const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
     const signIndex = Math.floor(degree / 30);
@@ -16,9 +15,6 @@ function formatZodiacPosition(degree) {
     // Adjust formatting to match desired output
     return `${sign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}"`;
 }
-
-
-
 
 // Function to calculate Local Sidereal Time (LST)
 function calculateLST(astroTime, longitude) {
@@ -42,7 +38,6 @@ function calculateAscendant(lstDegrees, latitude) {
     const normalizedAscendantLongitude = (ascendantLongitude + 360) % 360;
     return formatZodiacPosition(normalizedAscendantLongitude);
 }
-
 
 // Function to calculate the Midheaven / MC based on LST
 function calculateMidheaven(lstDegrees, year) {
@@ -171,11 +166,11 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
 
         // Calculate and format Ascendant and Midheaven positions
         planetaryPositions["Ascendant"] = {
-            formattedPosition: calculateAscendant(lstDegrees, observer.lat)
+            formattedPosition: ascendantPosition
         };
 
         planetaryPositions["Midheaven"] = {
-            formattedPosition: calculateMidheaven(lstDegrees, year)
+            formattedPosition: midHeavenPosition
         };
 
         // Calculate and format house cusps
@@ -191,7 +186,6 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
         throw error;
     }
 }
-
 
 module.exports = {
     getPlanetaryPositions
