@@ -1,9 +1,9 @@
-import { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../utilities/UserContext';
 import { Link } from 'react-router-dom';
 import Spinner from './Spinner';
 import apiUrl from '../config';
-import {PlanetaryMeaning} from '../../utilities/ephemerisHelper.jsx';
+import { PlanetaryMeaning } from '../../utilities/ephemerisHelper.jsx';
 
 const WesternZodiac = ({ planets }) => {
   const { user } = useContext(UserContext);
@@ -104,6 +104,5 @@ const SunSign = ({ planets }) => (
     <PlanetaryMeaning planet="Sun" planets={planets} />
   </div>
 );
-
 
 export default WesternZodiac;

@@ -123,6 +123,52 @@ const Ephemeris = ({ planets }) => {
                   <p>Outer personality and how you present yourself to the world. The Ascendant is the sign that was rising on the eastern horizon at the time of your birth. It influences your physical appearance, demeanor, and how others perceive you. It also sets the stage for the entire birth chart by determining the house cusps.</p>
                 </div>
               </div>
+              <div className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>The Houses:</h3>
+                <div className='zodiaccard-body'>
+                  <p>The natal chart is divided into 12 houses, each representing different areas of life. The houses are determined by the time and place of birth.</p>
+                  <h4>House I (Ascendant):</h4>
+                  <p>Self-identity and appearance.</p>
+                  <h4>House II:</h4>
+                  <p>Finances, values, and possessions.</p>
+                  <h4>House III:</h4>
+                  <p>Communication, siblings, and local travel.</p>
+                  <h4>House IV (IC):</h4>
+                  <p>Home, family, and roots.</p>
+                  <h4>House V:</h4>
+                  <p>Creativity, romance, and children.</p>
+                  <h4>House VI:</h4>
+                  <p>Work, health, and daily routines.</p>
+                  <h4>House VII (Descendant):</h4>
+                  <p>Partnerships and relationships.</p>
+                  <h4>House VIII:</h4>
+                  <p>Transformation, sex, and shared resources.</p>
+                  <h4>House IX:</h4>
+                  <p>Higher learning, travel, and philosophy.</p>
+                  <h4>House X (MC or Midheaven):</h4>
+                  <p>Career, public life, and reputation.</p>
+                  <h4>House XI:</h4>
+                  <p>Friendships, groups, and aspirations.</p>
+                  <h4>House XII:</h4>
+                  <p>Subconscious, secrets, and endings.</p>
+                </div>
+              </div>
+              <div className='zodiaccard-container'>
+                <h3 className='zodiaccard-header'>The Aspects:</h3>
+                <div className='zodiaccard-body'>
+                  <p>Aspects are the angles between planets, indicating how they interact with each other. Major aspects include:</p>
+                  <h4>Conjunction ☌ (0°):</h4>
+                  <p>Planets are close together, blending energies.</p>
+                  <h4>Opposition ☍ (180°):</h4>
+                  <p>Planets are opposite each other, creating tension.</p>
+                  <h4>Square □ (90°):</h4>
+                  <p>Planets are at a challenging angle, causing friction.</p>
+                  <h4>Trine △ (120°):</h4>
+                  <p>Planets are harmoniously connected, facilitating ease.</p>
+                  <h4>Sextile ✶ (60°):</h4>
+                  <p>Planets are at a supportive angle, encouraging cooperation.</p>
+                </div>
+              </div>
             </div>
         </div>
   );
