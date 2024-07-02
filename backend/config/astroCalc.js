@@ -21,7 +21,6 @@ function formatZodiacPosition(degree) {
     return `${sign} ${degrees}° ${minutes < 10 ? '0' : ''}${minutes}' ${seconds < 10 ? '0' : ''}${seconds}" ${cusp ? `(${nextSign} cusp)` : ''}`;
 }
 
-
 // Function to calculate the obliquity of the ecliptic for a given AstroTime
 function calculateObliquity(astroTime) {
     const T = (astroTime.ut / 36525);
@@ -36,7 +35,6 @@ function calculateObliquity(astroTime) {
     return epsilon0 / 3600;
 }
 
-
 // Function to calculate the Ascendant based on LST and observer's latitude
 function calculateAscendant(lst, latitude, obliquity) {
     const lstRad = lst * Math.PI / 180;
@@ -50,7 +48,6 @@ function calculateAscendant(lst, latitude, obliquity) {
     return ascDegrees;
 }
 
-
 // Function to calculate the Midheaven (MC) based on LST
 function calculateMidheaven(lst, obliquity) {
     const lstRad = lst * Math.PI / 180;
@@ -61,77 +58,84 @@ function calculateMidheaven(lst, obliquity) {
     return mcDegrees;
 }
 
+// Function to calculate the house cusps using the Placidus system
+function calculatePlacidusHouses(ascendantDegrees, midheavenDegrees, observerLat, obliquity, ramc) {
+    const houses = new Array(12);
+    const latRad = observerLat * Math.PI / 180;
+    const obliquityRad = obliquity * Math.PI / 180;
 
-function calculateIntermediateHouseCusp(mc, asc, fraction, latitude) {
-    const radiansLatitude = latitude * Math.PI / 180;
-    const radiansMC = mc * Math.PI / 180;
-    const radiansASC = asc * Math.PI / 180;
+    // Step 1: Set MC and ASC
+    houses[9] = midheavenDegrees;
+    houses[0] = ascendantDegrees;
 
-    const tanMC = Math.tan(radiansMC);
-    const tanLat = Math.tan(radiansLatitude);
+    // Step 2: Determine house cusp intervals
+    const H11 = (ramc + 30) % 360;
+    const H12 = (ramc + 60) % 360;
+    const H2 = (ramc + 120) % 360;
+    const H3 = (ramc + 150) % 360;
 
-    const term1 = Math.atan(tanMC * Math.sin(radiansLatitude) / Math.cos(radiansLatitude));
-    const term2 = Math.atan((Math.tan(radiansASC) - tanLat * Math.sin(radiansMC)) / (Math.cos(radiansMC) * Math.cos(radiansLatitude)));
+    // Step 3: Set Semi-arc ratios
+    const F11 = 1 / 3;
+    const F12 = 2 / 3;
+    const F2 = 2 / 3;
+    const F3 = 1 / 3;
 
-    const cusp = term1 + fraction * (term2 - term1);
+    function computeCusp(H, F, latRad, obliquityRad) {
+        let D = Math.asin(Math.sin(obliquityRad) * Math.sin(H * Math.PI / 180)) * 180 / Math.PI;
+        let R = 0;
+        
+        for (let i = 0; i < 10; i++) {  // Iterative refinement
+            const A = F * Math.asin(Math.tan(latRad) * Math.tan(D * Math.PI / 180));
+            const M = Math.atan2(Math.sin(A), Math.cos(H * Math.PI / 180) * Math.tan(D * Math.PI / 180));
+            R = Math.atan2(Math.tan(H * Math.PI / 180) * Math.cos(M), Math.cos(M + obliquityRad)) * 180 / Math.PI;
+            
+            const newD = Math.asin(Math.sin(obliquityRad) * Math.sin(R * Math.PI / 180)) * 180 / Math.PI;
+            
+            if (Math.abs(newD - D) < 0.0001) break;  // Convergence check
+            D = newD;
+        }
 
-    return (cusp * 180 / Math.PI + 360) % 360;
-}
+        return (R + 360) % 360;  // Ensure positive value
+    }
 
-function calculatePlacidusHouses(lstDegrees, latitude, obliquity) {
-    const radiansLatitude = latitude * Math.PI / 180;
-    const radiansObliquity = obliquity * Math.PI / 180;
+    // Compute intermediate house cusps
+    houses[10] = computeCusp(H11, F11, latRad, obliquityRad);
+    houses[11] = computeCusp(H12, F12, latRad, obliquityRad);
+    houses[1] = computeCusp(H2, F2, latRad, obliquityRad);
+    houses[2] = computeCusp(H3, F3, latRad, obliquityRad);
 
-    const ascendant = calculateAscendant(lstDegrees, latitude, obliquity);
-    const midheaven = calculateMidheaven(lstDegrees, obliquity);
-
-    const houses = Array(12).fill(0);
-    houses[0] = ascendant;
-    houses[3] = (midheaven + 180) % 360;
-    houses[6] = (ascendant + 180) % 360;
-    houses[9] = midheaven;
-
-    houses[1] = calculateIntermediateHouseCusp(houses[9], houses[0], 1 / 3, latitude);
-    houses[2] = calculateIntermediateHouseCusp(houses[9], houses[0], 2 / 3, latitude);
-    houses[10] = calculateIntermediateHouseCusp(houses[0], houses[6], 1 / 3, latitude);
-    houses[11] = calculateIntermediateHouseCusp(houses[0], houses[6], 2 / 3, latitude);
-
+    // Compute opposite cusps
     houses[4] = (houses[10] + 180) % 360;
     houses[5] = (houses[11] + 180) % 360;
+    houses[6] = (houses[0] + 180) % 360;
     houses[7] = (houses[1] + 180) % 360;
     houses[8] = (houses[2] + 180) % 360;
+    houses[3] = (houses[9] + 180) % 360;
 
+    // Format the house positions
     return houses.map((position, index) => ({
         house: index + 1,
         position: formatZodiacPosition(position)
     }));
 }
 
-
-
-
-
-
 // Function to calculate aspects between planets
 function calculateAspects(planets) {
     const aspects = [];
     const aspectTypes = [
-        { name: "Conjunction ☌", angle: 0 },
-        { name: "Opposition ☍", angle: 180 },
-        { name: "Square ◻", angle: 90 },
-        { name: "Trine △", angle: 120 },
-        { name: "Sextile 🞶", angle: 60 }
+        { name: "Conjunction", symbol: "☌", angle: 0 },
+        { name: "Opposition", symbol: "☍", angle: 180 },
+        { name: "Square", symbol: "◻", angle: 90 },
+        { name: "Trine", symbol: "△", angle: 120 },
+        { name: "Sextile", symbol: "🞶", angle: 60 }
     ];
     const orb = 8;
     const planetKeys = Object.keys(planets);
 
-    // Helper function to format degrees, minutes, and seconds
-    function formatDegreesMinutes(degrees) {
-        let deg = Math.floor(degrees);
-        let minDecimal = (degrees - deg) * 60;
-        let min = Math.floor(minDecimal);
-        let sec = Math.round((minDecimal - min) * 60);
-        return `${deg}° ${min < 10 ? '0' : ''}${min}' ${sec < 10 ? '0' : ''}${sec}"`;
+    function formatOrb(degrees) {
+        const wholeDegrees = Math.floor(Math.abs(degrees));
+        const minutes = Math.round((Math.abs(degrees) - wholeDegrees) * 60);
+        return `${wholeDegrees}° ${minutes < 10 ? '0' : ''}${minutes}'`;
     }
 
     for (let i = 0; i < planetKeys.length; i++) {
@@ -140,21 +144,26 @@ function calculateAspects(planets) {
             const planet2 = planetKeys[j];
             const pos1 = planets[planet1].longitude;
             const pos2 = planets[planet2].longitude;
-            const angle = Math.abs(pos1 - pos2);
+            let angle = (pos2 - pos1 + 360) % 360;
+            if (angle > 180) angle = 360 - angle;
+
             for (const aspect of aspectTypes) {
-                if (Math.abs(angle - aspect.angle) <= orb || Math.abs(360 - angle - aspect.angle) <= orb) {
-                    const aspectAngle = formatDegreesMinutes(angle);
-                    const orbValue = Math.abs(angle - aspect.angle).toFixed(2);
-                    const minuteValue = Math.floor(orbValue * 60);
-                    const value = (pos1 - pos2).toFixed(2); // Calculate the difference in degrees for value
+                if (Math.abs(angle - aspect.angle) <= orb) {
+                    const orbValue = angle - aspect.angle;
+                    let value = pos2 - pos1;
+                    if (value > 180) value -= 360;
+                    if (value <= -180) value += 360;
+                    
+                    // Adjust value based on aspect type
+                    if (aspect.angle === 180) value = -value; // For opposition
+                    if (aspect.angle === 90 && value > 0) value = -value; // For square
+                    
                     aspects.push({
                         planet1,
-                        planet2,
                         aspect: aspect.name,
-                        angle: aspectAngle,
-                        orb: `${orbValue}°`,
-                        minute: `${minuteValue}'`,
-                        value: value
+                        aspectSymbol: aspect.symbol,
+                        planet2,
+                        orb: formatOrb(Math.abs(orbValue)),
                     });
                 }
             }
@@ -163,44 +172,65 @@ function calculateAspects(planets) {
     return aspects;
 }
 
+function calculateMeanLilith(astroTime) {
+    const periods = 3000; // Number of days to average over a year
+    const interval = 3; // Interval of 1 day
 
+    let sumLongitude = 0;
+
+    for (let i = 0; i < periods; i++) {
+        let timeOffset = astroTime.AddDays(-i * interval);
+        let apsis = Astronomy.SearchLunarApsis(timeOffset);
+        while (apsis.kind !== Astronomy.ApsisKind.Apocenter) {
+            apsis = Astronomy.NextLunarApsis(apsis);
+        }
+        const moonPosition = Astronomy.GeoMoon(apsis.time);
+        const eclipticCoordinates = Astronomy.Ecliptic(moonPosition);
+        let longitude = eclipticCoordinates.elon;
+        if (longitude < 0) longitude += 360;
+
+        sumLongitude += longitude;
+    }
+
+    const meanLongitude = sumLongitude / periods;
+    return meanLongitude;
+}
 
 // Async function to fetch planetary positions
 async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
     try {
         const birthDateTime = DateTime.fromISO(`${dob}T${timeOfBirth}:00`, { zone: locationOfBirth.zone });
-        console.log(`birthDateTime: ${birthDateTime}`)
-        console.log(`zone: ${locationOfBirth.zone}`)
+        console.log(`birthDateTime: ${birthDateTime}`);
+        console.log(`zone: ${locationOfBirth.zone}`);
 
         const birthDateTimeUTC = birthDateTime.toUTC().toJSDate();
-        console.log(`birthDateTimeUTC: ${birthDateTimeUTC}`)
-
-        const utcDateTime = birthDateTime.toUTC();
-        console.log(`utcDateTime: ${utcDateTime}`)
-
+        console.log(`birthDateTimeUTC: ${birthDateTimeUTC}`);
 
         const observer = { lat: locationOfBirth.lat, lng: locationOfBirth.lng, elevation: 0 };
         console.log(`Latitude: ${observer.lat}`);
-
+        console.log(`Longitude: ${observer.lng}`);
 
         const astroTime = Astronomy.MakeTime(birthDateTimeUTC);
-        console.log(`astroTime: ${astroTime}`)
+        console.log(`astroTime: ${astroTime}`);
 
+        const julianDay = astroTime.tt;
+        console.log(`Julian Day: ${julianDay}`);
 
         const gast = Astronomy.SiderealTime(astroTime.date);
         console.log(`GAST: ${gast}`);
 
-
         let lst = (gast * 15 + observer.lng) % 360;
         if (lst < 0) lst += 360;
         console.log(`LST before Ascendant calculation: ${lst}`);
-
+        console.log(`LST in hours: ${lst / 15}`);
 
         const obliquity = calculateObliquity(astroTime);
         console.log(`Obliquity: ${obliquity}`);
 
+        const ramc = lst;  // RAMC is the same as LST in degrees
+        console.log(`RAMC: ${ramc}`);
 
-        const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto"];
+        const planets = ["Sun", "Moon", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune", "Pluto", "Lilith", "N Node"];
         const planetaryPositions = {};
 
         for (const planet of planets) {
@@ -212,25 +242,26 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
                 const moonPosition = Astronomy.GeoMoon(astroTime);
                 const eclipticCoordinates = Astronomy.Ecliptic(moonPosition);
                 longitude = eclipticCoordinates.elon;
+            } else if (planet === "Lilith") {
+                longitude = calculateMeanLilith(astroTime)
+
+            } else if (planet === "N Node") {
+                const nodeEvent = Astronomy.SearchMoonNode(astroTime);
+                const nodeTime = Astronomy.MakeTime(nodeEvent.time.date);
+                const moonPosition = Astronomy.GeoMoon(nodeTime);
+                const eclipticCoordinates = Astronomy.Ecliptic(moonPosition);
+                longitude = eclipticCoordinates.elon;
+
             } else {
                 const geoVector = Astronomy.GeoVector(Astronomy.Body[planet], astroTime, true);
+                if (!geoVector) throw new Error(`Failed to get GeoVector for ${planet}`);
                 const eclipticCoordinates = Astronomy.Ecliptic(geoVector);
+                if (isNaN(eclipticCoordinates.elon)) throw new Error(`Invalid ecliptic coordinates for ${planet}`);
                 longitude = eclipticCoordinates.elon;
             }
             const formattedPosition = formatZodiacPosition(longitude);
             planetaryPositions[planet] = { longitude: longitude % 360, formattedPosition: formattedPosition };
         }
-
-        console.log(`LST Degrees: ${lst}`);
-        console.log(`Obliquity: ${obliquity}`);
-        console.log(`Observer Latitude: ${observer.lat}`);
-        console.log(`Observer Longitude: ${observer.lng}`);
-
-        console.log(`UTC Time: ${astroTime.date.toISOString()}`);
-        console.log(`Julian Day: ${astroTime.tt}`);
-
-        console.log(`LST in hours: ${lst / 15}`);
-
 
         const ascendantDegrees = calculateAscendant(lst, observer.lat, obliquity);
         planetaryPositions["Ascendant"] = { longitude: ascendantDegrees, formattedPosition: formatZodiacPosition(ascendantDegrees) };
@@ -240,10 +271,9 @@ async function getPlanetaryPositions(dob, timeOfBirth, locationOfBirth) {
         console.log(`Calculated MidHeaven: ${midheavenDegrees} / ${formatZodiacPosition(midheavenDegrees)}`);
         planetaryPositions["Midheaven"] = { longitude: midheavenDegrees, formattedPosition: formatZodiacPosition(midheavenDegrees) };
 
-        planetaryPositions["Houses"] = calculatePlacidusHouses(lst, observer.lat, obliquity);
+        planetaryPositions["Houses"] = calculatePlacidusHouses(ascendantDegrees, midheavenDegrees, observer.lat, obliquity, ramc);
 
         planetaryPositions["Aspects"] = calculateAspects(planetaryPositions);
-
         return planetaryPositions;
     } catch (error) {
         console.error("Error fetching planetary positions:", error);

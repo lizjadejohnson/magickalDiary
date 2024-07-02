@@ -48,16 +48,16 @@ const Ephemeris = ({ planets }) => {
         {planets.Aspects && planets.Aspects.length > 0 && (
           <div className='aspects'>
             <h2>Aspects:</h2>
-            {planets.Aspects.map(({ planet1, planet2, aspect, angle }, index) => (
-              <div key={index} className='zodiaccard-container'>
-                <h3 className='zodiaccard-header'>{`${planet1} - ${planet2}`}</h3>
-                <div className='zodiaccard-body'>
-                  <div><span className='bold'>Aspect:</span> {aspect}</div>
-                  <div><span className='bold'>Angle:</span> {angle}°</div>
+            {planets.Aspects.map(({ planet1, aspect, aspectSymbol, planet2, orb }, index) => (
+                <div key={index} className='zodiaccard-container'>
+                    <h3 className='zodiaccard-header'>{`${planet1} - ${planet2}`}</h3>
+                    <div className='zodiaccard-body'>
+                        <div><span className='bold'>Aspect:</span> {aspect} {aspectSymbol}</div>
+                        <div><span className='bold'>Orb:</span> {orb}</div>
+                    </div>
                 </div>
-              </div>
             ))}
-          </div>
+        </div>
         )}
       </div>
       <br />
@@ -119,6 +119,10 @@ const Ephemeris = ({ planets }) => {
                   <p>Imagination, dreams, and spirituality. Neptune governs your ideals, intuition, and connection to the mystical and spiritual realms. It’s associated with creativity, compassion, and illusion.</p>
                   <h4>Pluto ♇</h4>
                   <p>Transformation, power, and rebirth. Pluto signifies deep change, regeneration, and how you deal with power dynamics. It’s linked to your ability to undergo profound personal transformation and to confront your inner depths.</p>
+                  <h4>Lilith ⚸</h4>
+                  <p>Hidden emotions, primal instincts, and repressed desires. Lilith represents the dark, often unconscious side of our nature. It signifies where we may feel shame or rejection, and how we deal with our deeper, more instinctual urges.</p>
+                  <h4>N Node ☊</h4>
+                  <p>Life path, growth, and destiny. The North Node represents the lessons we are here to learn and the direction we are encouraged to grow towards. It signifies our future and where we can find the most fulfillment by stepping out of our comfort zones.</p>
                   <h4>The Ascendant (Rising Sign) ↗</h4>
                   <p>Outer personality and how you present yourself to the world. The Ascendant is the sign that was rising on the eastern horizon at the time of your birth. It influences your physical appearance, demeanor, and how others perceive you. It also sets the stage for the entire birth chart by determining the house cusps.</p>
                 </div>
