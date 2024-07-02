@@ -61,57 +61,21 @@ function calculateMidheaven(lst, obliquity) {
     return mcDegrees;
 }
 
-function calculatePlacidusHouses(lstDegrees, latitude, obliquity) {
-    const houses = [];
+
+function calculateIntermediateHouseCusp(mc, asc, fraction, latitude) {
     const radiansLatitude = latitude * Math.PI / 180;
-    const radiansObliquity = obliquity * Math.PI / 180;
+    const radiansMC = mc * Math.PI / 180;
+    const radiansASC = asc * Math.PI / 180;
 
-    const ascendant = calculateAscendant(lstDegrees, latitude, obliquity);
-    const midheaven = calculateMidheaven(lstDegrees, obliquity);
+    const tanMC = Math.tan(radiansMC);
+    const tanLat = Math.tan(radiansLatitude);
 
-    houses[1] = ascendant;
-    houses[4] = (midheaven + 180) % 360;
-    houses[7] = (ascendant + 180) % 360;
-    houses[10] = midheaven;
+    const term1 = Math.atan(tanMC * Math.sin(radiansLatitude) / Math.cos(radiansLatitude));
+    const term2 = Math.atan((Math.tan(radiansASC) - tanLat * Math.sin(radiansMC)) / (Math.cos(radiansMC) * Math.cos(radiansLatitude)));
 
-    houses[11] = calculateIntermediateHouseCusp(houses[10], houses[1], 1 / 3, latitude, obliquity);
-    houses[12] = calculateIntermediateHouseCusp(houses[10], houses[1], 2 / 3, latitude, obliquity);
-    houses[2] = calculateIntermediateHouseCusp(houses[4], houses[7], 1 / 3, latitude, obliquity);
-    houses[3] = calculateIntermediateHouseCusp(houses[4], houses[7], 2 / 3, latitude, obliquity);
+    const cusp = term1 + fraction * (term2 - term1);
 
-    houses[5] = (houses[11] + 180) % 360;
-    houses[6] = (houses[12] + 180) % 360;
-    houses[8] = (houses[2] + 180) % 360;
-    houses[9] = (houses[3] + 180) % 360;
-
-    return houses.map((position, index) => ({
-        house: index,
-        position: formatZodiacPosition(position)
-    })).filter(house => house.house !== 0);
-}
-
-
-function calculateIntermediateHouseCusp(startCusp, endCusp, fraction, latitude, obliquity) {
-    const radiansLatitude = latitude * Math.PI / 180;
-    const radiansObliquity = obliquity * Math.PI / 180;
-    const start = startCusp * Math.PI / 180;
-    const end = endCusp * Math.PI / 180;
-    const semiArc = Math.abs(Math.atan2(Math.sin(end - start), Math.cos(end) * Math.cos(start) - Math.sin(end) * Math.sin(start)));
-
-    const targetRA = (fraction * semiArc);
-    let alpha = start;
-    let delta = semiArc / 2;
-
-    for (let i = 0; i < 100; i++) {
-        const ra = Math.atan2(Math.sin(alpha), Math.cos(alpha) * Math.cos(radiansObliquity) - Math.tan(radiansLatitude) * Math.sin(radiansObliquity));
-        const diff = ra - targetRA;
-        if (Math.abs(diff) < 0.000001) break; 
-        alpha += (diff < 0 ? 1 : -1) * delta;
-        delta /= 2;
-    }
-
-    const longitude = Math.atan2(Math.sin(alpha) * Math.cos(radiansObliquity) + Math.tan(radiansLatitude) * Math.sin(radiansObliquity), Math.cos(alpha));
-    return (longitude * 180 / Math.PI + 360) % 360;
+    return (cusp * 180 / Math.PI + 360) % 360;
 }
 
 function calculatePlacidusHouses(lstDegrees, latitude, obliquity) {
@@ -127,10 +91,10 @@ function calculatePlacidusHouses(lstDegrees, latitude, obliquity) {
     houses[6] = (ascendant + 180) % 360;
     houses[9] = midheaven;
 
-    houses[10] = calculateIntermediateHouseCusp(houses[9], houses[0], 1 / 3, latitude, obliquity);
-    houses[11] = calculateIntermediateHouseCusp(houses[9], houses[0], 2 / 3, latitude, obliquity);
-    houses[1] = calculateIntermediateHouseCusp(houses[3], houses[6], 1 / 3, latitude, obliquity);
-    houses[2] = calculateIntermediateHouseCusp(houses[3], houses[6], 2 / 3, latitude, obliquity);
+    houses[1] = calculateIntermediateHouseCusp(houses[9], houses[0], 1 / 3, latitude);
+    houses[2] = calculateIntermediateHouseCusp(houses[9], houses[0], 2 / 3, latitude);
+    houses[10] = calculateIntermediateHouseCusp(houses[0], houses[6], 1 / 3, latitude);
+    houses[11] = calculateIntermediateHouseCusp(houses[0], houses[6], 2 / 3, latitude);
 
     houses[4] = (houses[10] + 180) % 360;
     houses[5] = (houses[11] + 180) % 360;
@@ -142,6 +106,7 @@ function calculatePlacidusHouses(lstDegrees, latitude, obliquity) {
         position: formatZodiacPosition(position)
     }));
 }
+
 
 
 
