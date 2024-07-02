@@ -78,6 +78,7 @@ const ZodiacPage = () => {
         <button onClick={handleEasternZodiacClick}>Chinese Zodiac</button>
         <button onClick={handleWesternZodiacClick}>Western Zodiac</button>
       </div>
+
       {buttonSubMenu && (
         <div className='sub-menu'>
           <button onClick={() => handleSetWesternSubType('Sun Sign')}>Sun Sign ☀️</button>
@@ -86,7 +87,7 @@ const ZodiacPage = () => {
           <button onClick={() => handleSetWesternSubType('Planets')}>Planets 🌍</button>
           <button onClick={() => handleSetWesternSubType('Houses')}>Houses 🏠</button>
           <button onClick={() => handleSetWesternSubType('Aspects')}>Aspects 🪞</button>
-          <button onClick={() => handleSetWesternSubType('Ephemeris')}>Ephemeris 🌌</button>
+          <button onClick={() => handleSetWesternSubType('Ephemeris')}>Full Chart 🌌</button>
         </div>
       )}
       <div className='horoscopeResult'>
