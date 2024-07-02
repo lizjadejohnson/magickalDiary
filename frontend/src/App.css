@@ -416,10 +416,16 @@ textarea {
   margin-bottom: 0;
 }
 
+.zodiaccard-header-nobg{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .zodiaccard-section-highlight{
   background-color: rgba(205, 134, 63, 0.251);
   border: 1px solid peru;
   border-radius: 5px;
+  padding: 10px;
 }
 
 /* Mobile styles */

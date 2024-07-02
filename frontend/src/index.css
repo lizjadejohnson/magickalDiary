@@ -69,6 +69,10 @@ button:focus-visible {
   font-weight: bolder;
 }
 
+.margin-bottom{
+  margin-bottom: 10px;
+}
+
 .text-tip{
   margin: 0;
   padding: 0;
