@@ -54,7 +54,7 @@ const ZodiacPage = () => {
 
 
   if (loading) {
-    return <Spinner redirectTo="#" delay={3000} message={"Loading..."} />;
+    return <Spinner redirectTo="#" delay={3000} message={"Loading all zodiac chart information can take up to 20 seconds. Please be patient!"} />;
   }
 
   const handleWesternZodiacClick = () => {
