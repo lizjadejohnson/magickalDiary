@@ -22,7 +22,7 @@
     "luxon": "^3.4.4",
     "magickal-diary": "file:..",
     "magickaldiary": "file:..",
-    "mongoose": "^8.4.0",
+    "mongoose": "^8.4.4",
     "react-router-dom": "^6.23.1",
     "react-tooltip": "^5.26.4"
   },

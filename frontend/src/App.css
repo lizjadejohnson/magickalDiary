@@ -314,6 +314,44 @@ textarea {
   margin: 0 auto;
 }
 
+
+.gm-style-iw-d{
+  margin-top: -5%;
+  padding: 7px;
+  padding-bottom: 20px;
+  scrollbar-width: none;
+}
+.gm-ui-hover-effect{
+  border: none;
+}
+.gm-style .gm-style-iw-c{
+  padding-left: 0px;
+}
+
+.view-link{
+  padding-top: 5px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.poi-info-window a:link {
+  color: peru;
+}
+.address-line full-width{
+  width: 100%;
+  text-align: center;
+}
+.address{
+  text-align: center;
+  padding: 0px;
+  margin: 0 auto;
+  padding-left: 5%;
+}
+.custom-info-window {
+  margin: 0 auto;
+  text-align: center;
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
 

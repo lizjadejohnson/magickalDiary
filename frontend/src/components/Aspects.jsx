@@ -24,7 +24,7 @@ const Aspects = ({ planets }) => {
         </div>
       </div>
       {planets.Aspects && planets.Aspects.length > 0 && (
-        <div className='zodiaccard-container'>
+        <div>
           {planets.Aspects.map(({ planet1, aspect, aspectSymbol, planet2, orb }, index) => (
             <div key={index} className='zodiaccard-container'>
               <h3 className='zodiaccard-header'>{`${planet1} - ${planet2}`}</h3>

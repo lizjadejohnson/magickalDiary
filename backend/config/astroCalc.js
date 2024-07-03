@@ -1,6 +1,7 @@
 const { DateTime } = require('luxon');
 const Astronomy = require('astronomy-engine');
 
+
 // Function to format zodiac position based on degree
 function formatZodiacPosition(degree) {
     const zodiacSigns = ["Aries ♈", "Taurus ♉", "Gemini ♊", "Cancer ♋", "Leo ♌", "Virgo ♍", "Libra ♎", "Scorpio ♏", "Sagittarius ♐", "Capricorn ♑", "Aquarius ♒", "Pisces ♓"];
