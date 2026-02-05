@@ -647,10 +647,15 @@ textarea {
 /* Thumbnail navigation */
 .card-thumbnail-wrapper {
     display: inline-block;
+    width: 90px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card-thumbnail-wrapper.reversed {
-    transform: scaleX(-1);
+    transform: rotate(180deg);
 }
 
 .card-thumbnail {
