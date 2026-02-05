@@ -15,9 +15,33 @@ const diaryEntrySchema = new mongoose.Schema({
         required: true
     },
     
-    // Make details flexible for different reading types
-    details: mongoose.Schema.Types.Mixed,
-    
+    // Details specific to the entry type
+    details: {
+        question: String,
+        
+        // I Ching specific fields
+        originalLines: [Number],
+        meanings: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Meaning'
+        }],
+        changingLines: [Number],
+        changingMeaning: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Meaning'
+        },
+        
+        // Tarot specific fields
+        spreadType: String,
+        cards: [{
+            meaning: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Meaning'
+            },
+            isReversed: Boolean,
+            position: Number
+        }]
+    },
     
     // Ability for user to add commentary to the reading:
     commentary: {
@@ -25,15 +49,13 @@ const diaryEntrySchema = new mongoose.Schema({
         default: ""
     },
 
-    // Allow users to add custom tags. Offer tag filtering....
+    // Allow users to add custom tags
     tags: {
         type: [String],
         default: []
     } 
 }, { collection: 'diaryEntries', timestamps: true });
 
-// Create a model named "DiaryEntry" and explicitly set the collection name to "diaryEntries"
 const DiaryEntry = mongoose.model("DiaryEntry", diaryEntrySchema, "diaryEntries");
 
-// Export the model
 module.exports = DiaryEntry;
