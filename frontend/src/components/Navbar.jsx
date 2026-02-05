@@ -8,10 +8,10 @@ const Navbar = () => {
     
     const navigate = useNavigate();
 
-
     //STATES FOR LOGGING IN:
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState(''); // NEW: Error state
     
     //Pulls in the contexts from our UserContext:
     const { login, logout, user } = useContext(UserContext);
@@ -19,28 +19,32 @@ const Navbar = () => {
 
     //LOGIN LOGIC FOR OUR LOGIN FORM:
     const handleLogin = async (event) => {
-        //Prevents form default reload and calls the login funciton from user context:
         event.preventDefault();
+        setLoginError(''); // Clear previous errors
         try{
             await login(email, password);
-            console.log("Logged in")
+            console.log("Logged in");
+            setEmail(''); // Clear form on success
+            setPassword('');
         } catch(error){
-            console.log("Login failed. Please try again.")
+            // Display the actual error message from the backend
+            const errorMessage = error.response?.data?.message || error.message || "Login failed. Please try again.";
+            setLoginError(errorMessage);
+            console.log("Login failed:", errorMessage);
         }
-      };
+    };
 
     //LOGOUT:
     const handleLogout = async (event) => {
-        //Prevents form default reload and calls the logout funciton from user context:
         event.preventDefault();
         try{
             await logout();
-            console.log("Logged out")
+            console.log("Logged out");
             navigate('/');
         } catch (error) {
-            console.log("Logout failed.")
+            console.log("Logout failed.");
         }
-      };
+    };
 
     return (
         <nav className="navbar">
@@ -62,6 +66,18 @@ const Navbar = () => {
                             <div className="auth-forms">
                                 <div className="login-container">
                                     <h2 className='login-head'>Login</h2>
+                                    {loginError && ( // NEW: Display error message
+                                        <div className="error-message" style={{
+                                            color: '#ff6b6b',
+                                            backgroundColor: '#ffe0e0',
+                                            padding: '8px',
+                                            borderRadius: '4px',
+                                            marginBottom: '10px',
+                                            fontSize: '14px'
+                                        }}>
+                                            {loginError}
+                                        </div>
+                                    )}
                                     <form onSubmit={handleLogin}>
                                         <div>
                                             <label>Email:</label>
@@ -92,7 +108,7 @@ const Navbar = () => {
                 <li><Link to="/about">About</Link></li>
             </ul>
         </nav>
-  );
+    );
 }
 
 export default Navbar
