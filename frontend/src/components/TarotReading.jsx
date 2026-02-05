@@ -18,13 +18,13 @@ const TarotReading = ({ data }) => {
         // Celtic Cross positions
         const celticPositions = [
             "Present",
-            "Challenge",
-            "Past",
-            "Future",
-            "Above",
-            "Below",
+            "Problem",
+            "Foundation",
+            "Recent past",
+            "Strengths",
+            "Near future",
             "Advice",
-            "External Influences",
+            "Influences",
             "Hopes/Fears",
             "Outcome"
         ];
