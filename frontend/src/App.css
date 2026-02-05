@@ -263,7 +263,7 @@ textarea {
 .createform textarea,
 .formAdmin input,
 .formAdmin textarea,
-#iching-question-field {
+#iching-question-field, #tarot-question-field {
   width: 60%;
   margin-bottom: 5px;
   background-color: rgb(255, 250, 245);
@@ -555,7 +555,7 @@ textarea {
   margin: 0 auto;
 }
 
-#iching-question-field{
+#iching-question-field, #tarot-question-field{
   height: 2em;
   margin-bottom: 3%;
   padding-left: 2%;
@@ -606,7 +606,7 @@ textarea {
   border-radius: 50%;
 }
 
-.iChingPage {
+.iChingPage, .tarotPage {
   display: flex;
   flex-direction: column;
   align-items: center;
