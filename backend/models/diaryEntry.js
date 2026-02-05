@@ -9,28 +9,17 @@ const diaryEntrySchema = new mongoose.Schema({
         required: true
     },
 
-    // Thetype of the entry (e.g., "Tarot", "Iching", "Text")
+    // The type of the entry (e.g., "Tarot", "I Ching", "Text")
     type: {
         type: String,
         required: true
     },
     
-
-    // Object containing details specific to the entry type, like for example cvhanging lines from the iching etc
-    details: {
-        question: String,
-        originalLines: [Number], // The lines they got in their hexagram
-        meanings: [{ //Referencing the meaning database
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Meaning'
-        }],
-        changingLines: [Number],
-        changingMeaning: { //The changing meaning references the meaning object of the hex theirs in changing into
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Meaning'
-        }
-    },
-    //Ability for user to add commentary to the reading:
+    // Make details flexible for different reading types
+    details: mongoose.Schema.Types.Mixed,
+    
+    
+    // Ability for user to add commentary to the reading:
     commentary: {
         type: String,
         default: ""

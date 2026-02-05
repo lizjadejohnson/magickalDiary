@@ -31,15 +31,23 @@ const fetchDiaryEntry = async (req, res) => {
     const userId = req.user._id;
 
     try {
-        const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
-        //Important: Here we are telling Mongoos to populate the details.meanings field
-        //(which contains object IDs) with the actual documents from the meanings collection that these IDs refer to!
-            .populate('details.meanings')
-            .populate('details.changingMeaning');
+        let diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId });
 
         if (!diaryEntry) {
             return res.status(404).json({ message: 'Diary entry not found.' });
         }
+
+        // Populate based on entry type
+        if (diaryEntry.type === 'I Ching') {
+            diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+                .populate('details.meanings')
+                .populate('details.changingMeaning');
+        } else if (diaryEntry.type === 'Tarot') {
+            // Populate Tarot card meanings
+            diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+                .populate('details.cards.meaning');
+        }
+
         res.json({ diaryEntry: diaryEntry });
     } catch (error) {
         console.error("Error fetching diary entry:", error);
