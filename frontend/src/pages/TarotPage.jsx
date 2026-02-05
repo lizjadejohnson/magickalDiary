@@ -61,8 +61,7 @@ const TarotPage = () => {
             // Remove selected card from available pool
             availableCards.splice(randomIndex, 1);
             
-            setDrawnCards([...cards]);
-            await new Promise(resolve => setTimeout(resolve, 500));
+            // Removed card display during drawing - go straight to results
         }
 
         // Create reading data object
@@ -137,7 +136,7 @@ const TarotPage = () => {
     };
 
     return (
-        <div className='tarotPage'>
+        <div className='iChingPage'>
             <h1 className='title'>Tarot Reading</h1>
             <form onSubmit={newTarotReading}>
                 <label>What is your question?</label>
@@ -158,22 +157,8 @@ const TarotPage = () => {
                     <option value="celtic-cross">Celtic Cross (10 Cards)</option>
                 </select>
                 <br />
-                <br />
                 <button type="submit">Draw Cards</button>
             </form>
-
-            {/* Display drawn cards */}
-            <div className='drawn-cards-container'>
-                {drawnCards.map((card, index) => (
-                    <div key={index} className='tarot-card-preview'>
-                        <p className='card-position'>{getSpreadPositionName(card.position)}</p>
-                        <div className={`card ${card.isReversed ? 'reversed' : 'upright'}`}>
-                            <p className='card-name'>{card.name}</p>
-                            <p className='card-orientation'>{card.isReversed ? '(Reversed)' : '(Upright)'}</p>
-                        </div>
-                    </div>
-                ))}
-            </div>
 
             {loading && <Spinner message={"Drawing cards..."} />}
         </div>

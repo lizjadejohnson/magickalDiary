@@ -53,13 +53,23 @@ const TarotReading = ({ data }) => {
                     <h3>Select a card to view:</h3>
                     <div className='card-buttons'>
                         {details.cards.map((card, index) => (
-                            <button
-                                key={index}
-                                onClick={() => setSelectedCard(index)}
-                                className={selectedCard === index ? 'active' : ''}
-                            >
-                                {getSpreadPositionName(card.position)}
-                            </button>
+                            <div key={index} className='card-button-container'>
+                                {card.meaning.image && (
+                                    <div className={card.isReversed ? 'card-thumbnail-wrapper reversed' : 'card-thumbnail-wrapper'}>
+                                        <img 
+                                            src={card.meaning.image} 
+                                            alt={card.meaning.name}
+                                            className='card-thumbnail'
+                                        />
+                                    </div>
+                                )}
+                                <button
+                                    onClick={() => setSelectedCard(index)}
+                                    className={selectedCard === index ? 'active' : ''}
+                                >
+                                    {getSpreadPositionName(card.position)}
+                                </button>
+                            </div>
                         ))}
                     </div>
                 </div>
@@ -76,11 +86,13 @@ const TarotReading = ({ data }) => {
                 </p>
                 
                 {cardMeaning.image && (
-                    <img 
-                        src={cardMeaning.image} 
-                        alt={cardMeaning.name}
-                        className={currentCardData.isReversed ? 'tarot-card-image reversed' : 'tarot-card-image'}
-                    />
+                    <div className={currentCardData.isReversed ? 'tarot-card-wrapper reversed' : 'tarot-card-wrapper'}>
+                        <img 
+                            src={cardMeaning.image} 
+                            alt={cardMeaning.name}
+                            className='tarot-card-image'
+                        />
+                    </div>
                 )}
 
                 <br />
@@ -137,23 +149,7 @@ const TarotReading = ({ data }) => {
                 )}
             </div>
 
-            {/* Navigation arrows for multi-card spreads */}
-            {details.cards.length > 1 && (
-                <div className='card-arrows'>
-                    <button 
-                        onClick={() => setSelectedCard(Math.max(0, selectedCard - 1))}
-                        disabled={selectedCard === 0}
-                    >
-                        ← Previous Card
-                    </button>
-                    <button 
-                        onClick={() => setSelectedCard(Math.min(details.cards.length - 1, selectedCard + 1))}
-                        disabled={selectedCard === details.cards.length - 1}
-                    >
-                        Next Card →
-                    </button>
-                </div>
-            )}
+
         </div>
     );
 }
