@@ -147,12 +147,12 @@ const TarotPage = () => {
                     id="tarot-question-field" 
                     type="text" 
                     value={userQuestion} 
-                    onChange={(e) => setUserQuestion(e.target.value)} 
+                    onChange={(event) => setUserQuestion(event.target.value)} 
                     required 
                 />
                 <br />
                 <label>Choose a spread:</label>
-                <select value={spreadType} onChange={(e) => setSpreadType(e.target.value)}>
+                <select value={spreadType} onChange={(event) => setSpreadType(event.target.value)}>
                     <option value="single">Single Card</option>
                     <option value="three-card">Three Card (Past, Present, Future)</option>
                     <option value="celtic-cross">Celtic Cross (10 Cards)</option>
