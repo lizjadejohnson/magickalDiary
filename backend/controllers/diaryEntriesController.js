@@ -31,24 +31,29 @@ const fetchDiaryEntry = async (req, res) => {
     const userId = req.user._id;
 
     try {
-        let diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId });
+        // First, find the entry without population to check type
+        const diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId });
 
         if (!diaryEntry) {
             return res.status(404).json({ message: 'Diary entry not found.' });
         }
 
-        // Populate based on entry type
+        // Now populate based on type
+        let populatedEntry;
+        
         if (diaryEntry.type === 'I Ching') {
-            diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+            populatedEntry = await DiaryEntry.findById(diaryEntryId)
                 .populate('details.meanings')
                 .populate('details.changingMeaning');
         } else if (diaryEntry.type === 'Tarot') {
-            // Populate Tarot card meanings
-            diaryEntry = await DiaryEntry.findOne({ _id: diaryEntryId, user: userId })
+            populatedEntry = await DiaryEntry.findById(diaryEntryId)
                 .populate('details.cards.meaning');
+        } else {
+            // For other types (like Text), no population needed
+            populatedEntry = diaryEntry;
         }
 
-        res.json({ diaryEntry: diaryEntry });
+        res.json({ diaryEntry: populatedEntry });
     } catch (error) {
         console.error("Error fetching diary entry:", error);
         res.status(500).json({ message: 'An error occurred while fetching the diary entry.', error: error.message });
