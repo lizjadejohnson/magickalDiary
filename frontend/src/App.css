@@ -618,6 +618,11 @@ textarea {
 /* ===================================TAROT CARDS======================================================= */
 
 /* Main tarot card display */
+.tarotContainer {
+   width: 90%;
+   margin: 0 auto;
+}
+
 .tarot-card-wrapper {
     display: inline-block;
     margin: 20px auto;
@@ -645,12 +650,12 @@ textarea {
 }
 
 .card-thumbnail-wrapper.reversed {
-    transform: rotate(180deg);
+    transform: scaleX(-1);
 }
 
 .card-thumbnail {
-    width: 60px;
-    height: 100px;
+    width: 90px;
+    height: 150px;
     object-fit: cover;
     border-radius: 4px;
     border: 2px solid peru;
