@@ -157,6 +157,7 @@ const TarotPage = () => {
                     <option value="celtic-cross">Celtic Cross (10 Cards)</option>
                 </select>
                 <br />
+                <br />
                 <button type="submit">Draw Cards</button>
             </form>
 

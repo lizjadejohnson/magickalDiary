@@ -45,8 +45,6 @@ const TarotReading = ({ data }) => {
                 "Celtic Cross"
             }</p>
 
-            <br />
-
             {/* Card Navigation */}
             {details.cards.length > 1 && (
                 <div className='card-navigation'>
@@ -97,23 +95,11 @@ const TarotReading = ({ data }) => {
 
                 <br />
 
-                <h3>General Meaning:</h3>
+                <h3>Description:</h3>
                 <p>{cardMeaning.description}</p>
 
                 {cardMeaning.tarotAttributes && (
                     <>
-                        {cardMeaning.tarotAttributes.suit && (
-                            <p><span className='bold'>Suit:</span> {cardMeaning.tarotAttributes.suit}</p>
-                        )}
-                        
-                        {cardMeaning.tarotAttributes.arcana && (
-                            <p><span className='bold'>Arcana:</span> {cardMeaning.tarotAttributes.arcana}</p>
-                        )}
-
-                        {cardMeaning.tarotAttributes.number !== undefined && (
-                            <p><span className='bold'>Number:</span> {cardMeaning.tarotAttributes.number}</p>
-                        )}
-
                         {cardMeaning.tarotAttributes.astrology && (
                             <p><span className='bold'>Astrology:</span> {cardMeaning.tarotAttributes.astrology}</p>
                         )}
