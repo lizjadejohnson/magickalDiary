@@ -49,7 +49,7 @@ const TarotPage = () => {
             const selectedCard = availableCards[randomIndex];
             
             // Random orientation (upright or reversed)
-            const isReversed = Math.random() < 0.5;
+            const isReversed = Math.random() < 0.15;
             
             cards.push({
                 cardId: selectedCard._id,
