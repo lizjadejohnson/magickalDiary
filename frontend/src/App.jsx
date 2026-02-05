@@ -12,7 +12,7 @@ import IChingPage from './pages/IChingPage';
 import DiaryEntriesPage from './pages/DiaryEntriesPage';
 import ReadingPage from './pages/ReadingPage';
 import NewTextDiaryEntryPage from './pages/NewTextDiaryEntryPage';
-import TarotPage from './pages/tarotPage';
+import TarotPage from './pages/TarotPage'
 
 function App() {
 
