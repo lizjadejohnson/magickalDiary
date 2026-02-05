@@ -7,14 +7,14 @@ const authenticate = require('../config/jwtAuth.js');
 // -----Get ALL Meanings (GET):
 router.get("/", authenticate, meaningsController.fetchAllMeanings)
 
-
 // -----Get specific Meanings by ID (GET):
 router.get("/:id", authenticate, meaningsController.fetchMeaning)
 
 // Get Meaning by the hexagram lines (POST)
 router.post("/by-lines", authenticate, meaningsController.fetchMeaningByLines);
 
-
+// Get all Tarot cards (GET)
+router.get("/tarot/all", authenticate, meaningsController.fetchAllTarotCards);
 
 
 module.exports = router;

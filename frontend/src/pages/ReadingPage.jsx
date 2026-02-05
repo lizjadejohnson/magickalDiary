@@ -6,6 +6,8 @@ import apiUrl from '../config';
 import CommentEditSection from '../components/CommentEditSection';
 import HexagramReading from '../components/HexagramReading';
 import TextDiaryEntryDisplay from '../components/TextDiaryEntryDisplay';
+import TarotReading from '../components/TarotReading';
+
 // import TarotReading from '../components/TarotReading'; 
 // import TextEntry from '../components/TextEntry'; 
 
@@ -93,9 +95,8 @@ const ReadingPage = () => {
             {entryData && (
                 <div className='entry-content-section'>
                     {entryData.type === 'I Ching' && <HexagramReading data={entryData} />}
+                    {entryData.type === 'Tarot' && <TarotReading data={entryData} />}
                     {entryData.type === 'Text' && <TextDiaryEntryDisplay data={entryData} />}
-                    {/* {entryData.type === 'Tarot' && <TarotReading data={entryData} />}
-                    {entryData.type === 'Text' && <TextEntry data={entryData} />} */}
                 </div>
             )}
             <div className='entry-edit-section'>
